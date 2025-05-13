@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { OnboardingState } from '@/features/main-onboarding/types'; // Using alias
+import { OnboardingState } from '@/features/(main-onboarding)/types'; // Using alias
 
 const initialState = {
   currentStep: 1,
