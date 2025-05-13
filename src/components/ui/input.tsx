@@ -1,0 +1,83 @@
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+
+interface InputProps extends React.ComponentProps<'input'> {
+  label?: string;
+  helperText?: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  variant?: 'sm' | 'lg';
+  state?:
+    | 'default'
+    | 'hover'
+    | 'focus'
+    | 'active'
+    | 'disabled'
+    | 'error'
+    | 'success';
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      className,
+      type,
+      label,
+      helperText,
+      leftIcon,
+      rightIcon,
+      variant = 'lg',
+      state = 'default',
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <div className="flex flex-col gap-1 w-full">
+        {label && (
+          <label className="text-sm font-medium text-gray-900">{label}</label>
+        )}
+        <div
+          className={cn(
+            'flex items-center rounded-lg border border-gray-300 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 active:border-blue-500 active:ring-4 active:ring-blue-100 disabled:bg-gray-50 disabled:border-gray-100',
+            variant === 'lg' ? 'px-4 py-3' : 'px-3 py-2',
+            state === 'error' && 'border-red-500 ring-4 ring-red-100',
+            // state === 'success' && 'border-green-500 ring-4 ring-green-100',
+            className
+          )}
+        >
+          {leftIcon && <span className="mr-2 text-gray-500">{leftIcon}</span>}
+          <input
+            type={type}
+            ref={ref}
+            className={cn(
+              'w-full bg-transparent outline-none text-base text-gray-900 placeholder:text-gray-500',
+              props.disabled && 'cursor-not-justify opacity-50'
+            )}
+            {...props}
+          />
+          {rightIcon && <span className="ml-2 text-gray-500">{rightIcon}</span>}
+        </div>
+        {helperText && (
+          <p
+            className={cn(
+              
+              'text-xs',
+              state === 'error'
+                ? 'text-red-600'
+                : state === 'success'
+                ? 'text-green-600'
+                : 'text-gray-500'
+            )}
+          >
+            {helperText}
+          </p>
+        )}
+      </div>
+    );
+  }
+);
+
+Input.displayName = 'Input';
+
+export { Input };

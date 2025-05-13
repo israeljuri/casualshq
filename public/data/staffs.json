@@ -1,0 +1,64 @@
+{
+  "staffs": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "role": "Admin"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "role": "Manager"
+    },
+    {
+      "id": "3",
+      "name": "Bob Johnson",
+      "email": "bob@example.com",
+      "role": "Supervisor"
+    },
+    {
+      "id": "4",
+      "name": "Alice Brown",
+      "email": "alice@example.com",
+      "role": "Staff"
+    },
+    {
+      "id": "5",
+      "name": "Charlie Wilson",
+      "email": "charlie@example.com",
+      "role": "Staff"
+    },
+    {
+      "id": "6",
+      "name": "Diana Miller",
+      "email": "diana@example.com",
+      "role": "Staff"
+    },
+    {
+      "id": "7",
+      "name": "Evan Davis",
+      "email": "evan@example.com",
+      "role": "Staff"
+    },
+    {
+      "id": "8",
+      "name": "Fiona Garcia",
+      "email": "fiona@example.com",
+      "role": "Staff"
+    },
+    {
+      "id": "9",
+      "name": "George Martinez",
+      "email": "george@example.com",
+      "role": "Staff"
+    },
+    {
+      "id": "10",
+      "name": "Hannah Lee",
+      "email": "hannah@example.com",
+      "role": "Staff"
+    }
+  ]
+}
