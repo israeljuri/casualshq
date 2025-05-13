@@ -1,4 +1,6 @@
+import { Skeleton } from '@/components/ui/skeleton';
 import { ResetPasswordForm } from '@/features/(main-onboarding)/components/ResetPasswordForm';
+import { Suspense } from 'react';
 
 const page = () => {
   return (
@@ -11,8 +13,9 @@ const page = () => {
           Enter a new password to reset your password.
         </p>
       </article>
-
-      <ResetPasswordForm />
+      <Suspense fallback={<Skeleton className="h-svh w-full" />}>
+        <ResetPasswordForm />
+      </Suspense>
     </main>
   );
 };
