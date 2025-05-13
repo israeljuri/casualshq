@@ -62,8 +62,8 @@ export async function forgotPassword(data: ForgotPasswordInput): Promise<{ succe
   return { success: true };
 }
 
-export async function resetPassword(data: ResetPasswordInput): Promise<{ success: boolean }> {
-  console.log('Simulating reset password with data:', data);
+export async function resetPassword(data: ResetPasswordInput, token: string): Promise<{ success: boolean }> {
+  console.log('Simulating reset password with data:', data, token);
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 

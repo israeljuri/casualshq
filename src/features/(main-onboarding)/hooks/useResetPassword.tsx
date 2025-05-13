@@ -5,13 +5,14 @@ import { resetPassword } from '../services/accountService';
  
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { ResetPasswordInput } from '../types';
 
-export const useResetPassword = () => {
+export const useResetPassword = (token: string) => {
   const alert = useAlert();
   const router = useRouter();
 
   return useMutation({
-    mutationFn: resetPassword,
+    mutationFn: (data: ResetPasswordInput) => resetPassword(data, token),
     onSuccess: () => {
       alert.showAlert('Password Changed', 'success', {
         subtext: 'Your new password has been set up to your account',
