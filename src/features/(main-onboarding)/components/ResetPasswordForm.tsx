@@ -58,7 +58,7 @@ export function ResetPasswordForm() {
   }, [token, router]);
 
   return (
-    <Suspense fallback={<Skeleton className="h-svh w-full"></Skeleton>}>
+    <Suspense fallback={<Skeleton className="h-svh w-full" />}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <FormField
