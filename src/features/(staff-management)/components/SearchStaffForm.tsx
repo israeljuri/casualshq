@@ -1,0 +1,146 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { SearchableInput } from '@/components/ui/SearchableInput';
+import {
+  SearchStaffData,
+  SearchStaffSchema,
+  Staff,
+} from '@/features/(staff-management)/types';
+import { Eye, EyeOff, Search } from 'lucide-react';
+import { useState } from 'react';
+import Link from 'next/link';
+
+import { useStaffSignIn } from '../hooks/useStaffSignIn';
+import { useGetStaffs } from '../hooks/useGetStaffs';
+import { Skeleton } from '@/components/ui/skeleton';
+
+export function SearchStaffForm() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [selectedStaff, setSelectedStaff] = useState<Staff>();
+
+  const staffsResponse = useGetStaffs();
+  const staffList = staffsResponse?.data ? staffsResponse.data.staffs : []
+ 
+  const mutation = useStaffSignIn();
+
+  const form = useForm<SearchStaffData>({
+    resolver: zodResolver(SearchStaffSchema),
+    defaultValues: {
+      name: '',
+      password: '',
+    },
+  });
+
+  function onSubmit(values: SearchStaffData) {
+    console.log('Selected staff:', selectedStaff);
+    mutation.mutate(values);
+  }
+
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const handleStaffSelect = (staff: Staff) => {
+    setSelectedStaff(staff);
+    form.setValue('name', staff.name);
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {!staffsResponse?.isPending && (
+          <FormField
+            control={form.control}
+            name="name"
+            render={() => (
+              <FormItem>
+                <FormLabel>Enter Name</FormLabel>
+                <FormControl>
+                  <SearchableInput
+                    data={staffList}
+                    searchKeys={['name', 'email']}
+                    onResults={() => {}}
+                    onSelectItem={handleStaffSelect}
+                    placeholder="Search for your name..."
+                    leftIcon={<Search className="h-5 w-5 text-gray-400" />}
+                    renderResultItem={(item) => (
+                      <div className="flex flex-col">
+                        <span className="font-medium">{item.name}</span>
+                      </div>
+                    )}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {staffsResponse?.isPending && (
+          <Skeleton className="w-full h-[4.5rem] rounded-xl" />
+        )}
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Input
+                    leftIcon={<img src="/staff/password.svg" alt="" />}
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Enter password"
+                    {...field}
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                    aria-label={
+                      showPassword ? 'Hide password' : 'Show password'
+                    }
+                  >
+                    {showPassword ? (
+                      <Eye className="h-5 w-5" />
+                    ) : (
+                      <EyeOff className="h-5 w-5" />
+                    )}
+                  </button>
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="space-y-4">
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={mutation.isPending}
+          >
+            {mutation.isPending ? 'Sigining In' : 'Sign In'}
+          </Button>
+        </div>
+
+        <article className="space-y-4 mt-4">
+          <p className="text-center text-sm text-custom-gray">
+            <Link href="/forgot-password" className="text-primary font-medium">
+              Reset Password
+            </Link>
+          </p>
+        </article>
+      </form>
+    </Form>
+  );
+}
