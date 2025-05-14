@@ -13,7 +13,7 @@ export default function OnboardingLayout({
   const pathname = usePathname()
   return (
     <div className="bg-gray-50 ">
-      <header className="bg-primary-100 mb-20">
+      <header className="bg-primary-100">
         <div className="max-w-[80rem] px-5 h-[6rem] mx-auto flex justify-between items-center">
           <Link href="/sign-up">
             <img src="/logo.png" alt="CasualsHQ Logo" className='w-[10rem]' />
@@ -27,7 +27,7 @@ export default function OnboardingLayout({
         </div>
       </header>
 
-      <div className="min-h-screen flex flex-col items-center">{children}</div>
+      <div className="min-h-screen py-20">{children}</div>
     </div>
   );
 }

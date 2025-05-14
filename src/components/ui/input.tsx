@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
- 
 
 interface InputProps extends React.ComponentProps<'input'> {
   label?: string;
@@ -8,10 +7,7 @@ interface InputProps extends React.ComponentProps<'input'> {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   variant?: 'sm' | 'lg';
-  state?:
-    | 'default'
-    | 'error'
-    | 'success';
+  state?: 'default' | 'error' | 'success';
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -36,7 +32,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         <div
           className={cn(
-            'flex items-center rounded-lg border active:ring-4 disabled:bg-gray-50 disabled:border-gray-100',
+            'flex items-center rounded-lg border active:ring-4',
             variant === 'lg' ? 'px-4 py-3' : 'px-3 py-2',
             state === 'error' &&
               'border-red-500 ring-4 ring-red-200 hover:border-red-500 focus:border-red-500 active:border-red-500',
@@ -44,6 +40,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'border-green-500 ring-4 ring-green-200 hover:border-green-500 focus:border-green-500 active:border-green-500',
             state === 'default' &&
               'active:ring-blue-100 border-gray-300 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 active:border-blue-500',
+            props.disabled &&
+              'bg-[#F0F2F5] text-custom-gray border-gray-300 active:ring-transparent active:border-gray-300 hover:border-gray-300 focus:border-gray-300 focus:ring-transparent cursor-not-justify',
             className
           )}
         >

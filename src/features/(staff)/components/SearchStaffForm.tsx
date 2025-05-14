@@ -17,8 +17,8 @@ import {
   SearchStaffData,
   SearchStaffSchema,
   Staff,
-} from '@/features/(staff-management)/types';
-import { Search } from 'lucide-react';
+} from '@/features/(staff)/types';
+
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -50,7 +50,7 @@ export function SearchStaffForm() {
 
   const handleStaffSelect = (staff: Staff) => {
     setSelectedStaff(staff);
-    form.setValue('name', staff.name);
+    form.setValue('name', `${staff.firstName} ${staff.lastName}`);
     form.clearErrors('name');
   };
 
@@ -67,14 +67,16 @@ export function SearchStaffForm() {
                 <FormControl>
                   <SearchableInput
                     data={staffList}
-                    searchKeys={['name', 'email']}
+                    searchKeys={['firstName', 'lastName', 'email']}
                     onResults={() => {}}
                     onSelectItem={handleStaffSelect}
                     placeholder="Search for your name..."
-                    leftIcon={<Search className="h-5 w-5 text-gray-400" />}
+                    leftIcon={<img src="/input/search.svg" />}
                     renderResultItem={(item) => (
                       <div className="flex flex-col">
-                        <span className="font-medium">{item.name}</span>
+                        <span className="font-medium">
+                          {item.firstName} {item.lastName}
+                        </span>
                       </div>
                     )}
                   />

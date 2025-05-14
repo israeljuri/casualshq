@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from './input';
-import { Staff } from '@/features/(staff-management)/types';
+import { Staff } from '@/features/(staff)/types';
 
 export interface SearchableInputProps {
   data: Staff[];
@@ -113,7 +113,6 @@ const SearchableInput = ({
         placeholder={placeholder}
         leftIcon={leftIcon}
         {...props}
-     
       />
       {showDropdown && filteredResults.length > 0 && (
         <div

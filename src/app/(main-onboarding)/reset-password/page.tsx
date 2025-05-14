@@ -13,7 +13,7 @@ const page = () => {
           Enter a new password to reset your password.
         </p>
       </article>
-      <Suspense fallback={<Skeleton className="h-svh w-full" />}>
+      <Suspense fallback={<Skeleton className="h-[20rem] w-full" />}>
         <ResetPasswordForm />
       </Suspense>
     </main>

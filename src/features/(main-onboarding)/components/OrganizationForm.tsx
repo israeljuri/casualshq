@@ -42,7 +42,7 @@ export function OrganizationForm() {
     // TODO: Handle file upload logic for businessLogo if a file is provided
     console.log('Organization form submitted:', values);
     setOrganizationData(values);
-    router.replace('/create-password');
+    router.push('/create-password');
   }
 
   useEffect(() => {

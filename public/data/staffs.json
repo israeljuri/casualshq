@@ -2,61 +2,71 @@
   "staffs": [
     {
       "id": "1",
-      "name": "John Doe",
+      "firstName": "John",
+      "lastName": "Doe",
       "email": "john@example.com",
       "role": "Admin"
     },
     {
       "id": "2",
-      "name": "Jane Smith",
+      "firstName": "Jane",
+      "lastName": "Smith",
       "email": "jane@example.com",
       "role": "Manager"
     },
     {
       "id": "3",
-      "name": "Bob Johnson",
+      "firstName": "Bob",
+      "lastName": "Johnson",
       "email": "bob@example.com",
       "role": "Supervisor"
     },
     {
       "id": "4",
-      "name": "Alice Brown",
+      "firstName": "Alice",
+      "lastName": "Brown",
       "email": "alice@example.com",
       "role": "Staff"
     },
     {
       "id": "5",
-      "name": "Charlie Wilson",
+      "firstName": "Charlie",
+      "lastName": "Wilson",
       "email": "charlie@example.com",
       "role": "Staff"
     },
     {
       "id": "6",
-      "name": "Diana Miller",
+      "firstName": "Diana",
+      "lastName": "Miller",
       "email": "diana@example.com",
       "role": "Staff"
     },
     {
       "id": "7",
-      "name": "Evan Davis",
+      "firstName": "Evan",
+      "lastName": "Davis",
       "email": "evan@example.com",
       "role": "Staff"
     },
     {
       "id": "8",
-      "name": "Fiona Garcia",
+      "firstName": "Fiona",
+      "lastName": "Garcia",
       "email": "fiona@example.com",
       "role": "Staff"
     },
     {
       "id": "9",
-      "name": "George Martinez",
+      "firstName": "George",
+      "lastName": "Martinez",
       "email": "george@example.com",
       "role": "Staff"
     },
     {
       "id": "10",
-      "name": "Hannah Lee",
+      "firstName": "Hannah",
+      "lastName": "Lee",
       "email": "hannah@example.com",
       "role": "Staff"
     }

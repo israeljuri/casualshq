@@ -35,7 +35,7 @@ export function SignUpForm() {
     setEmail(values.email);
     // Zustand store's setEmail action already handles moving to step 2
     // Navigate to the next step (organization setup)
-    router.replace('/setup-organization');
+    router.push('/setup-organization');
   }
 
   return (

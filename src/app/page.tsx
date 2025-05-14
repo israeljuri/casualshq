@@ -48,10 +48,10 @@ export default function Home() {
           </li>
           <li>
             <Link
-              href="/staff/onboarding"
+              href="/staff/onboarding/?token=1"
               className="underline hover:text-blue-500"
             >
-              Onboarding (Flow) ⏳
+              Onboarding (Flow) ✅
             </Link>
           </li>
           <li>
