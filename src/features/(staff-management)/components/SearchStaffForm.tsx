@@ -51,6 +51,7 @@ export function SearchStaffForm() {
   const handleStaffSelect = (staff: Staff) => {
     setSelectedStaff(staff);
     form.setValue('name', staff.name);
+    form.clearErrors('name');
   };
 
   return (
@@ -76,7 +77,6 @@ export function SearchStaffForm() {
                         <span className="font-medium">{item.name}</span>
                       </div>
                     )}
-                  
                   />
                 </FormControl>
                 <FormMessage />
@@ -91,11 +91,11 @@ export function SearchStaffForm() {
         <FormField
           control={form.control}
           name="password"
-          render={() => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="Enter password" />
+                <PasswordInput placeholder="Enter password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

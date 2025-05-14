@@ -44,7 +44,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
             className
           )}
         >
-          <img src="/password.svg" alt="" />
+          <img src="/input/password.svg" alt="" className='mr-1' />
           <div className="relative w-full">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -58,7 +58,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+              className="absolute inset-y-0 right-0 pr-1 flex items-center text-gray-400 hover:text-gray-600"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? (

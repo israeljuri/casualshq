@@ -63,7 +63,7 @@ export function OrganizationForm() {
               <FormControl>
                 <Input
                   leftIcon={
-                    <img src="/main-onboarding/organization.svg" alt="" />
+                    <img src="/input/organization.svg" alt="" />
                   }
                   placeholder="Your Company Inc."
                   {...field}
@@ -107,7 +107,7 @@ export function OrganizationForm() {
               <FormControl>
                 <Input
                   type="number"
-                  leftIcon={<img src="/main-onboarding/employees.svg" alt="" />}
+                  leftIcon={<img src="/input/employees.svg" alt="" />}
                   placeholder="Number of employees"
                   {...field}
               

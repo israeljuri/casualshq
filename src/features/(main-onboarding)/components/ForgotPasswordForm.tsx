@@ -45,7 +45,7 @@ export function ForgotPasswordForm() {
               <FormLabel>Email address</FormLabel>
               <FormControl>
                 <Input
-                  leftIcon={<img src="/main-onboarding/mail.svg" alt="" />}
+                  leftIcon={<img src="/input/mail.svg" alt="" />}
                   placeholder="johndoe@example.com"
                   {...field}
                 />

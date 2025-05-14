@@ -17,7 +17,7 @@ export const GoogleSignupButton = () => {
       variant="secondary"
       type="button"
       className="w-full"
-      leftIcon={<img src="/main-onboarding/google.svg" alt="" />}
+      leftIcon={<img src="/input/google.svg" alt="" />}
       onClick={handleGoogleSignUp}
       disabled={isPending}
     >

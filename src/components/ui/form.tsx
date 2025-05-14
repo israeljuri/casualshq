@@ -120,7 +120,7 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   if (error) {
     // If there's an error object, the state is 'error'
     computedInputState = 'error';
-  } else if (!invalid && (isTouched || isDirty)) {
+  } else if (!invalid && isDirty) {
     // If the field is not invalid (i.e., it's valid) AND
     // it has been touched (blurred) or its value has been changed,
     // then the state is 'success'.
