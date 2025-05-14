@@ -17,13 +17,14 @@ export interface SearchableInputProps {
   placeholder?: string;
   renderResultItem?: (item: Staff) => React.ReactNode;
   className?: string;
-  leftIcon: React.ReactNode
+  leftIcon: React.ReactNode;
 }
 
 const SearchableInput = ({
   data,
   searchKeys,
   onResults,
+
   onSelectItem,
   initialValue = '',
   debounceTime = 300,
@@ -86,7 +87,10 @@ const SearchableInput = ({
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowDropdown(false);
       }
     };
@@ -96,7 +100,6 @@ const SearchableInput = ({
     };
   }, []);
 
-
   return (
     <div className={cn('relative w-full', className)}>
       <Input
@@ -104,10 +107,13 @@ const SearchableInput = ({
         type="text"
         value={searchTerm}
         onChange={handleInputChange}
-        onFocus={() => setShowDropdown(filteredResults.length > 0 && searchTerm.length > 0)}
+        onFocus={() =>
+          setShowDropdown(filteredResults.length > 0 && searchTerm.length > 0)
+        }
         placeholder={placeholder}
         leftIcon={leftIcon}
         {...props}
+     
       />
       {showDropdown && filteredResults.length > 0 && (
         <div
@@ -121,7 +127,9 @@ const SearchableInput = ({
                 className="cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 onClick={() => handleSelectItem(item)}
               >
-                {renderResultItem ? renderResultItem(item) : String(item[searchKeys[0]])}
+                {renderResultItem
+                  ? renderResultItem(item)
+                  : String(item[searchKeys[0]])}
               </li>
             ))}
           </ul>

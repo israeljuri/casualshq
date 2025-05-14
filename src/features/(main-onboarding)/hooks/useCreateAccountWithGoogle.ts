@@ -15,9 +15,9 @@ export const useCreateAccountWithGoogle = () => {
   return useMutation({
     mutationFn: (googleToken: string) => createAccountWithGoogle(googleToken),
     onSuccess: () => {
-      alert.showAlert('Signed-Up with Google successfully', 'success', {
-        subtext: 'Redirecting you to dashboard',
-      });
+      // alert.showAlert('Signed-Up with Google successfully', 'success', {
+      //   subtext: 'Redirecting you to dashboard',
+      // });
 
       resetOnboarding();
       router.replace('/dashboard');

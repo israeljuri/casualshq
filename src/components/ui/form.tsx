@@ -105,11 +105,33 @@ function FormLabel({
 }
 
 function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
+  const {
+    error, // The error object from react-hook-form
+    formItemId,
+    formDescriptionId,
+    formMessageId,
+    invalid,   // Boolean: true if there's an error
+    isTouched, // Boolean: true if the field has been touched (blurred)
+    isDirty    // Boolean: true if the field's value has changed from its initial value
+  } = useFormField();
+
+  let computedInputState: 'default' | 'error' | 'success' = 'default';
+
+  if (error) {
+    // If there's an error object, the state is 'error'
+    computedInputState = 'error';
+  } else if (!invalid && (isTouched || isDirty)) {
+    // If the field is not invalid (i.e., it's valid) AND
+    // it has been touched (blurred) or its value has been changed,
+    // then the state is 'success'.
+    // This avoids showing success for pristine, valid fields.
+    computedInputState = 'success';
+  }
+  // Otherwise, the state remains 'default'.
 
   return (
     <Slot
-      data-slot="form-control"
+      data-slot="form-control" // Keep existing data attributes
       id={formItemId}
       aria-describedby={
         !error
@@ -117,9 +139,16 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
           : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
-      {...props}
+      // Pass the automatically determined state to the child component (e.g., your Input).
+      // If the child Input component has an explicit `state` prop,
+      // Radix UI Slot's behavior typically ensures the child's prop takes precedence.
+      // If `props` passed to FormControl contains a `state` prop, it would override `computedInputState`
+      // due to the order of object spreading (`{...props}` coming after).
+      {...props} // Spreads other props like className, children, etc.
+      // @ts-ignore
+      state={computedInputState}
     />
-  )
+  );
 }
 
 function FormDescription({ className, ...props }: React.ComponentProps<"p">) {

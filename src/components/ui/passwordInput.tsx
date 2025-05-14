@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
- 
+import { Eye, EyeOff } from 'lucide-react';
 
 interface InputProps extends React.ComponentProps<'input'> {
   label?: string;
@@ -8,27 +8,24 @@ interface InputProps extends React.ComponentProps<'input'> {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   variant?: 'sm' | 'lg';
-  state?:
-    | 'default'
-    | 'error'
-    | 'success';
+  state?: 'default' | 'error' | 'success';
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
       className,
-      type,
+
       label,
       helperText,
-      leftIcon,
-      rightIcon,
       variant = 'lg',
       state = 'default',
       ...props
     },
     ref
   ) => {
+    const [showPassword, setShowPassword] = React.useState(false);
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);
     return (
       <div className="flex flex-col gap-1 w-full">
         {label && (
@@ -47,17 +44,30 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className
           )}
         >
-          {leftIcon && <span className="mr-2 text-gray-500">{leftIcon}</span>}
-          <input
-            type={type}
-            ref={ref}
-            className={cn(
-              'w-full bg-transparent outline-none text-base text-gray-900 placeholder:text-gray-500',
-              props.disabled && 'cursor-not-justify opacity-50'
-            )}
-            {...props}
-          />
-          {rightIcon && <span className="ml-2 text-gray-500">{rightIcon}</span>}
+          <img src="/password.svg" alt="" />
+          <div className="relative w-full">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              ref={ref}
+              className={cn(
+                'w-full bg-transparent outline-none text-base text-gray-900 placeholder:text-gray-500',
+                props.disabled && 'cursor-not-justify opacity-50'
+              )}
+              {...props}
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? (
+                <Eye className="h-5 w-5" />
+              ) : (
+                <EyeOff className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
         {helperText && (
           <p
@@ -78,6 +88,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   }
 );
 
-Input.displayName = 'Input';
+PasswordInput.displayName = 'PasswordInput';
 
-export { Input };
+export { PasswordInput };

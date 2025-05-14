@@ -38,14 +38,11 @@ export function OrganizationForm() {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: OrganizationData) {
     // TODO: Handle file upload logic for businessLogo if a file is provided
     console.log('Organization form submitted:', values);
     setOrganizationData(values);
-    // Zustand store's setOrganizationData action already handles moving to step 3
-    // Navigate to the next step (create password)
-    router.replace('/create-password'); // Adjust route if needed
+    router.replace('/create-password');
   }
 
   useEffect(() => {
@@ -70,6 +67,7 @@ export function OrganizationForm() {
                   }
                   placeholder="Your Company Inc."
                   {...field}
+                
                 />
               </FormControl>
               <FormMessage />
@@ -92,10 +90,8 @@ export function OrganizationForm() {
                   onBlur={field.onBlur}
                   ref={field.ref}
                   name={field.name}
-                  // value={field.value}
                   disabled={field.disabled}
-                  // {...field.}
-                  // Note: 'value' is not used directly for file inputs in the same way
+        
                 />
               </FormControl>
               <FormMessage />
@@ -114,6 +110,7 @@ export function OrganizationForm() {
                   leftIcon={<img src="/main-onboarding/employees.svg" alt="" />}
                   placeholder="Number of employees"
                   {...field}
+              
                 />
               </FormControl>
               <FormMessage />

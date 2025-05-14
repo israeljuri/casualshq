@@ -20,9 +20,9 @@ export const useCreateAccount = ({ form }: { form: UseFormReturn }) => {
   return useMutation({
     mutationFn: (data: CreateAccountInput) => createAccount(data),
     onSuccess: () => {
-      alert.showAlert('Account created successfully', 'success', {
-        subtext: 'Redirecting you to dashboard',
-      });
+      // alert.showAlert('Account created successfully', 'success', {
+      //   subtext: 'Redirecting you to dashboard',
+      // });
       resetOnboarding();
       router.replace('/dashboard');
     },

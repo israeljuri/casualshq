@@ -15,14 +15,12 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { SignInData, SignInSchema } from '@/features/(main-onboarding)/types';
-import { Eye, EyeOff } from 'lucide-react';
-import { useState } from 'react';
+
 import { GoogleSigninButton } from './GoogleSignInButton';
 import { useSignIn } from '../hooks/useSignIn';
+import { PasswordInput } from '@/components/ui/passwordInput';
 
 export function SignInForm() {
-  const [showPassword, setShowPassword] = useState(false);
-
   const mutation = useSignIn();
 
   const form = useForm<SignInData>({
@@ -36,8 +34,6 @@ export function SignInForm() {
   async function onSubmit(values: SignInData) {
     mutation.mutate(values);
   }
-
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
     <Form {...form}>
@@ -67,30 +63,7 @@ export function SignInForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    leftIcon={
-                      <img src="/main-onboarding/password.svg" alt="" />
-                    }
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter password"
-                    {...field}
-                  />
-                  <button
-                    type="button"
-                    onClick={togglePasswordVisibility}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                    aria-label={
-                      showPassword ? 'Hide password' : 'Show password'
-                    }
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-5 w-5" />
-                    ) : (
-                      <Eye className="h-5 w-5" />
-                    )}
-                  </button>
-                </div>
+                <PasswordInput placeholder="Enter password" {...field} />
               </FormControl>
 
               <FormMessage />

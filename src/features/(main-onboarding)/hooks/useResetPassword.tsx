@@ -2,7 +2,7 @@
 
 import useAlert from '@/hooks/useAlert';
 import { resetPassword } from '../services/accountService';
- 
+
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { ResetPasswordInput } from '../types';
@@ -14,9 +14,9 @@ export const useResetPassword = (token: string) => {
   return useMutation({
     mutationFn: (data: ResetPasswordInput) => resetPassword(data, token),
     onSuccess: () => {
-      alert.showAlert('Password Changed', 'success', {
-        subtext: 'Your new password has been set up to your account',
-      });
+      // alert.showAlert('Password Changed', 'success', {
+      //   subtext: 'Your new password has been set up to your account',
+      // });
       router.replace('/sign-in');
     },
     onError: (error) => {

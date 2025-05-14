@@ -11,7 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+
 import { SearchableInput } from '@/components/ui/SearchableInput';
 import {
   SearchStaffData,
@@ -25,14 +25,14 @@ import Link from 'next/link';
 import { useStaffSignIn } from '../hooks/useStaffSignIn';
 import { useGetStaffs } from '../hooks/useGetStaffs';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PasswordInput } from '@/components/ui/passwordInput';
 
 export function SearchStaffForm() {
-  const [showPassword, setShowPassword] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState<Staff>();
 
   const staffsResponse = useGetStaffs();
-  const staffList = staffsResponse?.data ? staffsResponse.data.staffs : []
- 
+  const staffList = staffsResponse?.data ? staffsResponse.data.staffs : [];
+
   const mutation = useStaffSignIn();
 
   const form = useForm<SearchStaffData>({
@@ -47,8 +47,6 @@ export function SearchStaffForm() {
     console.log('Selected staff:', selectedStaff);
     mutation.mutate(values);
   }
-
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const handleStaffSelect = (staff: Staff) => {
     setSelectedStaff(staff);
@@ -78,6 +76,7 @@ export function SearchStaffForm() {
                         <span className="font-medium">{item.name}</span>
                       </div>
                     )}
+                  
                   />
                 </FormControl>
                 <FormMessage />
@@ -92,32 +91,11 @@ export function SearchStaffForm() {
         <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    leftIcon={<img src="/staff/password.svg" alt="" />}
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter password"
-                    {...field}
-                  />
-                  <button
-                    type="button"
-                    onClick={togglePasswordVisibility}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                    aria-label={
-                      showPassword ? 'Hide password' : 'Show password'
-                    }
-                  >
-                    {showPassword ? (
-                      <Eye className="h-5 w-5" />
-                    ) : (
-                      <EyeOff className="h-5 w-5" />
-                    )}
-                  </button>
-                </div>
+                <PasswordInput placeholder="Enter password" />
               </FormControl>
               <FormMessage />
             </FormItem>

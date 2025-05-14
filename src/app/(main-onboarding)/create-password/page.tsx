@@ -25,7 +25,7 @@ export default function CreatePasswordPage() {
           Create a secure password to access your account.
         </p>
       </article>
-      <section className="bg-white px-5 md:px-30 py-10 rounded-xl shadow-none md:shadow-md max-w-[596px] mx-auto">
+      <section className="bg-white px-5 md:px-30 py-10 border rounded-xl shadow-none md:shadow-md max-w-[596px] mx-auto">
         <PasswordForm />
       </section>
     </main>

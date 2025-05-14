@@ -1,6 +1,6 @@
 import React from 'react';
 import { toast, ToastPosition, Toast } from 'react-hot-toast';
-import AlertComponent from '@/components/ui/Alert'; // Ensure this path is correct
+import AlertComponent from '@/components/ui/alert'; // Ensure this path is correct
 
 type AlertVariant = 'success' | 'error' | 'warning' | 'info';
 

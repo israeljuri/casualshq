@@ -2,7 +2,7 @@ import { ForgotPasswordForm } from '@/features/(main-onboarding)/components/Forg
 
 const ForgotPasswordPage = () => {
   return (
-    <main className="px-5 md:px-30 py-10 rounded-xl shadow-none md:shadow-md w-full md:max-w-[596px] mx-auto space-y-16">
+    <main className="px-5 md:px-30 py-10 rounded-xl border shadow-none md:shadow-md w-full md:max-w-[596px] mx-auto space-y-16">
       <article className="text-center">
         <h1 className="text-3xl font-medium text-gray-900">
           Let&apos;s get you back in

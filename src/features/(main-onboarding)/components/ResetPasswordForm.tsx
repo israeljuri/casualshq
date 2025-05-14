@@ -2,8 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/passwordInput';
 import {
   PasswordSchema,
   PasswordData,
@@ -31,9 +30,6 @@ export function ResetPasswordForm() {
 
   const mutation = useResetPassword(token ? token : '');
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const form = useForm<PasswordData>({
     resolver: zodResolver(PasswordSchema),
     defaultValues: {
@@ -46,14 +42,8 @@ export function ResetPasswordForm() {
     mutation.mutate(values);
   }
 
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () =>
-    setShowConfirmPassword(!showConfirmPassword);
-
   useEffect(() => {
-    if (!token) {
-      router.replace('/');
-    }
+    if (!token) router.replace('/');
   }, [token, router]);
 
   return (
@@ -66,30 +56,7 @@ export function ResetPasswordForm() {
             <FormItem>
               <FormLabel>New Password</FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    leftIcon={
-                      <img src="/main-onboarding/password.svg" alt="" />
-                    }
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter password"
-                    {...field}
-                  />
-                  <button
-                    type="button"
-                    onClick={togglePasswordVisibility}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                    aria-label={
-                      showPassword ? 'Hide password' : 'Show password'
-                    }
-                  >
-                    {showPassword ? (
-                      <Eye className="h-5 w-5" />
-                    ) : (
-                      <EyeOff className="h-5 w-5" />
-                    )}
-                  </button>
-                </div>
+                <PasswordInput placeholder="Enter password" {...field} />
               </FormControl>
               <FormDescription className="text-custom-gray">
                 Must be at least 8 characters long with one uppercase, one
@@ -107,30 +74,7 @@ export function ResetPasswordForm() {
             <FormItem>
               <FormLabel>Confirm password</FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    leftIcon={
-                      <img src="/main-onboarding/password.svg" alt="" />
-                    }
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder="Confirm password"
-                    {...field}
-                  />
-                  <button
-                    type="button"
-                    onClick={toggleConfirmPasswordVisibility}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                    aria-label={
-                      showConfirmPassword ? 'Hide password' : 'Show password'
-                    }
-                  >
-                    {showConfirmPassword ? (
-                      <Eye className="h-5 w-5" />
-                    ) : (
-                      <EyeOff className="h-5 w-5" />
-                    )}
-                  </button>
-                </div>
+                <PasswordInput placeholder="Confirm password" {...field} />
               </FormControl>
               <FormDescription className="text-custom-gray text-sm">
                 Must be at least 8 characters long with one uppercase, one

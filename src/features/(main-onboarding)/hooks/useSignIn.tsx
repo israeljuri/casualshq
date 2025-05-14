@@ -13,9 +13,9 @@ export const useSignIn = () => {
   return useMutation({
     mutationFn: signIn,
     onSuccess: () => {
-      alert.showAlert('Signed-In successfully', 'success', {
-        subtext: 'Redirecting you to dashboard',
-      });
+      // alert.showAlert('Signed-In successfully', 'success', {
+      //   subtext: 'Redirecting you to dashboard',
+      // });
       router.replace('/dashboard');
     },
     onError: (error) => {

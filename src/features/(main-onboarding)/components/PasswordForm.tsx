@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import {  PasswordInput } from '@/components/ui/passwordInput';
 import {
   PasswordSchema,
   PasswordData,
@@ -28,9 +28,7 @@ import Link from 'next/link';
 import { useCreateAccount } from '../hooks/useCreateAccount';
 
 export function PasswordForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+ 
   const router = useRouter();
 
   const currentStep = useMainOnboardingStore((state) => state.currentStep);
@@ -58,11 +56,7 @@ export function PasswordForm() {
     };
     mutation.mutate(finalUserData);
   }
-
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () =>
-    setShowConfirmPassword(!showConfirmPassword);
-
+ 
   useEffect(() => {
     if (currentStep !== 3) {
       router.replace('/sign-up');
@@ -79,30 +73,13 @@ export function PasswordForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    leftIcon={
-                      <img src="/main-onboarding/password.svg" alt="" />
-                    }
-                    type={showPassword ? 'text' : 'password'}
+             
+                  <PasswordInput
+                 
                     placeholder="Enter password"
                     {...field}
                   />
-                  <button
-                    type="button"
-                    onClick={togglePasswordVisibility}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                    aria-label={
-                      showPassword ? 'Hide password' : 'Show password'
-                    }
-                  >
-                    {showPassword ? (
-                      <Eye className="h-5 w-5" />
-                    ) : (
-                      <EyeOff className="h-5 w-5" />
-                    )}
-                  </button>
-                </div>
+                 
               </FormControl>
               <FormDescription className="text-custom-gray">
                 Must be at least 8 characters long with one uppercase, one
@@ -120,30 +97,13 @@ export function PasswordForm() {
             <FormItem>
               <FormLabel>Confirm password</FormLabel>
               <FormControl>
-                <div className="relative">
-                  <Input
-                    leftIcon={
-                      <img src="/main-onboarding/password.svg" alt="" />
-                    }
-                    type={showConfirmPassword ? 'text' : 'password'}
+                
+                  <PasswordInput
+                   
                     placeholder="Confirm password"
                     {...field}
                   />
-                  <button
-                    type="button"
-                    onClick={toggleConfirmPasswordVisibility}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                    aria-label={
-                      showConfirmPassword ? 'Hide password' : 'Show password'
-                    }
-                  >
-                    {showConfirmPassword ? (
-                      <Eye className="h-5 w-5" />
-                    ) : (
-                      <EyeOff className="h-5 w-5" />
-                    )}
-                  </button>
-                </div>
+                  
               </FormControl>
               <FormDescription className="text-custom-gray text-sm">
                 Must be at least 8 characters long with one uppercase, one

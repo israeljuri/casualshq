@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,7 +31,7 @@ export function ForgotPasswordForm() {
 
   async function onSubmit(values: ForgotPasswordData) {
     mutation.mutate(values);
-    form.reset()
+    form.reset();
   }
 
   return (
@@ -51,11 +50,6 @@ export function ForgotPasswordForm() {
                   {...field}
                 />
               </FormControl>
-              {/* {form.formState.isSubmitSuccessful && (
-                <FormDescription className="text-green-600">
-                  A reset link has been sent to your email address.
-                </FormDescription>
-              )} */}
               <FormMessage />
             </FormItem>
           )}
