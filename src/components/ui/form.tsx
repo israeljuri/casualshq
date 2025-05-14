@@ -111,7 +111,7 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
     formDescriptionId,
     formMessageId,
     invalid,   // Boolean: true if there's an error
-    isTouched, // Boolean: true if the field has been touched (blurred)
+    // isTouched, // Boolean: true if the field has been touched (blurred)
     isDirty    // Boolean: true if the field's value has changed from its initial value
   } = useFormField();
 
