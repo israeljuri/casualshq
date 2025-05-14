@@ -18,7 +18,7 @@ import {
   SearchStaffSchema,
   Staff,
 } from '@/features/(staff-management)/types';
-import { Eye, EyeOff, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 

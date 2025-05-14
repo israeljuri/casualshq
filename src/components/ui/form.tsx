@@ -145,7 +145,7 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
       // If `props` passed to FormControl contains a `state` prop, it would override `computedInputState`
       // due to the order of object spreading (`{...props}` coming after).
       {...props} // Spreads other props like className, children, etc.
-      // @ts-ignore
+      // @ts-expect-error
       state={computedInputState}
     />
   );
