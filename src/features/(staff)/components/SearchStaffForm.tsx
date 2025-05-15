@@ -31,7 +31,7 @@ export function SearchStaffForm() {
   const [selectedStaff, setSelectedStaff] = useState<Staff>();
 
   const staffsResponse = useGetStaffs();
-  const staffList = staffsResponse?.data ? staffsResponse.data.staffs : [];
+  const staffList = staffsResponse?.data ? staffsResponse.data : [];
 
   const mutation = useStaffSignIn();
 

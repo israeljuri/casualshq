@@ -14,7 +14,7 @@ export const getStaffById = async (id: string): Promise<Staff> => {
   return staff;
 };
 
-export const getStaffs = async (): Promise<Staff> => {
+export const getStaffs = async (): Promise<Staff[]> => {
   const response = await fetch('/data/staffs.json');
   const json = await response.json();
   return (staffData = json.staffs);
