@@ -134,7 +134,7 @@ function timeStringToMilliseconds(timeStr: string): number {
  */
 export function evaluateWorkDurationFromTimeString(
   timeStr: string,
-  targetHours: number = 0.00104 // Chnage to 8 hours
+  targetHours: number = 8 // Chnage to 8 hours
 ): false | true | string {
   const actualMs = timeStringToMilliseconds(timeStr);
   const targetMs = targetHours * 60 * 60 * 1000;
