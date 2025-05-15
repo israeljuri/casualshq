@@ -1,21 +1,18 @@
 import { Staff, AccountSetupData } from '../types';
 
-export async function getStaffById(id: string) {
-  const response = await fetch('/data/staffs.json');
-  if (!response.ok) {
-    throw new Error('Failed to fetch staff list');
+let staffData: Staff[] = []; // This will be the fake database
+
+export const getStaffById = async (id: string): Promise<Staff> => {
+  if (!staffData.length) {
+    const response = await fetch('/data/staffs.json');
+    const json = await response.json();
+    staffData = json.staffs;
   }
 
-  const staffList = await response.json();
-
-  const staff = staffList.staffs.find((member: Staff) => member.id == id);
-
-  if (!staff) {
-    throw new Error(`Staff with id ${id} not found`);
-  }
-
+  const staff = staffData.find((member) => member.id === id);
+  if (!staff) throw new Error(`Staff with id ${id} not found`);
   return staff;
-}
+};
 
 export async function completeAccountSetup(
   data: AccountSetupData

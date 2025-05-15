@@ -29,7 +29,7 @@ export function SignUpForm() {
       email: '',
     },
   });
-  
+
   function onSubmit(values: SignUpData) {
     console.log('Sign Up form submitted:', values);
     setEmail(values.email);
@@ -52,7 +52,6 @@ export function SignUpForm() {
                   leftIcon={<img src="/input/mail.svg" alt="" />}
                   placeholder="johndoe@example.com"
                   {...field}
-                 
                 />
               </FormControl>
               <FormMessage />

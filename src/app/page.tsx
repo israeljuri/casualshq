@@ -56,9 +56,23 @@ export default function Home() {
           </li>
           <li>
             <Link href="/staff" className="underline hover:text-blue-500">
-              Dashboard ⏳
+              Dashboard ✅
             </Link>
           </li>
+        </ul>
+      </section>
+
+      <section className="grid gap-4">
+        <h1 className="text-3xl">Admin Screens</h1>
+        <ul>
+          {/* <li>
+            <Link
+              href="/staff/sign-in"
+              className="underline hover:text-blue-500"
+            >
+              Sign In (Staff search) ✅
+            </Link>
+          </li> */}
         </ul>
       </section>
     </main>

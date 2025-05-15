@@ -5,7 +5,101 @@
       "firstName": "John",
       "lastName": "Doe",
       "email": "john@example.com",
-      "role": "Admin"
+      "role": "Admin",
+      "timeLogs": [
+        {
+          "id": "log1",
+          "date": "2025-05-10",
+          "clockInTime": "2025-05-10T09:00:00Z",
+          "clockOutTime": "2025-05-10T17:30:00Z",
+          "breaks": [
+            {
+              "id": "break1-1",
+              "startTime": "2025-05-10T10:30:00Z",
+              "endTime": "2025-05-10T10:45:00Z",
+              "type": "Coffee"
+            },
+            {
+              "id": "break1-2",
+              "startTime": "2025-05-10T13:00:00Z",
+              "endTime": "2025-05-10T13:45:00Z",
+              "type": "Long"
+            }
+          ]
+        },
+        {
+          "id": "log2",
+          "date": "2025-05-11",
+          "clockInTime": "2025-05-11T09:15:00Z",
+          "clockOutTime": "2025-05-11T17:45:00Z",
+          "breaks": [
+            {
+              "id": "break2-1",
+              "startTime": "2025-05-11T11:00:00Z",
+              "endTime": "2025-05-11T11:15:00Z",
+              "type": "Recess"
+            },
+            {
+              "id": "break2-2",
+              "startTime": "2025-05-11T14:00:00Z",
+              "endTime": "2025-05-11T14:30:00Z",
+              "type": "Long"
+            }
+          ]
+        },
+        {
+          "id": "log3",
+          "date": "2025-05-12",
+          "clockInTime": "2025-05-12T08:55:00Z",
+          "clockOutTime": "2025-05-12T17:05:00Z",
+          "breaks": [
+            {
+              "id": "break3-1",
+              "startTime": "2025-05-12T12:30:00Z",
+              "endTime": "2025-05-12T13:15:00Z",
+              "type": "Long"
+            }
+          ]
+        },
+        {
+          "id": "log4",
+          "date": "2025-05-13",
+          "clockInTime": "2025-05-13T09:05:00Z",
+          "clockOutTime": "2025-05-13T16:55:00Z",
+          "breaks": [
+            {
+              "id": "break4-1",
+              "startTime": "2025-05-13T10:30:00Z",
+              "endTime": "2025-05-13T10:40:00Z",
+              "type": "Coffee"
+            },
+            {
+              "id": "break4-2",
+              "startTime": "2025-05-13T13:00:00Z",
+              "endTime": "2025-05-13T13:30:00Z",
+              "type": "Long"
+            }
+          ]
+        },
+        {
+          "id": "log5",
+          "date": "2025-05-14",
+          "clockInTime": "2025-05-14T09:00:00Z",
+          "clockOutTime": null,
+          "breaks": [
+            {
+              "id": "break5-1",
+              "startTime": "2025-05-14T10:00:00Z",
+              "endTime": "2025-05-14T10:15:00Z",
+              "type": "Recess"
+            }
+          ]
+        }
+      ],
+      "targetDailyHours": 8,
+      "targetWeeklyHours": 40,
+      "targetBreakPerDayMinutes": 60,
+      "breakTypes": ["Recess", "Coffee break", "Long break"]
     },
     {
       "id": "2",

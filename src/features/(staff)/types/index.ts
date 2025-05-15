@@ -96,7 +96,12 @@ export const FinancialInformationSchema = z.object({
   }),
 });
 
+export const CockoutReasonSchema = z.object({
+  reason: z.string().min(10),
+});
+
 // Types
+export type CockoutReasonData = z.infer<typeof CockoutReasonSchema>;
 export type AccountSetupData = z.infer<typeof AccountSetupSchema>;
 export type SearchStaffData = z.infer<typeof SearchStaffSchema>;
 export type CreatePasswordData = z.infer<typeof CreatePasswordSchema>;
@@ -126,9 +131,43 @@ export interface OnboardingState {
   resetOnboarding: () => void;
 }
 export type Staff = {
-  id: number | string;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
   role: string;
+  timeLogs: TimeLog[];
+  targetDailyHours: number; // hours
+  targetWeeklyHours: number; // hours
+  targetBreakPerDayMinutes: number;
+  breakTypes: BreakType[];
 };
+
+export type BreakType = 'Recess' | 'Coffee break' | 'Long break';
+
+export interface BreakRecord {
+  id: string;
+  startTime: string; // ISO Date string
+  endTime?: string | null; // ISO Date string, null if ongoing
+  type: BreakType;
+  durationMs?: number; // Calculated dynamically or stored if break ended
+}
+
+export interface TimeLog {
+  id: string;
+  date: string; // YYYY-MM-DD
+  clockInTime: string; // ISO Date string
+  clockOutTime?: string | null; // ISO Date string, null if ongoing
+  breaks: BreakRecord[];
+  totalWorkMs?: number; // Calculated
+  totalBreakMs?: number; // Calculated
+}
+
+// For active session state in the hook
+export interface ActiveSessionState {
+  isActive: boolean; // Is user currently clocked in for the selected (today's) date
+  isOnBreak: boolean;
+  currentWorkSegmentStart: Date | null; // When the current work period (after clock-in or resuming from break) started
+  currentBreakRecord: BreakRecord | null; // Details of the current ongoing break
+  todaysLog: TimeLog | null; // The log entry for today, being actively built
+}
