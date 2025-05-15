@@ -56,7 +56,7 @@ export default function Home() {
           </li>
           <li>
             <Link href="/staff" className="underline hover:text-blue-500">
-              Dashboard ✅
+              Dashboard ✅ 
             </Link>
           </li>
         </ul>
