@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import React, { useState, useCallback, useMemo } from 'react';
@@ -24,7 +25,6 @@ import { DateRange } from 'react-day-picker';
 interface AppliedFilters {
   teams: Record<string, boolean>;
   roles: Record<string, boolean>;
- 
 }
 
 export default function AdminDashboardPage() {
@@ -35,13 +35,12 @@ export default function AdminDashboardPage() {
   const [appliedFilters, setAppliedFilters] = useState<AppliedFilters>({
     teams: {},
     roles: {},
- 
   });
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+  const [dateRange, setDateRange] = useState<DateRange>({
     startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     endDate: new Date(),
-  }); 
- 
+  });
+
   const alert = useAlert();
   const pathname = usePathname(); // Get current path
 
@@ -92,7 +91,7 @@ export default function AdminDashboardPage() {
     filter: {
       // startDate: dateRange?.startDate?.toISOString() || '',
       // endDate: dateRange?.endDate?.toISOString() || '',
-      teams: appliedFilters.teams|| [],
+      teams: appliedFilters.teams || [],
       roles: appliedFilters.roles || [],
     },
   });
@@ -167,7 +166,6 @@ export default function AdminDashboardPage() {
           data={hoursWorkedData}
           isLoading={isHoursDataLoading}
         />
-       
 
         <WageDistributionPieChart
           data={wageDistributionData}
@@ -200,7 +198,7 @@ export default function AdminDashboardPage() {
           appliedFilters={appliedFilters}
           dateRange={dateRange}
           onDateRangeChange={(range) => {
-            setDateRange(range);
+            setDateRange(range as any);
           }}
           onApplyFilters={(filters) => {
             setAppliedFilters({
@@ -213,12 +211,15 @@ export default function AdminDashboardPage() {
               roles: {},
             });
             setDateRange({
-              startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+              startDate: new Date(
+                new Date().getFullYear(),
+                new Date().getMonth(),
+                1
+              ),
               endDate: new Date(),
             });
           }}
           onSidebarOpen={() => setIsSidebarOpen(true)}
-          
         />
 
         <section className="container mx-auto">
