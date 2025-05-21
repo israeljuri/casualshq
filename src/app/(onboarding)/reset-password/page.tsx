@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/atoms/skeleton';
 import { ResetPasswordForm } from '@/features/(onboarding)/components/ResetPasswordForm';
 import { Suspense } from 'react';
 
