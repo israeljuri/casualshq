@@ -20,6 +20,7 @@ import {
   getYear,
   isWithinInterval,
 } from 'date-fns';
+import { NextRequest } from 'next/server';
 
 // Define interfaces for our modular data structure
 interface Role {
@@ -1113,6 +1114,31 @@ const resolvers = {
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 const server = new ApolloServer({ schema, introspection: true });
-const handler = startServerAndCreateNextHandler(server);
-export const GET = handler;
-export const POST = handler;
+// const handler = startServerAndCreateNextHandler(server);
+// export const GET = handler;
+// export const POST = handler;
+
+// Create the main handler using startServerAndCreateNextHandler
+const apolloHandler = startServerAndCreateNextHandler<NextRequest>(server, {
+  context: async (req, res) => ({
+    req,
+    res,
+    routeParams: (res as any).params,
+    // Add any additional context data here
+  }),
+});
+
+// Export GET and POST handlers with explicit App Router signatures to satisfy Vercel's type checker
+export async function GET(
+  request: NextRequest,
+  context: any
+): Promise<Response> {
+  return apolloHandler(request, context);
+}
+
+export async function POST(
+  request: NextRequest,
+  context: any
+): Promise<Response> {
+  return apolloHandler(request, context);
+}
