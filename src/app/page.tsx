@@ -20,7 +20,12 @@ import { useWageDistributionData } from '@/features/(dashboard)/hooks/useWageDis
 import { useRecentAdjustments } from '@/features/(dashboard)/hooks/useRecentAdjustments';
 
 import { useStatsData } from '@/features/(dashboard)/hooks/useStatsData';
-import { DateRange } from 'react-day-picker';
+ 
+
+interface DateRange {
+  startDate: Date;
+  endDate: Date;
+}
 
 interface AppliedFilters {
   teams: Record<string, boolean>;
