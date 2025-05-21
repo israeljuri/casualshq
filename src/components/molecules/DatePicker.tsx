@@ -1,5 +1,4 @@
-// components/ui/date-picker-stepped.tsx
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import { format, subDays, isValid } from 'date-fns';
 import {
@@ -20,7 +19,10 @@ import {
 import { Input } from '@/components/molecules/Input';
 
 // Define DateRange type from react-day-picker, which Calendar uses
-import { DateRange } from 'react-day-picker';
+interface DateRange {
+  startDate: Date;
+  endDate: Date;
+}
 
 interface DatePreset {
   label: string;
@@ -63,9 +65,8 @@ export function DatePicker({
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
     initialDate
   );
-  const [selectedRange, setSelectedRange] = React.useState<
-    DateRange | undefined
-  >(initialDateRange);
+  const [selectedRange, setSelectedRange] =
+    React.useState<any>(initialDateRange);
 
   // State for current month view in calendar
   const [month, setMonth] = React.useState<Date | undefined>(
@@ -133,7 +134,7 @@ export function DatePicker({
     setIsOpen(false);
   };
 
-  const handleRangeCalendarSelect = (range: DateRange | undefined) => {
+  const handleRangeCalendarSelect = (range: any) => {
     setSelectedRange(range);
     if (range?.startDate) {
       setStartInput(format(range.startDate, 'dd/MM/yyyy'));
@@ -179,10 +180,10 @@ export function DatePicker({
     setStartInput(value);
     const newStartDate = parseDateInput(value);
     if (newStartDate) {
-      setSelectedRange((prev) => ({ ...prev, startDate: newStartDate }));
+      setSelectedRange((prev: any) => ({ ...prev, startDate: newStartDate }));
       setMonth(newStartDate);
     } else if (value === '') {
-      setSelectedRange((prev) => ({ ...prev, startDate: undefined }));
+      setSelectedRange((prev: any) => ({ ...prev, startDate: undefined }));
     }
   };
 
@@ -191,15 +192,24 @@ export function DatePicker({
     setEndInput(value);
     const newEndDate = parseDateInput(value);
     if (newEndDate) {
-      setSelectedRange({ startDate: selectedRange?.startDate, endDate: newEndDate });
+      setSelectedRange({
+        startDate: selectedRange?.startDate,
+        endDate: newEndDate,
+      });
       if (!selectedRange?.startDate) setMonth(newEndDate);
     } else if (value === '') {
-      setSelectedRange({ startDate: selectedRange?.startDate, endDate: undefined });
+      setSelectedRange({
+        startDate: selectedRange?.startDate,
+        endDate: undefined,
+      });
     }
   };
 
   const presets: DatePreset[] = [
-    { label: 'Today', getValue: () => ({ startDate: new Date(), endDate: new Date() }) },
+    {
+      label: 'Today',
+      getValue: () => ({ startDate: new Date(), endDate: new Date() }),
+    },
     {
       label: 'Yesterday',
       getValue: () => ({
@@ -209,15 +219,24 @@ export function DatePicker({
     },
     {
       label: 'Last 7 days',
-      getValue: () => ({ startDate: subDays(new Date(), 6), endDate: new Date() }),
+      getValue: () => ({
+        startDate: subDays(new Date(), 6),
+        endDate: new Date(),
+      }),
     },
     {
       label: 'Last 14 days',
-      getValue: () => ({ startDate: subDays(new Date(), 13), endDate: new Date() }),
+      getValue: () => ({
+        startDate: subDays(new Date(), 13),
+        endDate: new Date(),
+      }),
     },
     {
       label: 'Last 30 days',
-      getValue: () => ({ startDate: subDays(new Date(), 29), endDate: new Date() }),
+      getValue: () => ({
+        startDate: subDays(new Date(), 29),
+        endDate: new Date(),
+      }),
     },
   ];
 

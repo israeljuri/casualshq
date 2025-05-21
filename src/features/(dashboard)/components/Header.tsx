@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DateRange } from 'react-day-picker';
+ 
 import { AppliedFilters } from '../types';
 import { SearchInput } from '@/components/molecules/SearchInput';
 import { DatePicker } from '@/components/molecules/DatePicker';
@@ -24,7 +24,10 @@ import { useFilterOptions } from '../hooks/useFilterOptions';
 
 import { ArrowLeft, Menu } from 'lucide-react';
 import { Skeleton } from '@/components/atoms/skeleton';
-
+interface DateRange {
+  startDate: Date;
+  endDate: Date;
+}
 interface HeaderProps {
   pageTitle: string;
   pageDescription: string;
@@ -209,7 +212,7 @@ export const Header: React.FC<HeaderProps> = ({
                 {showDatePicker && onDateRangeChange && (
                   <DatePicker
                     variant="range"
-                    initialDateRange={appliedFilters.dateRange}
+                    initialDateRange={dateRange}
                     onDateRangeChange={onDateRangeChange}
                   />
                 )}
