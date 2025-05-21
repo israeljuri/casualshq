@@ -1,6 +1,6 @@
 import React from 'react';
 import { toast, ToastPosition, Toast } from 'react-hot-toast';
-import AlertComponent from '@/components/ui/alert'; // Ensure this path is correct
+import AlertComponent from '@/components/molecules/Alert'; // Ensure this path is correct
 
 type AlertVariant = 'success' | 'error' | 'warning' | 'info';
 
@@ -27,10 +27,15 @@ const useAlert = () => {
       onDismissCallback: options?.onDismiss,
     };
 
-    const toastId = `custom-alert-${variant}-${title.replace(/\s+/g, '-')}-${Date.now()}`;
+    const toastId = `custom-alert-${variant}-${title.replace(
+      /\s+/g,
+      '-'
+    )}-${Date.now()}`;
 
     // The function that renders the custom component
-    const renderToast = (t: Toast): React.ReactElement => ( // Use React.ReactElement
+    const renderToast = (
+      t: Toast
+    ): React.ReactElement => ( // Use React.ReactElement
       <AlertComponent
         variant={variant}
         title={title}

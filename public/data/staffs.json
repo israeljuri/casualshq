@@ -6,6 +6,8 @@
       "lastName": "Doe",
       "email": "john@example.com",
       "role": "Admin",
+      "status": "active",
+      "team": "Admin",
       "timeLogs": [
         {
           "id": "log1",
