@@ -30,7 +30,7 @@ export interface DatePickerProps {
   initialDate?: Date;
   initialDateRange?: DateRange;
   onDateChange?: (date: Date | undefined) => void;
-  onDateRangeChange?: (range: DateRange | undefined) => void;
+  onDateRangeChange?: (range: DateRange) => void;
   disabled?: boolean;
   // className?: string; // For PopoverContent
   buttonClassName?: string;
