@@ -1,4 +1,3 @@
-// src/features/admin/components/staff/StaffActionDropdown.tsx
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/molecules/Button';
@@ -21,7 +20,7 @@ export const StaffActionDropdown: React.FC<StaffActionDropdownProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent row click if any
+    e.stopPropagation();
     setIsOpen(!isOpen);
   };
 
@@ -61,7 +60,6 @@ export const StaffActionDropdown: React.FC<StaffActionDropdownProps> = ({
 
       {isOpen && (
         <div className="absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-lg z-20 py-1">
-        
           <button
             onClick={(e) => {
               e.stopPropagation();

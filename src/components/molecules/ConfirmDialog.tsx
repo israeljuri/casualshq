@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import * as React from 'react';
@@ -12,7 +11,7 @@ import {
 interface ReusableConfirmDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  content: React.ReactNode | any;
+  content: React.ReactNode;
 }
 
 export function ConfirmDialog({

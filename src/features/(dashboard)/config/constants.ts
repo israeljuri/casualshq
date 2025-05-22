@@ -8,7 +8,7 @@ export const PIE_CHART_COLORS = [
   '#5C6D66',
 ];
 
-export const DEFAULT_DATE_RANGE_MONTHS = 'year'; // For initial date range setting
+export const DEFAULT_DATE_RANGE_MONTHS = '12m'; 
 
 export const STAFF_STATUS_OPTIONS: { value: StaffStatus; label: string }[] = [
   { value: 'active', label: 'Active' },

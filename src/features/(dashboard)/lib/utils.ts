@@ -1,11 +1,7 @@
 import { TimeLog } from '@/features/(dashboard)/types';
 import { parseISO, differenceInHours, isValid } from 'date-fns';
 
-/**
- * Calculates the total net hours worked for a given time log, accounting for breaks.
- * @param log - The time log object.
- * @returns The total net hours worked.
- */
+ 
 export const calculateHoursFromTimeLog = (log: TimeLog): number => {
   if (!log.clockInTime || !log.clockOutTime) return 0;
 

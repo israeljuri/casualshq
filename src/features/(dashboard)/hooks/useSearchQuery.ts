@@ -6,7 +6,7 @@ import {
   SearchQueryVariables,
   SearchStaffResult,
   SearchTeamResult,
-} from '../graphql/queries/search';
+} from '@/features/(dashboard)/graphql/queries/search.query';
 
 export interface SearchResult {
   type: 'staff' | 'team';
@@ -16,7 +16,7 @@ export interface SearchResult {
   url: string;
 }
 
-export const useSearch = () => {
+export const useSearchQuery = () => {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -44,7 +44,6 @@ export const useSearch = () => {
             type: 'staff',
             id: staff.id,
             name: `${staff.firstName} ${staff.lastName}`,
-            description: staff.role,
             url: `/staff/${staff.id}`,
           });
         });

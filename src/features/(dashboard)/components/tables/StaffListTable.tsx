@@ -16,6 +16,7 @@ import { StaffMember } from '@/features/(dashboard)/types';
 import { PaginationControls } from './PaginationControls';
 import { StaffActionDropdown } from './StaffActionDropdown';
 import { Button } from '@/components/molecules/Button';
+import { StaffNameDropdown } from './StaffNameDropdown';
 
 interface StaffListTableProps {
   staffMembers: StaffMember[];
@@ -100,25 +101,16 @@ export const StaffListTable: React.FC<StaffListTableProps> = ({
                 className="cursor-pointer hover:bg-slate-50 transition-colors duration-150 group"
               >
                 <TableCell>
-                  <div className="flex items-center space-x-2">
-                    {staff.status !== 'active' && (
-                      <Image
-                        src="/admin-staff/warning.svg"
-                        alt="Pending onboarding"
-                        width={16}
-                        height={16}
-                        className="text-yellow-500"
-                        title="Pending onboarding"
-                      />
-                    )}
-                    <span
-                      className={
-                        staff.status !== 'active' ? 'text-gray-300' : ''
-                      }
-                    >
+                  {staff.status === 'active' && (
+                    <span>
                       {staff.firstName} {staff.lastName}
                     </span>
-                  </div>
+                  )}
+                  {staff.status !== 'active' && (
+                    <StaffNameDropdown
+                      name={`${staff.firstName} ${staff.lastName}`}
+                    />
+                  )}
                 </TableCell>
                 <TableCell
                   className={staff.status !== 'active' ? 'text-gray-300' : ''}

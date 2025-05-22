@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BarChart,
   Bar,
@@ -38,6 +38,9 @@ export const HoursWorkedChart: React.FC<HoursWorkedChartProps> = ({
   isLoading,
 }) => {
   const [period, setPeriod] = useState<BarChartFilterPeriod>('12m');
+  const [totalHours, setTotalHours] = useState(0);
+  const [data, setData] = useState<DataPoint[]>([]);
+
   const getBarSize = () => {
     switch (period) {
       case '12m':
@@ -51,50 +54,67 @@ export const HoursWorkedChart: React.FC<HoursWorkedChartProps> = ({
     }
   };
 
-  let data: DataPoint[] = [];
-  let totalHours = 0;
-
- 
-
-  if (!isLoading && hoursWorkedData) {
-    switch (period) {
-      case '12m':
-        data = hoursWorkedData.last12Months.dataPoints.map((point) => ({
-          label: point.label,
-          value: point.value,
-        }));
-        totalHours = hoursWorkedData.last12Months.totalHoursWorked;
-        break;
-      case '30d':
-        data = hoursWorkedData.last30Days.dataPoints.map((point) => ({
-          label: point.label,
-          value: point.value,
-        }));
-        totalHours = hoursWorkedData.last30Days.totalHoursWorked;
-        break;
-      case '7d':
-        data = hoursWorkedData.last7Days.dataPoints.map((point) => ({
-          label: point.label,
-          value: point.value,
-        }));
-        totalHours = hoursWorkedData.last7Days.totalHoursWorked;
-        break;
-      case '24h':
-        data = hoursWorkedData.last24Hours.dataPoints.map((point) => ({
-          label: point.label,
-          value: point.value,
-        }));
-        totalHours = hoursWorkedData.last24Hours.totalHoursWorked;
-        break;
-      default:
-        data = hoursWorkedData.last24Hours.dataPoints.map((point) => ({
-          label: point.label,
-          value: point.value,
-        }));
-        totalHours = hoursWorkedData.last24Hours.totalHoursWorked;
-        break;
+  useEffect(() => {
+    if (!isLoading && hoursWorkedData) {
+      switch (period) {
+        case '12m':
+          let dummy = [];
+          dummy = hoursWorkedData.last12Months.dataPoints.map((point) => ({
+            label: point.label,
+            value: point.value,
+          }));
+          setData(dummy);
+          setTotalHours(
+            totalHours + hoursWorkedData.last12Months.totalHoursWorked
+          );
+          break;
+        case '30d':
+          let dummy2 = [];
+          dummy2 = hoursWorkedData.last30Days.dataPoints.map((point) => ({
+            label: point.label,
+            value: point.value,
+          }));
+          setData(dummy2);
+          setTotalHours(
+            totalHours + hoursWorkedData.last30Days.totalHoursWorked
+          );
+          break;
+        case '7d':
+          let dummy3 = [];
+          dummy3 = hoursWorkedData.last7Days.dataPoints.map((point) => ({
+            label: point.label,
+            value: point.value,
+          }));
+          setData(dummy3);
+          setTotalHours(
+            totalHours + hoursWorkedData.last7Days.totalHoursWorked
+          );
+          break;
+        case '24h':
+          let dummy4 = [];
+          dummy4 = hoursWorkedData.last24Hours.dataPoints.map((point) => ({
+            label: point.label,
+            value: point.value,
+          }));
+          setData(dummy4);
+          setTotalHours(
+            totalHours + hoursWorkedData.last24Hours.totalHoursWorked
+          );
+          break;
+        default:
+          let dummy5 = [];
+          dummy5 = hoursWorkedData.last24Hours.dataPoints.map((point) => ({
+            label: point.label,
+            value: point.value,
+          }));
+          setData(dummy5);
+          setTotalHours(
+            totalHours + hoursWorkedData.last24Hours.totalHoursWorked
+          );
+          break;
+      }
     }
-  }
+  }, [isLoading, hoursWorkedData, period]);
 
   return (
     <Card className="border-olive-100">

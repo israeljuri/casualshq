@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, ReactNode } from 'react';
-import { useStaffGraphQL, StaffGraphQLContextType } from '@/features/(dashboard)/hooks/useStaffGraphQL';
+import { useStaffGraphQL, StaffGraphQLContextType } from '@/features/(dashboard)/hooks/useStaffQuery';
 
 // Create a context with a default value
 const StaffContext = createContext<StaffGraphQLContextType | undefined>(undefined);

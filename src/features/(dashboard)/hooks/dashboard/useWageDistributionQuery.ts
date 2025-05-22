@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client';
-import { WAGE_DISTRIBUTION_QUERY } from '../graphql/queries/wageDistribution';
+import { WAGE_DISTRIBUTION_QUERY } from '@/features/(dashboard)/graphql/queries/dashboard/wageDisribution.query';
 
-export const useWageDistributionData = ({
+export const useWageDistributionQuery = ({
   filter,
-}: {
+}: {  
   filter: {
-    startDate: string;
-    endDate: string;
+    from: string;
+    to: string;
     teams?: Record<string, boolean>;
     roles?: Record<string, boolean>;
   };
@@ -14,8 +14,8 @@ export const useWageDistributionData = ({
   const { data, loading, error } = useQuery(WAGE_DISTRIBUTION_QUERY, {
     variables: {
       filter: {
-        startDate: filter.startDate,
-        endDate: filter.endDate,
+        from: filter.from,
+        to: filter.to,
         teams: filter.teams,
         roles: filter.roles,
       },

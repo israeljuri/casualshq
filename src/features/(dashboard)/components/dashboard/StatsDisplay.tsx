@@ -1,10 +1,11 @@
 import React from 'react';
 import { StatCard } from './StatsCard';
-import { StatsHookData } from '../../hooks/useStatsData';
+
 import { Skeleton } from '@/components/atoms/skeleton';
+import { StatsData } from '../../types';
 
 interface StatsDisplayProps {
-  stats: StatsHookData;
+  stats: StatsData;
   isLoading: boolean;
 }
 
@@ -12,10 +13,10 @@ const getTitle = (key: string) => {
   switch (key) {
     case 'totalActiveStaff':
       return 'Total Active Staff';
-    case 'hoursWorkedThisPeriod':
-      return 'Hours Worked This Period';
-    case 'grossWagesThisPeriod':
-      return 'Gross Wages This Period';
+    case 'hoursWorkedThisWeek':
+      return 'Hours Worked This Week';
+    case 'grossWagesThisWeek':
+      return 'Gross Wages This Week';
     case 'pendingAdjustments':
       return 'Pending Adjustments';
     default:
@@ -23,20 +24,18 @@ const getTitle = (key: string) => {
   }
 };
 
-const getValue = (key: string, value: number) => {
-  console.log({ key, value });
-
+const getValue = (key: string, item: StatsData[keyof StatsData]) => {
   switch (key) {
     case 'totalActiveStaff':
-      return `${value} staff`;
-    case 'hoursWorkedThisPeriod':
-      return `${value} hours`;
-    case 'grossWagesThisPeriod':
-      return `${value.toLocaleString()}`;
+      return item.value.toLocaleString();
+    case 'hoursWorkedThisWeek':
+      return item.value.toLocaleString();
+    case 'grossWagesThisWeek':
+      return `$${item.value.toLocaleString()}`;
     case 'pendingAdjustments':
-      return `${value.toLocaleString()}`;
+      return item.value.toLocaleString();
     default:
-      return `${value}`;
+      return item.value.toLocaleString();
   }
 };
 
@@ -56,16 +55,12 @@ export const StatsDisplay: React.FC<StatsDisplayProps> = ({
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {Object.entries(stats).map(([key, value]) => {
-        if (key === '__typename') {
-          return;
-        }
-
+      {Object.entries(stats).map(([key, item]) => {
         return (
           <StatCard
-            value={getValue(key, value.value)}
+            value={getValue(key, item)}
             key={key}
-            stat={value}
+            stat={item}
             title={getTitle(key)}
           />
         );

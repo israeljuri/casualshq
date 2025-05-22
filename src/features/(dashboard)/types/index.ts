@@ -1,19 +1,47 @@
-import { DateRange } from 'react-day-picker';
+export type NavItem = {
+  name: string;
+  iconAlt: string;
+  icon: string;
+  href: string;
+};
 
-export interface Break {
+// ---- Dashboard ----
+
+// Define the structure of an adjustment item
+export interface AdjustmentItem {
   id: string;
-  startTime: string; // ISO datetime string
-  endTime: string; // ISO datetime string
-  type: string; // e.g., "lunch", "short_break"
+  staffId: string;
+  staffName: string;
+  date: string;
+  overtime: string;
+  reason: string;
+  email: string;
 }
 
-export interface TimeLog {
-  id: string;
-  date: string; // ISO date string 'YYYY-MM-DD'
-  clockInTime: string; // ISO datetime string
-  clockOutTime: string | null; // ISO datetime string, null if currently clocked in
-  breaks: Break[];
+export interface StatsData {
+  totalActiveStaff: {
+    value: number;
+    percentageChange?: number;
+    positiveChange?: boolean;
+  };
+  hoursWorkedThisWeek: {
+    value: number;
+    percentageChange?: number;
+    positiveChange?: boolean;
+  };
+  grossWagesThisWeek: {
+    value: number;
+    percentageChange?: number;
+    positiveChange?: boolean;
+  };
+  pendingAdjustments: {
+    value: number;
+    percentageChange?: number;
+    positiveChange?: boolean;
+  };
 }
+
+export type BarChartFilterPeriod = '12m' | '30d' | '7d' | '24h'; // For dashboard hours worked chart
 
 export interface AdjustmentModalData {
   // For the adjustment request modal in the dashboard
@@ -24,15 +52,11 @@ export interface AdjustmentModalData {
   reason: string;
 }
 
-export interface AppliedFilters {
+export interface Filters {
   // Used for filtering data in both Dashboard and Staff list
   teams: Record<string, boolean>; // Key: team name, Value: isSelected
   roles: Record<string, boolean>; // Key: role name, Value: isSelected
-  status?: Record<string, boolean>; // Key: StaffStatus value, Value: isSelected (for Staff page)
-  dateRange?: DateRange; // For filtering by a date range (e.g., time logs in dashboard)
 }
-
-export type BarChartFilterPeriod = '12m' | '30d' | '7d' | '24h'; // For dashboard hours worked chart
 
 export interface StatItem {
   value: string;
@@ -50,10 +74,70 @@ export interface PieChartDataItem {
   // For dashboard pie chart
   name: string; // e.g., "Engineering", "Sales"
   value: number; // e.g., wage amount
-  color: string; // Hex color code for the pie slice
+  // color: string; // Hex color code for the pie slice
 }
 
+export interface HoursWorkedChartProps {
+  data: {
+    last12Months: {
+      totalHoursWorked: number;
+      dataPoints: {
+        label: string;
+        name?: string;
+        value: number;
+      }[];
+    };
+    last30Days: {
+      totalHoursWorked: number;
+      dataPoints: {
+        name?: string;
+        label: string;
+        value: number;
+      }[];
+    };
+    last7Days: {
+      totalHoursWorked: number;
+      dataPoints: {
+        name?: string;
+        label: string;
+        value: number;
+      }[];
+    };
+    last24Hours: {
+      totalHoursWorked: number;
+      dataPoints: {
+        name?: string;
+        label: string;
+        value: number;
+      }[];
+    };
+  };
+  isLoading: boolean;
+}
+
+export interface DataPoint {
+  name?: string;
+  label: string;
+  value: number;
+}
+
+// ---- Staff ----
 export type StaffStatus = 'active' | 'inactive';
+
+export interface Break {
+  id?: string;
+  from: string; // ISO datetime string
+  to: string; // ISO datetime string
+  type?: string; // e.g., "lunch", "short_break"
+}
+
+export interface TimeLog {
+  id: string;
+  date: string; // ISO date string 'YYYY-MM-DD'
+  clockInTime: string; // ISO datetime string
+  clockOutTime: string | null; // ISO datetime string, null if currently clocked in
+  breaks: Break[];
+}
 
 export interface Address {
   line1?: string;
@@ -116,6 +200,10 @@ export interface StaffMember {
     overtime: string;
     reason: string;
   };
+  wageType?: WageType;
+  manualRatePerHour?: number | undefined;
+  teamBasedRate?: number | undefined;
+  awardRate?: number | undefined;
 }
 
 // For API response when fetching a list of staff members (includes pagination info)
@@ -147,49 +235,3 @@ export type StaffFormData = Omit<
   // profileImageUrl is typically handled via a separate upload mechanism.
   // timeLogs and latestAdjustment are usually managed by other modules.
 };
-
-export type NavItem = {
-  name: string;
-  iconAlt: string;
-  icon: string;
-  href: string;
-};
-
-export interface HoursWorkedChartProps {
-  data: {
-    last12Months: {
-      totalHoursWorked: number;
-      dataPoints: {
-        label: string;
-        value: number;
-      }[];
-    };
-    last30Days: {
-      totalHoursWorked: number;
-      dataPoints: {
-        label: string;
-        value: number;
-      }[];
-    };
-    last7Days: {
-      totalHoursWorked: number;
-      dataPoints: {
-        label: string;
-        value: number;
-      }[];
-    };
-    last24Hours: {
-      totalHoursWorked: number;
-      dataPoints: {
-        label: string;
-        value: number;
-      }[];
-    };
-  };
-  isLoading: boolean;
-}
-
-export interface DataPoint {
-  label: string;
-  value: number;
-}

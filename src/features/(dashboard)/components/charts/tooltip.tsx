@@ -32,7 +32,7 @@ export const CustomPieTooltip: React.FC<CustomTooltipProps> = ({
   if (active && payload && payload.length) {
     return (
       <div className="bg-slate-900 text-white p-3 rounded-md shadow-lg text-sm">
-        <p className="font-semibold">{`${payload[0].name}`}</p>
+        <p className="font-semibold">{`${payload[0].label}`}</p>
         <p>{`Wages: $${payload[0].value.toLocaleString()}`}</p>
         {/* <p>{`Percentage: ${(payload[0].percent * 100).toFixed(0)}%`}</p> */}
       </div>

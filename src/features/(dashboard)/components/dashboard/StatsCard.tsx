@@ -7,11 +7,10 @@ import {
 } from '@/components/atoms/card';
 
 import Image from 'next/image';
-import { StatValue } from '@/features/(dashboard)/graphql/queries/stats';
+import { StatsData } from '../../types';
 
 interface StatCardProps {
-  stat: StatValue;
-
+  stat: StatsData[keyof StatsData];
   title: string;
   value: string;
 }

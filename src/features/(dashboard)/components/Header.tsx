@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
- 
-import { AppliedFilters } from '../types';
+
+import { Filters } from '../types';
 import { SearchInput } from '@/components/molecules/SearchInput';
 import { DatePicker } from '@/components/molecules/DatePicker';
 import { useRouter, usePathname } from 'next/navigation';
@@ -19,11 +19,14 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/molecules/Form';
-import { useSearch } from '../hooks/useSearch';
-import { useFilterOptions } from '../hooks/useFilterOptions';
 
 import { ArrowLeft, Menu } from 'lucide-react';
 import { Skeleton } from '@/components/atoms/skeleton';
+import {
+  getRoleOptionsMockData,
+  getTeamOptionsMockData,
+  searchMockData,
+} from '@/lib/mockData';
 interface DateRange {
   startDate: Date;
   endDate: Date;
@@ -32,9 +35,9 @@ interface HeaderProps {
   pageTitle: string;
   pageDescription: string;
   onSidebarOpen: () => void;
-  appliedFilters: AppliedFilters;
+  appliedFilters: Filters;
   onDateRangeChange?: (dateRange?: DateRange) => void;
-  onApplyFilters: (filters: AppliedFilters) => void;
+  onApplyFilters: (filters: Filters) => void;
   onCancelFilters: () => void;
   dateRange?: DateRange;
   showDatePicker?: boolean;
@@ -58,8 +61,17 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const { search, searchResults, isLoading } = useSearch();
-  const { roleOptions, teamOptions } = useFilterOptions();
+  const [searchResults, setSearchResult] = useState<
+    | {
+        id: string;
+        label: string;
+        value: string;
+        url: string;
+        type: string;
+      }[]
+    | undefined
+  >();
+  const [isLoading, setIsLoading] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -82,11 +94,16 @@ export const Header: React.FC<HeaderProps> = ({
 
   const onSubmit: SubmitHandler<SearchData> = (data) => {
     if (data.search && data.search.trim().length > 0) {
-      search(data.search);
+      const result = searchMockData(data.search);
+      setIsLoading(result.isLoading);
+
+      setSearchResult(result.data);
       setHasSearched(true);
     } else {
       // Clear results if search is empty
-      search(''); // This will clear the results
+      const result = searchMockData(''); // This will clear the results
+      setIsLoading(result.isLoading);
+      setSearchResult(result.data);
       setHasSearched(false);
     }
   };
@@ -99,7 +116,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   // Handle search result selection
   const handleSearchSelect = (resultId: string) => {
-    const selectedResult = searchResults.find((r) => r.id === resultId);
+    const selectedResult = searchResults?.find((r) => r.id === resultId);
     if (selectedResult) {
       router.push(selectedResult.url);
       form.reset();
@@ -185,11 +202,13 @@ export const Header: React.FC<HeaderProps> = ({
                               }}
                               // Pass the search state to the SearchInput component
                               isLoading={isLoading}
-                              results={searchResults.map((result) => ({
-                                id: result.id,
-                                label: result.name,
-                                team: result.type === 'team',
-                              }))}
+                              results={
+                                searchResults?.map((result) => ({
+                                  id: result.id,
+                                  label: result.label,
+                                  team: result.type === 'team',
+                                })) || []
+                              }
                               onResultSelect={handleSearchSelect}
                             />
                           </FormControl>
@@ -223,8 +242,8 @@ export const Header: React.FC<HeaderProps> = ({
                 // Filters
                 appliedFilters={appliedFilters}
                 // Dropdown options
-                roleOptions={roleOptions}
-                teamOptions={teamOptions}
+                roleOptions={getRoleOptionsMockData().data}
+                teamOptions={getTeamOptionsMockData().data}
                 // Filter handlers
                 onApplyFilters={onApplyFilters}
                 onCancelFilters={onCancelFilters}

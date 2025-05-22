@@ -1,14 +1,14 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/molecules/Button';
-import { AppliedFilters } from '@/features/(dashboard)/types';
+import { Filters } from '@/features/(dashboard)/types';
 
 interface FilterDropdownProps {
-  appliedFilters: AppliedFilters;
-  roleOptions: string[];
-  teamOptions: string[];
+  appliedFilters: Filters;
+  roleOptions: { value: string; label: string; id: string }[];
+  teamOptions: { value: string; label: string; id: string }[];
 
-  onApplyFilters: (filters: AppliedFilters) => void;
+  onApplyFilters: (filters: Filters) => void;
   onCancelFilters: () => void;
 }
 
@@ -43,7 +43,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
     setFilters({
       teams: appliedFilters.teams,
       roles: appliedFilters.roles,
-    }); 
+    });
   };
 
   const handleCancel = () => {
@@ -117,20 +117,20 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
                 </h4>
                 {teamOptions.map((team) => (
                   <label
-                    key={team}
+                    key={team.id}
                     className="flex items-center justify-between space-x-2 text-sm text-slate-700 mb-1.5 py-2 rounded hover:bg-slate-50 cursor-pointer"
                   >
-                    <span>{team.replace(/_/g, ' ')}</span>
+                    <span>{team.label.replace(/_/g, ' ')}</span>
                     <input
                       type="checkbox"
                       className="rounded border-slate-400 text-[#98A2B3] focus:ring-slate-500 h-4 w-4"
-                      checked={filters.teams[team] || false}
+                      checked={filters.teams[team.value] || false}
                       onChange={(e) =>
                         setFilters((prev) => ({
                           ...prev,
                           teams: {
                             ...prev.teams,
-                            [team]: e.target.checked,
+                            [team.value]: e.target.checked,
                           },
                         }))
                       }
@@ -147,20 +147,20 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
                 </h4>
                 {roleOptions.map((role) => (
                   <label
-                    key={role}
+                    key={role.id}
                     className="flex items-center justify-between space-x-2 text-sm text-slate-700 mb-1.5 py-2 rounded hover:bg-slate-50 cursor-pointer"
                   >
-                    <span>{role.replace(/_/g, ' ')}</span>
+                    <span>{role.label.replace(/_/g, ' ')}</span>
                     <input
                       type="checkbox"
                       className="rounded border-slate-400 text-[#98A2B3] focus:ring-slate-500 h-4 w-4"
-                      checked={filters.roles[role] || false}
+                      checked={filters.roles[role.value] || false}
                       onChange={(e) =>
                         setFilters((prev) => ({
                           ...prev,
                           roles: {
                             ...prev.roles,
-                            [role ]: e.target.checked,
+                            [role.value]: e.target.checked,
                           },
                         }))
                       }

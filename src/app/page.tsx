@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { Sidebar } from '@/features/(dashboard)/components/Sidebar';
@@ -11,43 +10,40 @@ import { HoursWorkedChart } from '@/features/(dashboard)/components/charts/Hours
 import { WageDistributionPieChart } from '@/features/(dashboard)/components/charts/WageDistributionPieChart';
 import { AdjustmentsTable } from '@/features/(dashboard)/components/dashboard/AdjustmentsTable';
 import { AdjustmentRequestModal } from '@/features/(dashboard)/components/modals/AdjustmentRequestModal';
-import { AdjustmentModalData } from '@/features/(dashboard)/types';
+import { AdjustmentModalData, Filters } from '@/features/(dashboard)/types';
 
 import useAlert from '@/hooks/useAlert';
 
-import { useHoursWorkedData } from '@/features/(dashboard)/hooks/useHoursWorkedData';
-import { useWageDistributionData } from '@/features/(dashboard)/hooks/useWageDistributionData';
-import { useRecentAdjustments } from '@/features/(dashboard)/hooks/useRecentAdjustments';
+import { DateRange } from 'react-day-picker';
 
-import { useStatsData } from '@/features/(dashboard)/hooks/useStatsData';
- 
+// MOCK DATA
+import {
+  getAdjustmentsMockData,
+  getDashboardStatsMockData,
+  getHoursWorkedMockData,
+  getWageDistributionMockData,
+} from '@/lib/mockData';
 
-interface DateRange {
-  startDate: Date;
-  endDate: Date;
-}
-
-interface AppliedFilters {
-  teams: Record<string, boolean>;
-  roles: Record<string, boolean>;
-}
+const result = getHoursWorkedMockData();
+console.log({ result });
 
 export default function AdminDashboardPage() {
+  const alert = useAlert();
+  const pathname = usePathname();
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isAdjustmentModalOpen, setIsAdjustmentModalOpen] = useState(false);
   const [currentAdjustmentData, setCurrentAdjustmentData] =
     useState<AdjustmentModalData | null>(null);
-  const [appliedFilters, setAppliedFilters] = useState<AppliedFilters>({
+  const [filters, setFilters] = useState<Filters>({
     teams: {},
     roles: {},
   });
   const [dateRange, setDateRange] = useState<DateRange>({
-    startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-    endDate: new Date(),
+    // Start of the month
+    from: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+    to: new Date(),
   });
-
-  const alert = useAlert();
-  const pathname = usePathname(); // Get current path
 
   const handleOpenAdjustmentModal = useCallback((data: AdjustmentModalData) => {
     setCurrentAdjustmentData(data);
@@ -87,153 +83,79 @@ export default function AdminDashboardPage() {
     });
   };
 
-  // Fetch hours worked data from GraphQL API
-  const {
-    data: hoursWorkedData,
-    isLoading: isHoursDataLoading,
-    error: hoursDataError,
-  } = useHoursWorkedData({
-    filter: {
-      // startDate: dateRange?.startDate?.toISOString() || '',
-      // endDate: dateRange?.endDate?.toISOString() || '',
-      teams: appliedFilters.teams || [],
-      roles: appliedFilters.roles || [],
-    },
-  });
-
-  // Fetch wage distribution data from GraphQL API
-  const {
-    data: wageDistributionData,
-    isLoading: isWageDataLoading,
-    error: wageDataError,
-  } = useWageDistributionData({
-    filter: {
-      startDate: dateRange?.startDate?.toISOString() || '',
-      endDate: dateRange?.endDate?.toISOString() || '',
-      teams: appliedFilters.teams || [],
-      roles: appliedFilters.roles || [],
-    },
-  });
-
-  // Fetch recent adjustments data from GraphQL API
-  const {
-    adjustments,
-    isLoading: isAdjustmentsLoading,
-    error: adjustmentsError,
-  } = useRecentAdjustments();
-
-  const {
-    data: statsData,
-    isLoading: isStatsLoading,
-    error: statsError,
-  } = useStatsData();
-
-  // console.log({ statsData, wageDistributionData, hoursWorkedData});
-
-  // Handle errors from API
-  useMemo(() => {
-    if (hoursDataError) {
-      alert.showAlert('Error loading hours chart data', 'error', {
-        subtext: hoursDataError.message,
-      });
-    }
-    if (wageDataError) {
-      alert.showAlert('Error loading wage distribution data', 'error', {
-        subtext: wageDataError.message,
-      });
-    }
-    if (adjustmentsError) {
-      alert.showAlert('Error loading recent adjustments data', 'error', {
-        subtext: adjustmentsError.message,
-      });
-    }
-    if (statsError) {
-      alert.showAlert('Error loading stats data', 'error', {
-        subtext: statsError.message,
-      });
-    }
-  }, [
-    // hoursDataError,
-    wageDataError,
-    adjustmentsError,
-    statsError,
-    alert,
-  ]);
-
-  const renderDashboardContent = () => (
-    <>
-      <div className="mb-6 md:mb-8">
-        <StatsDisplay stats={statsData} isLoading={isStatsLoading} />
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr_1fr] mb-6 md:mb-8">
-        <HoursWorkedChart
-          data={hoursWorkedData}
-          isLoading={isHoursDataLoading}
-        />
-
-        <WageDistributionPieChart
-          data={wageDistributionData}
-          isLoading={isWageDataLoading}
-        />
-      </div>
-
-      <AdjustmentsTable
-        adjustments={adjustments}
-        onOpenModal={handleOpenAdjustmentModal}
-        onApprove={handleApproveAdjustmentFromTable}
-        onDeny={handleDenyAdjustmentFromTable}
-        isLoading={isAdjustmentsLoading}
-      />
-    </>
-  );
-
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        activePath={pathname} // Pass current path
-      />
-
-      <main className="flex-1 flex flex-col overflow-y-auto">
-        <Header
-          pageTitle="Dashboard"
-          pageDescription="Track staff performance and manage team operations."
-          appliedFilters={appliedFilters}
-          dateRange={dateRange}
-          onDateRangeChange={(range) => {
-            setDateRange(range as any);
-          }}
-          onApplyFilters={(filters) => {
-            setAppliedFilters({
-              ...filters,
-            });
-          }}
-          onCancelFilters={() => {
-            setAppliedFilters({
-              teams: {},
-              roles: {},
-            });
-            setDateRange({
-              startDate: new Date(
-                new Date().getFullYear(),
-                new Date().getMonth(),
-                1
-              ),
-              endDate: new Date(),
-            });
-          }}
-          onSidebarOpen={() => setIsSidebarOpen(true)}
+    <>
+      <div className="flex h-screen overflow-hidden">
+        <Sidebar
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+          activePath={pathname} // Pass current path
         />
 
-        <section className="container mx-auto">
-          <div className="flex-1 p-4 sm:p-6 lg:p-8">
-            {renderDashboardContent()}
-          </div>
-        </section>
-      </main>
+        <main className="flex-1 flex flex-col overflow-y-auto">
+          <Header
+            pageTitle="Dashboard"
+            pageDescription="Track staff performance and manage team operations."
+            appliedFilters={filters}
+            dateRange={dateRange}
+            onDateRangeChange={(range) => {
+              setDateRange(range);
+            }}
+            onApplyFilters={(filters) => {
+              setFilters({
+                ...filters,
+              });
+            }}
+            onCancelFilters={() => {
+              setFilters({
+                teams: {},
+                roles: {},
+              });
+              setDateRange({
+                startDate: new Date(
+                  new Date().getFullYear(),
+                  new Date().getMonth(),
+                  1
+                ),
+                endDate: new Date(),
+              });
+            }}
+            onSidebarOpen={() => setIsSidebarOpen(true)}
+          />
 
+          <section className="container mx-auto">
+            <div className="flex-1 p-4 sm:p-6 lg:p-8">
+              <div className="mb-6 md:mb-8">
+                <StatsDisplay
+                  stats={getDashboardStatsMockData().stats}
+                  isLoading={getDashboardStatsMockData().isLoading}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr_1fr] mb-6 md:mb-8">
+                <HoursWorkedChart
+                  data={getHoursWorkedMockData().data}
+                  isLoading={getHoursWorkedMockData().isLoading}
+                />
+
+                <WageDistributionPieChart
+                  data={getWageDistributionMockData().data}
+                  isLoading={getWageDistributionMockData().isLoading}
+                />
+              </div>
+
+              <AdjustmentsTable
+                adjustments={getAdjustmentsMockData().data}
+                onOpenModal={handleOpenAdjustmentModal}
+                onApprove={handleApproveAdjustmentFromTable}
+                onDeny={handleDenyAdjustmentFromTable}
+                isLoading={getAdjustmentsMockData().isLoading}
+              />
+            </div>
+          </section>
+        </main>
+      </div>
+      
       <AdjustmentRequestModal
         isOpen={isAdjustmentModalOpen}
         onClose={handleCloseAdjustmentModal}
@@ -241,6 +163,6 @@ export default function AdminDashboardPage() {
         onApprove={handleApproveAdjustment}
         onDeny={handleDenyAdjustment}
       />
-    </div>
+    </>
   );
 }

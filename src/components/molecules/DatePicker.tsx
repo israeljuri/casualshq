@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import { format, subDays, isValid } from 'date-fns';
 import {
@@ -17,12 +16,9 @@ import {
   PopoverTrigger,
 } from '@/components/atoms/popover';
 import { Input } from '@/components/molecules/Input';
+import { DateRange } from 'react-day-picker';
 
-// Define DateRange type from react-day-picker, which Calendar uses
-interface DateRange {
-  startDate: Date;
-  endDate: Date;
-}
+ 
 
 interface DatePreset {
   label: string;
@@ -65,13 +61,12 @@ export function DatePicker({
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
     initialDate
   );
-  const [selectedRange, setSelectedRange] =
-    React.useState<any>(initialDateRange);
+  const [selectedRange, setSelectedRange] = React.useState<DateRange | undefined>(initialDateRange);
 
   // State for current month view in calendar
   const [month, setMonth] = React.useState<Date | undefined>(
     variant === 'range'
-      ? initialDateRange?.startDate || new Date()
+      ? initialDateRange?.from || new Date()
       : initialDate || new Date()
   );
 
@@ -92,14 +87,14 @@ export function DatePicker({
 
   React.useEffect(() => {
     setSelectedRange(initialDateRange);
-    if (initialDateRange?.startDate) {
-      setMonth(initialDateRange.startDate);
-      setStartInput(format(initialDateRange.startDate, 'dd/MM/yyyy'));
+    if (initialDateRange?.from) {
+      setMonth(initialDateRange.from);
+      setStartInput(format(initialDateRange.from, 'dd/MM/yyyy'));
     } else {
       setStartInput('');
     }
-    if (initialDateRange?.endDate) {
-      setEndInput(format(initialDateRange.endDate, 'dd/MM/yyyy'));
+    if (initialDateRange?.to) {
+      setEndInput(format(initialDateRange.to, 'dd/MM/yyyy'));
     } else {
       setEndInput('');
     }
@@ -110,11 +105,11 @@ export function DatePicker({
     if (isOpen && variant === 'range') {
       setRangePickerView('presets');
       // Also update input fields if a range is already selected
-      if (selectedRange?.startDate)
-        setStartInput(format(selectedRange.startDate, 'dd/MM/yyyy'));
+      if (selectedRange?.from)
+        setStartInput(format(selectedRange.from, 'dd/MM/yyyy'));
       else setStartInput('');
-      if (selectedRange?.endDate)
-        setEndInput(format(selectedRange.endDate, 'dd/MM/yyyy'));
+      if (selectedRange?.to)
+        setEndInput(format(selectedRange.to, 'dd/MM/yyyy'));
       else setEndInput('');
     }
   }, [isOpen, variant, selectedRange]);
@@ -134,16 +129,16 @@ export function DatePicker({
     setIsOpen(false);
   };
 
-  const handleRangeCalendarSelect = (range: any) => {
+  const handleRangeCalendarSelect = (range: DateRange | undefined) => {
     setSelectedRange(range);
-    if (range?.startDate) {
-      setStartInput(format(range.startDate, 'dd/MM/yyyy'));
-      setMonth(range.startDate);
+    if (range?.from) {
+      setStartInput(format(range.from, 'dd/MM/yyyy'));
+      setMonth(range.from);
     } else {
       setStartInput('');
     }
-    if (range?.endDate) {
-      setEndInput(format(range.endDate, 'dd/MM/yyyy'));
+    if (range?.to) {
+      setEndInput(format(range.to, 'dd/MM/yyyy'));
     } else {
       setEndInput('');
     }
@@ -178,29 +173,29 @@ export function DatePicker({
   const handleStartInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setStartInput(value);
-    const newStartDate = parseDateInput(value);
-    if (newStartDate) {
-      setSelectedRange((prev: any) => ({ ...prev, startDate: newStartDate }));
-      setMonth(newStartDate);
+    const newfrom = parseDateInput(value);
+    if (newfrom) {
+      setSelectedRange((prev: DateRange | undefined) => ({ ...prev, from: newfrom }));
+      setMonth(newfrom);
     } else if (value === '') {
-      setSelectedRange((prev: any) => ({ ...prev, startDate: undefined }));
+      setSelectedRange((prev: DateRange | undefined) => ({ ...prev, from: undefined }));
     }
   };
 
   const handleEndInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEndInput(value);
-    const newEndDate = parseDateInput(value);
-    if (newEndDate) {
+    const newto = parseDateInput(value);
+    if (newto) {
       setSelectedRange({
-        startDate: selectedRange?.startDate,
-        endDate: newEndDate,
+        from: selectedRange?.from,
+        to: newto,
       });
-      if (!selectedRange?.startDate) setMonth(newEndDate);
+      if (!selectedRange?.from) setMonth(newto);
     } else if (value === '') {
       setSelectedRange({
-        startDate: selectedRange?.startDate,
-        endDate: undefined,
+        from: selectedRange?.from,
+        to: undefined,
       });
     }
   };
@@ -208,34 +203,34 @@ export function DatePicker({
   const presets: DatePreset[] = [
     {
       label: 'Today',
-      getValue: () => ({ startDate: new Date(), endDate: new Date() }),
+      getValue: () => ({ from: new Date(), to: new Date() }),
     },
     {
       label: 'Yesterday',
       getValue: () => ({
-        startDate: subDays(new Date(), 1),
-        endDate: subDays(new Date(), 1),
+        from: subDays(new Date(), 1),
+        to: subDays(new Date(), 1),
       }),
     },
     {
       label: 'Last 7 days',
       getValue: () => ({
-        startDate: subDays(new Date(), 6),
-        endDate: new Date(),
+        from: subDays(new Date(), 6),
+        to: new Date(),
       }),
     },
     {
       label: 'Last 14 days',
       getValue: () => ({
-        startDate: subDays(new Date(), 13),
-        endDate: new Date(),
+        from: subDays(new Date(), 13),
+        to: new Date(),
       }),
     },
     {
       label: 'Last 30 days',
       getValue: () => ({
-        startDate: subDays(new Date(), 29),
-        endDate: new Date(),
+        from: subDays(new Date(), 29),
+        to: new Date(),
       }),
     },
   ];
@@ -243,8 +238,8 @@ export function DatePicker({
   const handleRangePresetSelect = (preset: DatePreset) => {
     const value = preset.getValue() as DateRange; // Presets for range return DateRange
     setSelectedRange(value);
-    if (value.startDate) setStartInput(format(value.startDate, 'dd/MM/yyyy'));
-    if (value.endDate) setEndInput(format(value.endDate, 'dd/MM/yyyy'));
+    if (value.from) setStartInput(format(value.from, 'dd/MM/yyyy'));
+    if (value.to) setEndInput(format(value.to, 'dd/MM/yyyy'));
     if (onDateRangeChange) onDateRangeChange(value);
     setIsOpen(false);
   };
@@ -252,9 +247,9 @@ export function DatePicker({
   const handleCustomRangeDone = () => {
     // Basic validation: ensure 'from' is before or same as 'to'
     if (
-      selectedRange?.startDate &&
-      selectedRange?.endDate &&
-      selectedRange.startDate > selectedRange.endDate
+      selectedRange?.from &&
+      selectedRange?.to &&
+      selectedRange.from > selectedRange.to
     ) {
       // Optionally show an error message or swap dates
       alert('Start date must be before or same as end date.');
@@ -269,22 +264,22 @@ export function DatePicker({
       return selectedDate ? format(selectedDate, 'dd/MM/yyyy') : placeholder;
     }
     // For range
-    if (selectedRange?.startDate && selectedRange?.endDate) {
+    if (selectedRange?.from && selectedRange?.to) {
       return (
         <>
           <span className="hidden md:block">
-            {format(selectedRange.startDate, 'dd/MM/yyyy')} -
-            {format(selectedRange.endDate, 'dd/MM/yyyy')}
+            {format(selectedRange.from, 'dd/MM/yyyy')} -
+            {format(selectedRange.to, 'dd/MM/yyyy')}
           </span>
           <span className="block md:hidden">
-            {format(selectedRange.startDate, 'dd/MM/yyyy')} - ...
+            {format(selectedRange.from, 'dd/MM/yyyy')} - ...
           </span>
         </>
       );
     }
 
-    if (selectedRange?.startDate) {
-      return `${format(selectedRange.startDate, 'dd/MM/yyyy')} - ...`;
+    if (selectedRange?.from) {
+      return `${format(selectedRange.from, 'dd/MM/yyyy')} - ...`;
     }
 
     return placeholder;
@@ -298,7 +293,7 @@ export function DatePicker({
           disabled={disabled}
           className={cn(
             'justify-start text-left font-normal',
-            !(variant === 'single' ? selectedDate : selectedRange?.startDate) &&
+            !(variant === 'single' ? selectedDate : selectedRange?.from) &&
               'text-muted-foreground',
             buttonClassName
           )}

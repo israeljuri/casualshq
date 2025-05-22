@@ -9,23 +9,14 @@ import {
   TableRow,
 } from '@/components/molecules/Table';
 import { Button } from '@/components/molecules/Button';
-import { AdjustmentModalData } from '@/features/(dashboard)/types';
+import { AdjustmentItem, AdjustmentModalData } from '@/features/(dashboard)/types';
 import { Card } from '@/components/atoms/card';
 import { Skeleton } from '@/components/atoms/skeleton';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { ConfirmDialog } from '@/components/molecules/ConfirmDialog';
 
-// Define the structure of an adjustment item
-interface AdjustmentItem {
-  id: string;
-  staffId: string;
-  staffName: string;
-  date: string;
-  overtime: string;
-  reason: string;
-  email: string;
-}
+
 
 interface AdjustmentsTableProps {
   adjustments: AdjustmentItem[];
