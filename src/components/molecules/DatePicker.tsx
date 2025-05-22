@@ -18,8 +18,6 @@ import {
 import { Input } from '@/components/molecules/Input';
 import { DateRange } from 'react-day-picker';
 
- 
-
 interface DatePreset {
   label: string;
   getValue: () => Date | DateRange;
@@ -61,9 +59,10 @@ export function DatePicker({
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
     initialDate
   );
-  const [selectedRange, setSelectedRange] = React.useState<DateRange>(
-    {from: undefined, to: undefined}
-  );
+  const [selectedRange, setSelectedRange] = React.useState<DateRange>({
+    from: undefined,
+    to: undefined,
+  });
 
   // State for current month view in calendar
   const [month, setMonth] = React.useState<Date | undefined>(
@@ -88,7 +87,7 @@ export function DatePicker({
   }, [initialDate]);
 
   React.useEffect(() => {
-    setSelectedRange(initialDateRange);
+    if (initialDateRange) setSelectedRange(initialDateRange);
     if (initialDateRange?.from) {
       setMonth(initialDateRange.from);
       setStartInput(format(initialDateRange.from, 'dd/MM/yyyy'));
@@ -116,10 +115,9 @@ export function DatePicker({
     }
   }, [isOpen, variant, selectedRange]);
 
-
   React.useEffect(() => {
     if (initialDateRange) setSelectedRange(initialDateRange);
-  }, [])
+  }, []);
 
   const handleSingleSelect = (date: Date | undefined) => {
     setSelectedDate(date);
