@@ -388,7 +388,11 @@ export function DatePicker({
                 <Calendar
                   mode="range"
                   selected={selectedRange}
-                  onSelect={handleRangeCalendarSelect} // Correct typing for onSelect
+                  onSelect={(value) => {
+                    if (value) {
+                      handleRangeCalendarSelect(value);
+                    }
+                  }} // Correct typing for onSelect
                   month={month}
                   onMonthChange={setMonth}
                   numberOfMonths={1}
