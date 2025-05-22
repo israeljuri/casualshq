@@ -61,7 +61,7 @@ export function DatePicker({
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
     initialDate
   );
-  const [selectedRange, setSelectedRange] = React.useState<DateRange | undefined>(initialDateRange);
+  const [selectedRange, setSelectedRange] = React.useState<DateRange>(initialDateRange);
 
   // State for current month view in calendar
   const [month, setMonth] = React.useState<Date | undefined>(
@@ -129,7 +129,7 @@ export function DatePicker({
     setIsOpen(false);
   };
 
-  const handleRangeCalendarSelect = (range: DateRange | undefined) => {
+  const handleRangeCalendarSelect = (range: DateRange) => {
     setSelectedRange(range);
     if (range?.from) {
       setStartInput(format(range.from, 'dd/MM/yyyy'));
@@ -175,10 +175,10 @@ export function DatePicker({
     setStartInput(value);
     const newfrom = parseDateInput(value);
     if (newfrom) {
-      setSelectedRange((prev: DateRange | undefined) => ({ ...prev, from: newfrom }));
+      setSelectedRange((prev: DateRange) => ({ ...prev, from: newfrom }));
       setMonth(newfrom);
     } else if (value === '') {
-      setSelectedRange((prev: DateRange | undefined) => ({ ...prev, from: undefined }));
+      setSelectedRange((prev: DateRange) => ({ ...prev, from: undefined }));
     }
   };
 
