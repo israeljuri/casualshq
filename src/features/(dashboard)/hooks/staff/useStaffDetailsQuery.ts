@@ -1,6 +1,6 @@
 import useAlert from '@/hooks/useAlert';
 import { useQuery } from '@apollo/client';
-import { GET_STAFF_DETAILS } from '../graphql/queries/staffDetails.query';
+import { GET_STAFF_DETAILS } from '@/features/(dashboard)/graphql/queries/staff/staffDetails.query';
 
 export const useStaffDetailsQuery = ({
   id,
