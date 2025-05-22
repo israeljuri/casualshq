@@ -61,7 +61,7 @@ export function DatePicker({
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
     initialDate
   );
-  const [selectedRange, setSelectedRange] = React.useState<DateRange>(initialDateRange);
+  const [selectedRange, setSelectedRange] = React.useState<DateRange>();
 
   // State for current month view in calendar
   const [month, setMonth] = React.useState<Date | undefined>(
@@ -113,6 +113,11 @@ export function DatePicker({
       else setEndInput('');
     }
   }, [isOpen, variant, selectedRange]);
+
+
+  React.useEffect(() => {
+    if (initialDateRange) setSelectedRange(initialDateRange);
+  }, [])
 
   const handleSingleSelect = (date: Date | undefined) => {
     setSelectedDate(date);
