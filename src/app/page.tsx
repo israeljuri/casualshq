@@ -112,12 +112,12 @@ export default function AdminDashboardPage() {
                 roles: {},
               });
               setDateRange({
-                startDate: new Date(
+                from: new Date(
                   new Date().getFullYear(),
                   new Date().getMonth(),
                   1
                 ),
-                endDate: new Date(),
+                to: new Date(),
               });
             }}
             onSidebarOpen={() => setIsSidebarOpen(true)}
