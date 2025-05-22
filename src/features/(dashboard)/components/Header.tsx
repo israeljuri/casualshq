@@ -34,7 +34,7 @@ interface HeaderProps {
   pageDescription: string;
   onSidebarOpen: () => void;
   appliedFilters: Filters;
-  onDateRangeChange?: (dateRange?: DateRange) => void;
+  onDateRangeChange?: (dateRange: DateRange) => void;
   onApplyFilters: (filters: Filters) => void;
   onCancelFilters: () => void;
   dateRange?: DateRange;
