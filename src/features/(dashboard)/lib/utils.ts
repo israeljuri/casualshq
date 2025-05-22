@@ -15,9 +15,9 @@ export const calculateHoursFromTimeLog = (log: TimeLog): number => {
     hours = differenceInHours(clockOutDate, clockInDate);
 
     log.breaks.forEach((br) => {
-      if (br.startTime && br.endTime) {
-        const breakStartTime = parseISO(br.startTime);
-        const breakEndTime = parseISO(br.endTime);
+      if (br.from && br.to) {
+        const breakStartTime = parseISO(br.from);
+        const breakEndTime = parseISO(br.to);
         if (isValid(breakStartTime) && isValid(breakEndTime)) {
           hours -= differenceInHours(breakEndTime, breakStartTime);
         }
