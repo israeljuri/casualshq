@@ -27,10 +27,8 @@ import {
   getTeamOptionsMockData,
   searchMockData,
 } from '@/lib/mockData';
-interface DateRange {
-  startDate: Date;
-  endDate: Date;
-}
+import { DateRange } from 'react-day-picker';
+ 
 interface HeaderProps {
   pageTitle: string;
   pageDescription: string;
