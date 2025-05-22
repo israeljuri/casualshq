@@ -61,7 +61,9 @@ export function DatePicker({
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
     initialDate
   );
-  const [selectedRange, setSelectedRange] = React.useState<DateRange>();
+  const [selectedRange, setSelectedRange] = React.useState<DateRange>(
+    {from: undefined, to: undefined}
+  );
 
   // State for current month view in calendar
   const [month, setMonth] = React.useState<Date | undefined>(
