@@ -11,7 +11,7 @@ import { UPDATE_STAFF } from '@/features/(dashboard)/graphql/mutations/updateSta
 import { DELETE_STAFF } from '@/features/(dashboard)/graphql/mutations/deleteStaff.mutation';
 import { IMPORT_STAFF } from '@/features/(dashboard)/graphql/mutations/importStaff.mutation';
 
-import { StaffFormData } from '../../types';
+import { StaffFormData } from '../../types/staff.type';
 
 export const useStaffMutations = () => {
   const alert = useAlert();
