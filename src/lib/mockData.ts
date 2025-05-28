@@ -1,1675 +1,986 @@
-import { AdjustmentItem, StaffMember } from '@/features/(dashboard)/types';
+import { AdjustmentItem } from '@/features/(dashboard)/types/dashboard.type';
+import { Staff } from '@/features/(dashboard)/types/staff.type';
+import { Team, TeamFormData } from '@/features/(dashboard)/types/teams.type';
 
-const staffs: StaffMember[] = [
+export const staffsMockData: Staff[] = [
   {
-    id: '90ba07e5-1ac2-44f7-94ff-f9f19861224a',
-    title: 'Mx.',
-    firstName: 'Susan',
-    otherNames: 'Deanna',
-    lastName: 'Nunez',
-    email: 'frios@sullivan.com',
-    phoneNumber: '(578)980-2538',
-    role: 'Software Engineer',
-    team: 'Engineering',
-    status: 'inactive',
+    id: '78d4e9c1-804f-4b06-9102-2e19617fd2cf',
+    firstName: 'Alice',
+    lastName: 'Smith',
+    email: 'alice.smith@example.com',
+    team: 'Marketing',
+    role: 'Marketer',
+    wageType: 'award_rate',
+    manualRatePerHour: undefined,
+    teamBasedRatePerHour: undefined,
+    awardBasedRatePerHour: 32,
+    title: 'others',
+    otherNames: undefined,
+    phoneNumber: '0435183977',
+    status: 'pending_onboarding',
     homeAddress: {
-      line1: '08173 Shari Via Suite 367',
-      streetName: 'Amy Shoals',
-      city: 'North Kristinchester',
-      postcode: '77197',
-      state: 'OK',
-      country: 'Haiti',
+      line: 'Unit 1',
+      streetName: '25 Main Street',
+      city: 'Melbourne',
+      postcode: '3000',
     },
-    emergencyContact: {
-      relationship: 'Frito',
-      name: 'Jennifer Russo',
-      phoneNumber: '001-841-030-1668x799',
-      address: '785 Rhodes Glen Suite 627\nPort Matthewfort, NC 44688',
+    emergencyContactInformation: {
+      relationship: 'Spouse',
+      name: 'Alex Smith',
+      phoneNumber: '0432795265',
+      address: '123 Emergency St, Melbourne VIC',
     },
     financialInformation: {
-      taxFileNumber: '142-61-1965',
-      bankBSB: '389-915',
-      accountName: 'Bonnie Jarvis',
-      accountNumber: 'GB04RZHQ11582400821695',
-      superFundName: 'Hampton, Mann and Lewis',
-      fundABN: '68 45 27 47',
-      memberNumber: '1066695636244',
+      taxFileNumber: '424770615',
+      bankBSB: '741-423',
+      accountName: 'Alice Smith',
+      accountNumber: '51855923',
+      superFundName: 'SuperFund Co',
+      fundABN: '51374799535',
+      memberNumber: '178583',
     },
-    wageType: 'team_based',
-    manualRatePerHour: undefined,
-    teamBasedRate: 51,
-    awardRate: undefined,
     timeLogs: [
       {
-        id: 'b4d9bf6d-273d-4bdb-96a1-82553eb8807b',
-        date: '2024-07-03',
-        clockInTime: '2024-07-03T09:00:00',
-        clockOutTime: '2024-07-03T19:00:00',
+        id: '36026fb7-08c6-40e9-9d7e-07d819b01ae7',
+        date: '2025-05-07',
+        clockInTime: '2025-05-07T09:00:00',
+        clockOutTime: '2025-05-07T17:00:00',
         breaks: [
           {
-            id: '1',
-            from: '2024-07-03 11:00:00',
-            to: '2024-07-03 11:30:00',
+            id: 'f20cfae1-db0a-47f9-b209-47608e68e3c6',
+            from: '2025-05-07T14:04:03',
+            to: '2025-05-07T14:14:03',
+            type: 'recess',
+          },
+        ],
+      },
+      {
+        id: '01e43b4b-8c81-4571-86f9-77d7d616ea6a',
+        date: '2025-05-19',
+        clockInTime: '2025-05-19T09:00:00',
+        clockOutTime: '2025-05-19T17:00:00',
+        breaks: [
+          {
+            id: '9076377f-37df-4df5-9c44-f735add33ac8',
+            from: '2025-05-19T12:19:54',
+            to: '2025-05-19T12:45:54',
             type: 'lunch',
           },
         ],
       },
       {
-        id: '347f2392-61c5-4f60-b8cb-b0d2ba6d00dd',
-        date: '2025-04-14',
-        clockInTime: '2025-04-14T09:00:00',
-        clockOutTime: '2025-04-14T16:00:00',
+        id: '085f33b4-ec22-4ef6-9e87-04fad1c59479',
+        date: '2025-05-22',
+        clockInTime: '2025-05-22T09:00:00',
+        clockOutTime: '2025-05-22T17:00:00',
         breaks: [
           {
-            id: '1',
-            from: '2025-04-14 11:00:00',
-            to: '2025-04-14 11:30:00',
+            id: 'c2ba45f4-a224-46ce-b80e-d958787b991f',
+            from: '2025-05-22T11:07:25',
+            to: '2025-05-22T11:19:25',
+            type: 'lunch',
+          },
+          {
+            id: 'f217daf6-ebf0-4cd0-9c75-4110702c1101',
+            from: '2025-05-22T14:34:23',
+            to: '2025-05-22T14:58:23',
+            type: 'lunch',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '69fdebed-93f6-4d04-bc6f-4796e109c5cc',
+    firstName: 'Bob',
+    lastName: 'Johnson',
+    email: 'bob.johnson@example.com',
+    team: 'Sales',
+    role: 'Sales Rep',
+    wageType: 'manual',
+    manualRatePerHour: 30,
+    teamBasedRatePerHour: undefined,
+    awardBasedRatePerHour: undefined,
+    title: 'miss',
+    otherNames: undefined,
+    phoneNumber: '0457932040',
+    status: 'pending_onboarding',
+    homeAddress: {
+      line: 'Unit 1',
+      streetName: '78 Main Street',
+      city: 'Melbourne',
+      postcode: '3000',
+    },
+    emergencyContactInformation: {
+      relationship: 'Spouse',
+      name: 'Alex Smith',
+      phoneNumber: '0420040937',
+      address: '123 Emergency St, Melbourne VIC',
+    },
+    financialInformation: {
+      taxFileNumber: '796008065',
+      bankBSB: '886-302',
+      accountName: 'Bob Johnson',
+      accountNumber: '24851062',
+      superFundName: 'SuperFund Co',
+      fundABN: '98877831458',
+      memberNumber: '689789',
+    },
+    timeLogs: [
+      {
+        id: '4176cf29-91e1-45c2-bc64-afa5ebbda6dc',
+        date: '2025-05-17',
+        clockInTime: '2025-05-17T09:00:00',
+        clockOutTime: '2025-05-17T17:00:00',
+        breaks: [
+          {
+            id: '68a04d5f-0d59-4e32-98cf-8cb2b9d9d63b',
+            from: '2025-05-17T12:20:18',
+            to: '2025-05-17T12:39:18',
+            type: 'recess',
+          },
+        ],
+      },
+      {
+        id: '5f586997-3aa8-4754-b860-dd21b8fbd95e',
+        date: '2025-04-26',
+        clockInTime: '2025-04-26T09:00:00',
+        clockOutTime: '2025-04-26T17:00:00',
+        breaks: [
+          {
+            id: 'a0f59aa6-2601-45c7-81a1-c70b6b73ca44',
+            from: '2025-04-26T14:53:44',
+            to: '2025-04-26T15:06:44',
+            type: 'recess',
+          },
+          {
+            id: 'c807a179-924f-48f9-ac93-d0a2239f8956',
+            from: '2025-04-26T09:48:57',
+            to: '2025-04-26T10:05:57',
+            type: 'recess',
+          },
+        ],
+      },
+      {
+        id: '8788df64-da2a-4e0b-b34c-3805d06bf9b9',
+        date: '2025-05-20',
+        clockInTime: '2025-05-20T09:00:00',
+        clockOutTime: '2025-05-20T17:00:00',
+        breaks: [
+          {
+            id: 'e47cfb15-7059-4bc6-acd4-fd9927beec7d',
+            from: '2025-05-20T14:54:51',
+            to: '2025-05-20T15:09:51',
+            type: 'recess',
+          },
+          {
+            id: 'd0349046-bcdd-4a4d-84fb-8b3f5f8779f5',
+            from: '2025-05-20T15:45:04',
+            to: '2025-05-20T16:09:04',
+            type: 'lunch',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'cb963988-8eb4-4086-8043-60e09c8c50ec',
+    firstName: 'Charlie',
+    lastName: 'Williams',
+    email: 'charlie.williams@example.com',
+    team: 'Marketing',
+    role: 'Marketer',
+    wageType: 'award_rate',
+    manualRatePerHour: undefined,
+    teamBasedRatePerHour: undefined,
+    awardBasedRatePerHour: 32,
+    title: 'dr',
+    otherNames: undefined,
+    phoneNumber: '0460256763',
+    status: 'pending_onboarding',
+    homeAddress: {
+      line: 'Unit 1',
+      streetName: '73 Main Street',
+      city: 'Melbourne',
+      postcode: '3000',
+    },
+    emergencyContactInformation: {
+      relationship: 'Spouse',
+      name: 'Alex Smith',
+      phoneNumber: '0482094985',
+      address: '123 Emergency St, Melbourne VIC',
+    },
+    financialInformation: {
+      taxFileNumber: '898507899',
+      bankBSB: '190-750',
+      accountName: 'Charlie Williams',
+      accountNumber: '61502533',
+      superFundName: 'SuperFund Co',
+      fundABN: '12786044348',
+      memberNumber: '643268',
+    },
+    timeLogs: [
+      {
+        id: 'f7448082-9363-40d6-bf1c-bbb0fe51ca60',
+        date: '2025-05-06',
+        clockInTime: '2025-05-06T09:00:00',
+        clockOutTime: '2025-05-06T17:00:00',
+        breaks: [
+          {
+            id: '9edaaafd-c292-4a35-917f-a569d2bc1557',
+            from: '2025-05-06T16:18:33',
+            to: '2025-05-06T16:40:33',
             type: 'lunch',
           },
         ],
       },
       {
-        id: '2d9de3a8-ddd3-49ff-b0b1-f5e016f1c637',
-        date: '2024-06-30',
-        clockInTime: '2024-06-30T07:00:00',
-        clockOutTime: '2024-06-30T13:00:00',
+        id: '2c1aebd5-33a1-429d-8222-845dc76000a1',
+        date: '2025-05-22',
+        clockInTime: '2025-05-22T09:00:00',
+        clockOutTime: '2025-05-22T17:00:00',
+        breaks: [],
+      },
+      {
+        id: 'a1cf2cf1-f2ff-48f6-84e0-0930e4e1ff11',
+        date: '2025-05-01',
+        clockInTime: '2025-05-01T09:00:00',
+        clockOutTime: '2025-05-01T17:00:00',
+        breaks: [],
+      },
+      {
+        id: 'f6eca1fc-4533-4c25-b73d-b22217a71a17',
+        date: '2025-05-04',
+        clockInTime: '2025-05-04T09:00:00',
+        clockOutTime: '2025-05-04T17:00:00',
         breaks: [
           {
-            id: '1',
-            from: '2024-06-30 09:00:00',
-            to: '2024-06-30 09:30:00',
+            id: '1e202edd-f908-4f26-9a85-49ff69ab3773',
+            from: '2025-05-04T10:49:07',
+            to: '2025-05-04T11:03:07',
+            type: 'lunch',
+          },
+          {
+            id: '46c8c1e1-f82d-4eac-9398-b7a86dfffc86',
+            from: '2025-05-04T09:55:39',
+            to: '2025-05-04T10:07:39',
+            type: 'recess',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '7e04fbcf-4013-4b1d-8ece-9e135e338e63',
+    firstName: 'Diana',
+    lastName: 'Brown',
+    email: 'diana.brown@example.com',
+    team: 'Operations',
+    role: 'Operator',
+    wageType: 'award_rate',
+    manualRatePerHour: undefined,
+    teamBasedRatePerHour: undefined,
+    awardBasedRatePerHour: 32,
+    title: 'others',
+    otherNames: undefined,
+    phoneNumber: '0488118164',
+    status: 'clocked_out',
+    homeAddress: {
+      line: 'Unit 1',
+      streetName: '19 Main Street',
+      city: 'Melbourne',
+      postcode: '3000',
+    },
+    emergencyContactInformation: {
+      relationship: 'Spouse',
+      name: 'Alex Smith',
+      phoneNumber: '0452612559',
+      address: '123 Emergency St, Melbourne VIC',
+    },
+    financialInformation: {
+      taxFileNumber: '821054557',
+      bankBSB: '670-693',
+      accountName: 'Diana Brown',
+      accountNumber: '11251181',
+      superFundName: 'SuperFund Co',
+      fundABN: '72642391011',
+      memberNumber: '788329',
+    },
+    timeLogs: [
+      {
+        id: 'c04ffe00-9afc-46f6-a54a-041912da1232',
+        date: '2025-05-18',
+        clockInTime: '2025-05-18T09:00:00',
+        clockOutTime: '2025-05-18T17:00:00',
+        breaks: [],
+      },
+      {
+        id: 'cb8cdc0e-bd8d-4936-aa9d-85a16ea0098d',
+        date: '2025-05-08',
+        clockInTime: '2025-05-08T09:00:00',
+        clockOutTime: '2025-05-08T17:00:00',
+        breaks: [
+          {
+            id: '03b92d24-bd5f-4e1b-94e8-c83e8350778f',
+            from: '2025-05-08T09:42:48',
+            to: '2025-05-08T10:01:48',
+            type: 'recess',
+          },
+        ],
+      },
+      {
+        id: 'ec540278-b6b9-4dac-ab1b-94e00d5699c2',
+        date: '2025-05-16',
+        clockInTime: '2025-05-16T09:00:00',
+        clockOutTime: '2025-05-16T17:00:00',
+        breaks: [
+          {
+            id: 'fae51ab3-ee2f-410e-a67e-c8c5391b1270',
+            from: '2025-05-16T10:38:52',
+            to: '2025-05-16T10:52:52',
+            type: 'lunch',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '7d669c4d-4076-4dfc-bce3-2b358be7490c',
+    firstName: 'Edward',
+    lastName: 'Jones',
+    email: 'edward.jones@example.com',
+    team: 'Engineering',
+    role: 'Engineer',
+    wageType: 'manual',
+    manualRatePerHour: 30,
+    teamBasedRatePerHour: undefined,
+    awardBasedRatePerHour: undefined,
+    title: 'others',
+    otherNames: undefined,
+    phoneNumber: '0462588032',
+    status: 'clocked_in',
+    homeAddress: {
+      line: 'Unit 1',
+      streetName: '73 Main Street',
+      city: 'Melbourne',
+      postcode: '3000',
+    },
+    emergencyContactInformation: {
+      relationship: 'Spouse',
+      name: 'Alex Smith',
+      phoneNumber: '0435122365',
+      address: '123 Emergency St, Melbourne VIC',
+    },
+    financialInformation: {
+      taxFileNumber: '197099919',
+      bankBSB: '570-890',
+      accountName: 'Edward Jones',
+      accountNumber: '15967912',
+      superFundName: 'SuperFund Co',
+      fundABN: '42403528142',
+      memberNumber: '610011',
+    },
+    timeLogs: [
+      {
+        id: '4c1e5f0a-a65e-47fa-995a-623c43c2c389',
+        date: '2025-05-05',
+        clockInTime: '2025-05-05T09:00:00',
+        clockOutTime: '2025-05-05T17:00:00',
+        breaks: [
+          {
+            id: 'd5b33d09-b7dd-44a2-9d2b-65d10389d59c',
+            from: '2025-05-05T14:36:43',
+            to: '2025-05-05T14:52:43',
+            type: 'recess',
+          },
+        ],
+      },
+      {
+        id: 'a778844c-338d-49f3-92fc-661f410aff0b',
+        date: '2025-05-16',
+        clockInTime: '2025-05-16T09:00:00',
+        clockOutTime: '2025-05-16T17:00:00',
+        breaks: [],
+      },
+      {
+        id: '3e6343dd-f79a-4310-b2ef-cd06dd0de216',
+        date: '2025-05-18',
+        clockInTime: '2025-05-18T09:00:00',
+        clockOutTime: '2025-05-18T17:00:00',
+        breaks: [],
+      },
+      {
+        id: 'db6c4f2a-832d-486c-ac11-6d9579c0524e',
+        date: '2025-05-16',
+        clockInTime: '2025-05-16T09:00:00',
+        clockOutTime: '2025-05-16T17:00:00',
+        breaks: [
+          {
+            id: 'cac666dd-1eac-4720-b938-576bd16b19e2',
+            from: '2025-05-16T11:45:03',
+            to: '2025-05-16T12:11:03',
             type: 'lunch',
           },
         ],
       },
       {
-        id: '6c6f64fa-c6e8-4912-8839-dafe1efabbbd',
+        id: 'c06458c0-4455-457d-bfbf-438a4012f605',
+        date: '2025-05-19',
+        clockInTime: '2025-05-19T09:00:00',
+        clockOutTime: '2025-05-19T17:00:00',
+        breaks: [],
+      },
+    ],
+  },
+  {
+    id: '23755757-a5a7-4ce2-9144-1df9fd156075',
+    firstName: 'Fiona',
+    lastName: 'Garcia',
+    email: 'fiona.garcia@example.com',
+    team: 'Operations',
+    role: 'Operator',
+    wageType: 'manual',
+    manualRatePerHour: 30,
+    teamBasedRatePerHour: undefined,
+    awardBasedRatePerHour: undefined,
+    title: 'mr',
+    otherNames: undefined,
+    phoneNumber: '0455193088',
+    status: 'clocked_in',
+    homeAddress: {
+      line: 'Unit 1',
+      streetName: '68 Main Street',
+      city: 'Melbourne',
+      postcode: '3000',
+    },
+    emergencyContactInformation: {
+      relationship: 'Spouse',
+      name: 'Alex Smith',
+      phoneNumber: '0440324269',
+      address: '123 Emergency St, Melbourne VIC',
+    },
+    financialInformation: {
+      taxFileNumber: '135565700',
+      bankBSB: '410-341',
+      accountName: 'Fiona Garcia',
+      accountNumber: '50436225',
+      superFundName: 'SuperFund Co',
+      fundABN: '21639672451',
+      memberNumber: '692738',
+    },
+    timeLogs: [
+      {
+        id: '51e36b3c-eb4c-4241-8a4f-41f45b3d763c',
+        date: '2025-05-18',
+        clockInTime: '2025-05-18T09:00:00',
+        clockOutTime: '2025-05-18T17:00:00',
+        breaks: [],
+      },
+      {
+        id: '2f060d03-6e7f-47d2-abc6-e2e92f2aa6e0',
+        date: '2025-05-18',
+        clockInTime: '2025-05-18T09:00:00',
+        clockOutTime: '2025-05-18T17:00:00',
+        breaks: [
+          {
+            id: 'c81b4c7e-f589-4fa6-8e61-7d29073b3d2a',
+            from: '2025-05-18T14:50:05',
+            to: '2025-05-18T15:05:05',
+            type: 'lunch',
+          },
+          {
+            id: '8e0b3090-2b7d-49fb-b30d-95755fdab3a7',
+            from: '2025-05-18T11:34:03',
+            to: '2025-05-18T12:04:03',
+            type: 'lunch',
+          },
+        ],
+      },
+      {
+        id: 'b8353dfa-f981-4ca8-8198-cf6bdb914d37',
+        date: '2025-05-12',
+        clockInTime: '2025-05-12T09:00:00',
+        clockOutTime: '2025-05-12T17:00:00',
+        breaks: [
+          {
+            id: '70ca0b5b-f14b-4e54-9cf1-ac7e86d5b007',
+            from: '2025-05-12T15:07:09',
+            to: '2025-05-12T15:18:09',
+            type: 'lunch',
+          },
+          {
+            id: '181c0f26-c10f-4cb6-961b-d9aa7453ec7b',
+            from: '2025-05-12T16:04:48',
+            to: '2025-05-12T16:28:48',
+            type: 'lunch',
+          },
+        ],
+      },
+      {
+        id: '069e4c33-9c9c-49f4-88ac-0b05d7efae34',
+        date: '2025-05-04',
+        clockInTime: '2025-05-04T09:00:00',
+        clockOutTime: '2025-05-04T17:00:00',
+        breaks: [
+          {
+            id: 'a7e6dee6-e2a8-442e-ac6e-d65b92a0253e',
+            from: '2025-05-04T15:33:01',
+            to: '2025-05-04T15:58:01',
+            type: 'recess',
+          },
+          {
+            id: '3a3d9133-83cf-4798-85e8-984b34621aec',
+            from: '2025-05-04T09:41:03',
+            to: '2025-05-04T10:07:03',
+            type: 'lunch',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '0181f9ac-c23e-4417-b0fa-fe2dc07c222e',
+    firstName: 'George',
+    lastName: 'Miller',
+    email: 'george.miller@example.com',
+    team: 'Product',
+    role: 'Product Manager',
+    wageType: 'team_based',
+    manualRatePerHour: undefined,
+    teamBasedRatePerHour: 35,
+    awardBasedRatePerHour: undefined,
+    title: 'mrs',
+    otherNames: undefined,
+    phoneNumber: '0423681269',
+    status: 'clocked_out',
+    homeAddress: {
+      line: 'Unit 1',
+      streetName: '53 Main Street',
+      city: 'Melbourne',
+      postcode: '3000',
+    },
+    emergencyContactInformation: {
+      relationship: 'Spouse',
+      name: 'Alex Smith',
+      phoneNumber: '0448290174',
+      address: '123 Emergency St, Melbourne VIC',
+    },
+    financialInformation: {
+      taxFileNumber: '931430134',
+      bankBSB: '124-705',
+      accountName: 'George Miller',
+      accountNumber: '60147647',
+      superFundName: 'SuperFund Co',
+      fundABN: '79201695193',
+      memberNumber: '212942',
+    },
+    timeLogs: [
+      {
+        id: 'a18d5177-a908-4068-bb06-decbdf7e4703',
+        date: '2025-05-07',
+        clockInTime: '2025-05-07T09:00:00',
+        clockOutTime: '2025-05-07T17:00:00',
+        breaks: [
+          {
+            id: '63674e82-0954-4332-a530-7e7500790352',
+            from: '2025-05-07T15:29:35',
+            to: '2025-05-07T15:55:35',
+            type: 'recess',
+          },
+          {
+            id: '9c75fe09-5187-4bc1-8263-d106f99fd5b1',
+            from: '2025-05-07T12:04:18',
+            to: '2025-05-07T12:14:18',
+            type: 'recess',
+          },
+        ],
+      },
+      {
+        id: '1eb8bfd1-b03f-42ce-9bdc-7d503bf1d910',
+        date: '2025-05-15',
+        clockInTime: '2025-05-15T09:00:00',
+        clockOutTime: '2025-05-15T17:00:00',
+        breaks: [],
+      },
+      {
+        id: 'a70b525e-efa1-4093-8d50-bfc9057b6fc5',
+        date: '2025-05-01',
+        clockInTime: '2025-05-01T09:00:00',
+        clockOutTime: '2025-05-01T17:00:00',
+        breaks: [
+          {
+            id: 'a54a2b4a-3c6e-4391-b359-1b0467f472df',
+            from: '2025-05-01T14:09:46',
+            to: '2025-05-01T14:24:46',
+            type: 'lunch',
+          },
+          {
+            id: '61d66f1e-5337-403a-b22e-afec190bc3e7',
+            from: '2025-05-01T12:22:49',
+            to: '2025-05-01T12:52:49',
+            type: 'recess',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '3cbf028a-c386-4a2a-9b92-80a6e0548834',
+    firstName: 'Hannah',
+    lastName: 'Davis',
+    email: 'hannah.davis@example.com',
+    team: 'Sales',
+    role: 'Sales Rep',
+    wageType: 'manual',
+    manualRatePerHour: 30,
+    teamBasedRatePerHour: undefined,
+    awardBasedRatePerHour: undefined,
+    title: 'miss',
+    otherNames: undefined,
+    phoneNumber: '0475092229',
+    status: 'clocked_out',
+    homeAddress: {
+      line: 'Unit 1',
+      streetName: '32 Main Street',
+      city: 'Melbourne',
+      postcode: '3000',
+    },
+    emergencyContactInformation: {
+      relationship: 'Spouse',
+      name: 'Alex Smith',
+      phoneNumber: '0494136972',
+      address: '123 Emergency St, Melbourne VIC',
+    },
+    financialInformation: {
+      taxFileNumber: '714724576',
+      bankBSB: '820-813',
+      accountName: 'Hannah Davis',
+      accountNumber: '90960425',
+      superFundName: 'SuperFund Co',
+      fundABN: '36343630753',
+      memberNumber: '230387',
+    },
+    timeLogs: [
+      {
+        id: 'f59614b3-6a56-47ea-90d7-e0dc3ea436e1',
+        date: '2025-05-08',
+        clockInTime: '2025-05-08T09:00:00',
+        clockOutTime: '2025-05-08T17:00:00',
+        breaks: [
+          {
+            id: '31401bac-00cc-415a-8067-7dc6638db1f7',
+            from: '2025-05-08T12:02:53',
+            to: '2025-05-08T12:26:53',
+            type: 'recess',
+          },
+          {
+            id: '18585a3d-83f1-4b59-8303-d8c6e0712b27',
+            from: '2025-05-08T09:19:16',
+            to: '2025-05-08T09:47:16',
+            type: 'recess',
+          },
+        ],
+      },
+      {
+        id: 'e06d453c-66d7-4e17-a8c3-0e69bd24acf3',
+        date: '2025-04-28',
+        clockInTime: '2025-04-28T09:00:00',
+        clockOutTime: '2025-04-28T17:00:00',
+        breaks: [
+          {
+            id: '983bee98-8d21-4b22-9275-8a87fe6d74a9',
+            from: '2025-04-28T11:24:38',
+            to: '2025-04-28T11:47:38',
+            type: 'recess',
+          },
+          {
+            id: 'f93383b2-9df1-4268-8118-a6bd6f18419a',
+            from: '2025-04-28T11:58:15',
+            to: '2025-04-28T12:14:15',
+            type: 'recess',
+          },
+        ],
+      },
+      {
+        id: 'b0f7cec3-79c6-43a6-b43c-795a67e853c3',
+        date: '2025-04-30',
+        clockInTime: '2025-04-30T09:00:00',
+        clockOutTime: '2025-04-30T17:00:00',
+        breaks: [],
+      },
+      {
+        id: 'b454a7f9-eb9b-4c42-8270-b846e32fc02d',
+        date: '2025-05-12',
+        clockInTime: '2025-05-12T09:00:00',
+        clockOutTime: '2025-05-12T17:00:00',
+        breaks: [],
+      },
+      {
+        id: '53c04b9d-93fb-499d-91c8-0335baf46c64',
+        date: '2025-05-05',
+        clockInTime: '2025-05-05T09:00:00',
+        clockOutTime: '2025-05-05T17:00:00',
+        breaks: [
+          {
+            id: '914f5886-b6f5-49e7-aac1-14d47e4f4307',
+            from: '2025-05-05T10:20:52',
+            to: '2025-05-05T10:42:52',
+            type: 'recess',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: '5be82f91-6fa5-49ad-9d50-c2b6080de2a5',
+    firstName: 'Ian',
+    lastName: 'Lopez',
+    email: 'ian.lopez@example.com',
+    team: 'Operations',
+    role: 'Operator',
+    wageType: 'award_rate',
+    manualRatePerHour: undefined,
+    teamBasedRatePerHour: undefined,
+    awardBasedRatePerHour: 32,
+    title: 'mr',
+    otherNames: undefined,
+    phoneNumber: '0468629092',
+    status: 'pending_onboarding',
+    homeAddress: {
+      line: 'Unit 1',
+      streetName: '31 Main Street',
+      city: 'Melbourne',
+      postcode: '3000',
+    },
+    emergencyContactInformation: {
+      relationship: 'Spouse',
+      name: 'Alex Smith',
+      phoneNumber: '0410928576',
+      address: '123 Emergency St, Melbourne VIC',
+    },
+    financialInformation: {
+      taxFileNumber: '640766256',
+      bankBSB: '274-568',
+      accountName: 'Ian Lopez',
+      accountNumber: '82360457',
+      superFundName: 'SuperFund Co',
+      fundABN: '13600590821',
+      memberNumber: '137266',
+    },
+    timeLogs: [
+      {
+        id: '42081ebe-c62f-41a6-90f5-455c986542bd',
+        date: '2025-05-13',
+        clockInTime: '2025-05-13T09:00:00',
+        clockOutTime: '2025-05-13T17:00:00',
+        breaks: [],
+      },
+      {
+        id: '9a157322-607e-40df-8bce-82da68cb577d',
+        date: '2025-05-24',
+        clockInTime: '2025-05-24T09:00:00',
+        clockOutTime: '2025-05-24T17:00:00',
+        breaks: [
+          {
+            id: '0f6b2353-9c4f-457d-9811-a90dfce81bf5',
+            from: '2025-05-24T15:41:57',
+            to: '2025-05-24T15:54:57',
+            type: 'lunch',
+          },
+          {
+            id: 'a19b8be2-c52f-44e4-9376-61bc9eb131d2',
+            from: '2025-05-24T15:33:04',
+            to: '2025-05-24T15:49:04',
+            type: 'recess',
+          },
+        ],
+      },
+      {
+        id: 'bf7f1c00-7622-466d-90a8-b9d2208dfd66',
+        date: '2025-05-08',
+        clockInTime: '2025-05-08T09:00:00',
+        clockOutTime: '2025-05-08T17:00:00',
+        breaks: [],
+      },
+      {
+        id: 'd27e5055-bc02-40a3-a751-1bf6ac0baa83',
         date: '2025-05-14',
         clockInTime: '2025-05-14T09:00:00',
-        clockOutTime: '2025-05-14T19:00:00',
+        clockOutTime: '2025-05-14T17:00:00',
         breaks: [
           {
-            id: '1',
-            from: '2025-05-14 11:00:00',
-            to: '2025-05-14 11:30:00',
+            id: 'd492500c-7a36-4ec6-a37f-1ea1aea27d9d',
+            from: '2025-05-14T09:09:30',
+            to: '2025-05-14T09:26:30',
             type: 'lunch',
           },
         ],
       },
-      {
-        id: '4ea477c6-7897-47a6-80b0-f437a01d1fe9',
-        date: '2024-11-30',
-        clockInTime: '2024-11-30T07:00:00',
-        clockOutTime: '2024-11-30T15:00:00',
-        breaks: [
-          {
-            id: '1',
-            from: '2024-11-30 09:00:00',
-            to: '2024-11-30 09:30:00',
-            type: 'lunch',
-          },
-        ],
-      },
-      {
-        id: '136eba37-0a9e-415a-97dd-211fff15ee23',
-        date: '2024-09-07',
-        clockInTime: '2024-09-07T08:00:00',
-        clockOutTime: '2024-09-07T17:00:00',
-        breaks: [
-          {
-            from: '2024-09-07 10:00:00',
-            to: '2024-09-07 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '86a94940-6e32-4734-90f6-211b1ca2b167',
-        date: '2024-06-17',
-        clockInTime: '2024-06-17T09:00:00',
-        clockOutTime: '2024-06-17T18:00:00',
-        breaks: [
-          {
-            from: '2024-06-17 11:00:00',
-            to: '2024-06-17 11:30:00',
-          },
-        ],
-      },
-      {
-        id: 'fcb4d329-fffd-425a-bbfa-f27d93ec824a',
-        date: '2024-07-12',
-        clockInTime: '2024-07-12T08:00:00',
-        clockOutTime: '2024-07-12T17:00:00',
-        breaks: [
-          {
-            from: '2024-07-12 10:00:00',
-            to: '2024-07-12 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'daaab48d-05b8-4287-8a40-3cc648bb4c4e',
-        date: '2024-11-28',
-        clockInTime: '2024-11-28T09:00:00',
-        clockOutTime: '2024-11-28T18:00:00',
-        breaks: [
-          {
-            from: '2024-11-28 11:00:00',
-            to: '2024-11-28 11:30:00',
-          },
-        ],
-      },
-      {
-        id: 'aeb2441f-3f1f-4ca1-a99c-b59587405c13',
-        date: '2024-07-24',
-        clockInTime: '2024-07-24T07:00:00',
-        clockOutTime: '2024-07-24T16:00:00',
-        breaks: [
-          {
-            from: '2024-07-24 09:00:00',
-            to: '2024-07-24 09:30:00',
-          },
-        ],
-      },
-      {
-        id: '1e091b18-8660-4ea6-b481-c9b591b9429f',
-        date: '2025-04-09',
-        clockInTime: '2025-04-09T07:00:00',
-        clockOutTime: '2025-04-09T17:00:00',
-        breaks: [
-          {
-            from: '2025-04-09 09:00:00',
-            to: '2025-04-09 09:30:00',
-          },
-        ],
-      },
-      {
-        id: '4d89e7d4-114f-4748-9259-1d85c17caeca',
-        date: '2024-05-28',
-        clockInTime: '2024-05-28T09:00:00',
-        clockOutTime: '2024-05-28T15:00:00',
-        breaks: [
-          {
-            from: '2024-05-28 11:00:00',
-            to: '2024-05-28 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '857eb0d6-c676-4109-9564-545826be89ce',
-        date: '2025-02-28',
-        clockInTime: '2025-02-28T08:00:00',
-        clockOutTime: '2025-02-28T17:00:00',
-        breaks: [
-          {
-            from: '2025-02-28 10:00:00',
-            to: '2025-02-28 10:30:00',
-          },
-        ],
-      },
     ],
   },
   {
-    id: '7617ba75-f093-4ab7-ba36-3fdb839aff15',
-    title: 'Mr.',
-    firstName: 'Henry',
-    otherNames: 'Natasha',
-    lastName: 'Taylor',
-    email: 'patrick61@gmail.com',
-    phoneNumber: '802.151.1263x52899',
-    role: 'QA Analyst',
-    team: 'QA',
-    status: 'inactive',
-    homeAddress: {
-      line1: '9636 Robert Villages Apt. 907',
-      streetName: 'Rice Cove',
-      city: 'Port Meganville',
-      postcode: '05731',
-      state: 'DC',
-      country: 'Suriname',
-    },
-    emergencyContact: {
-      relationship: 'Sibling',
-      name: 'Keith Lowery',
-      phoneNumber: '001-389-446-4677',
-      address: '545 Frederick Rapids\nDorisfort, MA 44856',
-    },
-    financialInformation: {
-      taxFileNumber: '477-61-9630',
-      bankBSB: '280-547',
-      accountName: 'Heather Austin',
-      accountNumber: 'GB79KVDK53671810462493',
-      superFundName: 'Smith Group',
-      fundABN: '50 35 10 33',
-      memberNumber: '9988614528930',
-    },
-
-    wageType: 'award_rate',
-    manualRatePerHour: 59,
-    teamBasedRate: undefined,
-    awardRate: undefined,
-
-    timeLogs: [
-      {
-        id: '59880eb2-83b0-4436-92ed-d1f317e7b610',
-        date: '2024-12-05',
-        clockInTime: '2024-12-05T08:00:00',
-        clockOutTime: '2024-12-05T17:00:00',
-        breaks: [
-          {
-            from: '2024-12-05 10:00:00',
-            to: '2024-12-05 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '65f28c4b-7d7d-4dde-93c2-7219abadde1b',
-        date: '2024-08-17',
-        clockInTime: '2024-08-17T09:00:00',
-        clockOutTime: '2024-08-17T19:00:00',
-        breaks: [
-          {
-            from: '2024-08-17 11:00:00',
-            to: '2024-08-17 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '6a0ad9b7-f176-4a9a-86f6-d1a892595a3e',
-        date: '2025-01-19',
-        clockInTime: '2025-01-19T07:00:00',
-        clockOutTime: '2025-01-19T15:00:00',
-        breaks: [
-          {
-            from: '2025-01-19 09:00:00',
-            to: '2025-01-19 09:30:00',
-          },
-        ],
-      },
-      {
-        id: '37499866-00a2-4697-9572-4a0a564f8418',
-        date: '2024-10-10',
-        clockInTime: '2024-10-10T10:00:00',
-        clockOutTime: '2024-10-10T17:00:00',
-        breaks: [
-          {
-            from: '2024-10-10 12:00:00',
-            to: '2024-10-10 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '881ebaf1-541d-46f2-afd3-e68439dd607d',
-        date: '2025-05-09',
-        clockInTime: '2025-05-09T09:00:00',
-        clockOutTime: '2025-05-09T17:00:00',
-        breaks: [
-          {
-            from: '2025-05-09 11:00:00',
-            to: '2025-05-09 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '9d81aea5-4db3-42a5-80a9-79e2640be6a5',
-        date: '2024-12-03',
-        clockInTime: '2024-12-03T08:00:00',
-        clockOutTime: '2024-12-03T15:00:00',
-        breaks: [
-          {
-            from: '2024-12-03 10:00:00',
-            to: '2024-12-03 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'e33af1dc-6e03-4994-b334-93d1d413ef9a',
-        date: '2025-02-07',
-        clockInTime: '2025-02-07T10:00:00',
-        clockOutTime: '2025-02-07T17:00:00',
-        breaks: [
-          {
-            from: '2025-02-07 12:00:00',
-            to: '2025-02-07 12:30:00',
-          },
-        ],
-      },
-      {
-        id: 'c790cebe-1777-4f66-9407-182a39b24da4',
-        date: '2024-05-31',
-        clockInTime: '2024-05-31T08:00:00',
-        clockOutTime: '2024-05-31T18:00:00',
-        breaks: [
-          {
-            from: '2024-05-31 10:00:00',
-            to: '2024-05-31 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '245a2407-3636-4699-820c-33a8de4699e6',
-        date: '2025-02-13',
-        clockInTime: '2025-02-13T10:00:00',
-        clockOutTime: '2025-02-13T20:00:00',
-        breaks: [
-          {
-            from: '2025-02-13 12:00:00',
-            to: '2025-02-13 12:30:00',
-          },
-        ],
-      },
-      {
-        id: 'ab7f937c-b1b0-4ae0-83bd-0d7ab33b86dc',
-        date: '2024-11-01',
-        clockInTime: '2024-11-01T09:00:00',
-        clockOutTime: '2024-11-01T17:00:00',
-        breaks: [
-          {
-            from: '2024-11-01 11:00:00',
-            to: '2024-11-01 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '386c5da2-b81a-4354-8434-4b2333d49ee4',
-        date: '2024-11-02',
-        clockInTime: '2024-11-02T10:00:00',
-        clockOutTime: '2024-11-02T20:00:00',
-        breaks: [
-          {
-            from: '2024-11-02 12:00:00',
-            to: '2024-11-02 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '260ed930-3e11-4b90-811a-9327ff7206fa',
-        date: '2025-01-23',
-        clockInTime: '2025-01-23T09:00:00',
-        clockOutTime: '2025-01-23T18:00:00',
-        breaks: [
-          {
-            from: '2025-01-23 11:00:00',
-            to: '2025-01-23 11:30:00',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'ce6d2af8-d7d7-46ac-8bdc-763e350dca7e',
-    title: 'Dr.',
-    firstName: 'Ricky',
-    otherNames: 'Rebecca',
-    lastName: 'Faulkner',
-    email: 'amy27@yahoo.com',
-    phoneNumber: '663-659-2389',
-    role: 'UI/UX Designer',
-    team: 'Marketing',
-    status: 'inactive',
-    homeAddress: {
-      line1: '6142 Joan Plains',
-      streetName: 'Patricia Dam',
-      city: 'South Charlesshire',
-      postcode: '07691',
-      state: 'MA',
-      country: 'Tokelau',
-    },
-    emergencyContact: {
-      relationship: 'Spouse',
-      name: 'Rebecca Edwards',
-      phoneNumber: '+1-962-413-2702x8334',
-      address: 'Unit 0797 Box 7950\nDPO AP 45037',
-    },
-    financialInformation: {
-      taxFileNumber: '709-12-9667',
-      bankBSB: '296-656',
-      accountName: 'Joseph Kim',
-      accountNumber: 'GB94LEHO49390333644916',
-      superFundName: 'Hansen, Schneider and Fowler',
-      fundABN: '45 14 24 26',
-      memberNumber: '7339144186985',
-    },
-    wageType: 'team_based',
-    manualRatePerHour: 33,
-    teamBasedRate: undefined,
-    awardRate: undefined,
-    timeLogs: [
-      {
-        id: '6c23f351-7cd8-461e-aa61-0a3b208f55f8',
-        date: '2024-06-27',
-        clockInTime: '2024-06-27T09:00:00',
-        clockOutTime: '2024-06-27T16:00:00',
-        breaks: [
-          {
-            from: '2024-06-27 11:00:00',
-            to: '2024-06-27 11:30:00',
-          },
-        ],
-      },
-      {
-        id: 'af73280d-9316-4f16-b4ff-156ba13d8554',
-        date: '2024-10-27',
-        clockInTime: '2024-10-27T09:00:00',
-        clockOutTime: '2024-10-27T18:00:00',
-        breaks: [
-          {
-            from: '2024-10-27 11:00:00',
-            to: '2024-10-27 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '9d9e9e6c-b7be-4a5d-ac02-3666730ba4d4',
-        date: '2025-02-15',
-        clockInTime: '2025-02-15T07:00:00',
-        clockOutTime: '2025-02-15T13:00:00',
-        breaks: [
-          {
-            from: '2025-02-15 09:00:00',
-            to: '2025-02-15 09:30:00',
-          },
-        ],
-      },
-      {
-        id: '74b2c16a-0cf0-46e4-b67b-4b841ef34d9c',
-        date: '2024-07-30',
-        clockInTime: '2024-07-30T07:00:00',
-        clockOutTime: '2024-07-30T13:00:00',
-        breaks: [
-          {
-            from: '2024-07-30 09:00:00',
-            to: '2024-07-30 09:30:00',
-          },
-        ],
-      },
-      {
-        id: '7efc29b5-71e8-4c58-9fcd-bcc5df80767f',
-        date: '2024-07-11',
-        clockInTime: '2024-07-11T09:00:00',
-        clockOutTime: '2024-07-11T15:00:00',
-        breaks: [
-          {
-            from: '2024-07-11 11:00:00',
-            to: '2024-07-11 11:30:00',
-          },
-        ],
-      },
-      {
-        id: 'bec7a480-9d04-4237-af6a-0eda9b72bf8d',
-        date: '2024-11-03',
-        clockInTime: '2024-11-03T09:00:00',
-        clockOutTime: '2024-11-03T16:00:00',
-        breaks: [
-          {
-            from: '2024-11-03 11:00:00',
-            to: '2024-11-03 11:30:00',
-          },
-        ],
-      },
-      {
-        id: 'e9f41ce5-f4f9-4e79-b8f9-1a4cfb5eb498',
-        date: '2025-02-18',
-        clockInTime: '2025-02-18T10:00:00',
-        clockOutTime: '2025-02-18T20:00:00',
-        breaks: [
-          {
-            from: '2025-02-18 12:00:00',
-            to: '2025-02-18 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '58fd4553-256a-4b71-855d-56008a49ff69',
-        date: '2024-07-01',
-        clockInTime: '2024-07-01T08:00:00',
-        clockOutTime: '2024-07-01T17:00:00',
-        breaks: [
-          {
-            from: '2024-07-01 10:00:00',
-            to: '2024-07-01 10:30:00',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'c9d0a82f-fc69-4a24-adb3-d9b5cd126e14',
-    title: 'Miss',
-    firstName: 'Megan',
-    otherNames: 'Lynn',
-    lastName: 'Taylor',
-    email: 'mercedes58@gmail.com',
-    phoneNumber: '+1-054-879-8435x75962',
-    role: 'Data Analyst',
-    team: 'Data Analysis',
-    status: 'inactive',
-    homeAddress: {
-      line1: '7302 Ortega Rapid Suite 541',
-      streetName: 'Lisa Isle',
-      city: 'South Sabrinafort',
-      postcode: '95155',
-      state: 'KS',
-      country: 'Jamaica',
-    },
-    emergencyContact: {
-      relationship: 'Spouse',
-      name: 'Christopher Flowers',
-      phoneNumber: '085.062.9184x7651',
-      address: '2307 Smith Orchard\nPort Ryantown, GA 72011',
-    },
-    financialInformation: {
-      taxFileNumber: '621-38-7407',
-      bankBSB: '990-450',
-      accountName: 'Jill Barry',
-      accountNumber: 'GB98ZSBL42967871495338',
-      superFundName: 'Flores Ltd',
-      fundABN: '95 47 24 45',
-      memberNumber: '6576792030845',
-    },
-    wageType: 'manual',
-    manualRatePerHour: 62,
-    teamBasedRate: undefined,
-    awardRate: undefined,
-    timeLogs: [
-      {
-        id: '4352e9af-f918-48fb-baa8-c94a35ee42d4',
-        date: '2024-12-19',
-        clockInTime: '2024-12-19T08:00:00',
-        clockOutTime: '2024-12-19T17:00:00',
-        breaks: [
-          {
-            from: '2024-12-19 10:00:00',
-            to: '2024-12-19 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'cf07163d-60ff-49b4-a7ee-3ccf6173e834',
-        date: '2024-07-24',
-        clockInTime: '2024-07-24T07:00:00',
-        clockOutTime: '2024-07-24T15:00:00',
-        breaks: [
-          {
-            from: '2024-07-24 09:00:00',
-            to: '2024-07-24 09:30:00',
-          },
-        ],
-      },
-      {
-        id: 'a04a534c-ca37-4fa7-b2d2-96e0bbadf5cb',
-        date: '2024-08-11',
-        clockInTime: '2024-08-11T10:00:00',
-        clockOutTime: '2024-08-11T16:00:00',
-        breaks: [
-          {
-            from: '2024-08-11 12:00:00',
-            to: '2024-08-11 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '271966d9-a5ae-4634-ac50-957757632cd2',
-        date: '2024-09-29',
-        clockInTime: '2024-09-29T08:00:00',
-        clockOutTime: '2024-09-29T15:00:00',
-        breaks: [
-          {
-            from: '2024-09-29 10:00:00',
-            to: '2024-09-29 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'af762ae2-99b2-43fd-8c51-71e46c8ae335',
-        date: '2025-03-24',
-        clockInTime: '2025-03-24T09:00:00',
-        clockOutTime: '2025-03-24T16:00:00',
-        breaks: [
-          {
-            from: '2025-03-24 11:00:00',
-            to: '2025-03-24 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '7b578979-fd79-4cfd-b35b-75d57a349398',
-        date: '2025-04-29',
-        clockInTime: '2025-04-29T08:00:00',
-        clockOutTime: '2025-04-29T14:00:00',
-        breaks: [
-          {
-            from: '2025-04-29 10:00:00',
-            to: '2025-04-29 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '08ab3606-f941-4757-9289-81281f4490f5',
-        date: '2024-08-23',
-        clockInTime: '2024-08-23T07:00:00',
-        clockOutTime: '2024-08-23T15:00:00',
-        breaks: [
-          {
-            from: '2024-08-23 09:00:00',
-            to: '2024-08-23 09:30:00',
-          },
-        ],
-      },
-      {
-        id: '261b0b45-ec32-42fd-a9df-33165879d0f8',
-        date: '2024-10-23',
-        clockInTime: '2024-10-23T10:00:00',
-        clockOutTime: '2024-10-23T16:00:00',
-        breaks: [
-          {
-            from: '2024-10-23 12:00:00',
-            to: '2024-10-23 12:30:00',
-          },
-        ],
-      },
-      {
-        id: 'bf283c2d-8f5e-4f48-b69c-188a05094a91',
-        date: '2024-06-02',
-        clockInTime: '2024-06-02T08:00:00',
-        clockOutTime: '2024-06-02T15:00:00',
-        breaks: [
-          {
-            from: '2024-06-02 10:00:00',
-            to: '2024-06-02 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '5e436283-2d99-422a-9931-3e3f0a0565df',
-        date: '2024-09-16',
-        clockInTime: '2024-09-16T07:00:00',
-        clockOutTime: '2024-09-16T14:00:00',
-        breaks: [
-          {
-            from: '2024-09-16 09:00:00',
-            to: '2024-09-16 09:30:00',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'febee65a-6171-4f19-84be-305ab7a17184',
-    title: 'Mrs.',
-    firstName: 'David',
-    otherNames: 'Tiffany',
-    lastName: 'Ortiz',
-    email: 'sharon52@bailey-perez.com',
-    phoneNumber: '+1-524-994-7433x92552',
-    role: 'DevOps Engineer',
-    team: 'DevOps',
-    status: 'active',
-    homeAddress: {
-      line1: '646 White Oval Apt. 730',
-      streetName: 'White Crest',
-      city: 'New Steven',
-      postcode: '92299',
-      state: 'MN',
-      country: 'Timor-Leste',
-    },
-    emergencyContact: {
-      relationship: 'Frito',
-      name: 'Lindsey Alvarado',
-      phoneNumber: '001-133-290-6353x47909',
-      address: '4064 Linda Plain Apt. 561\nPorterbury, OR 07498',
-    },
-    financialInformation: {
-      taxFileNumber: '146-43-5777',
-      bankBSB: '783-263',
-      accountName: 'Jacqueline Lopez',
-      accountNumber: 'GB87YHQM87601636551526',
-      superFundName: 'Contreras, Elliott and Webster',
-      fundABN: '66 38 54 54',
-      memberNumber: '7639356192164',
-    },
-    wageType: 'award_rate',
-    manualRatePerHour: 66,
-    teamBasedRate: undefined,
-    awardRate: undefined,
-    timeLogs: [
-      {
-        id: '54b06684-9d18-4a25-b365-ea4273fca0d4',
-        date: '2025-03-22',
-        clockInTime: '2025-03-22T09:00:00',
-        clockOutTime: '2025-03-22T17:00:00',
-        breaks: [
-          {
-            from: '2025-03-22 11:00:00',
-            to: '2025-03-22 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '07268097-4b50-43b9-a7b7-8a666a6f1692',
-        date: '2024-12-02',
-        clockInTime: '2024-12-02T10:00:00',
-        clockOutTime: '2024-12-02T18:00:00',
-        breaks: [
-          {
-            from: '2024-12-02 12:00:00',
-            to: '2024-12-02 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '56f1b2f2-ebca-4dd6-83f9-35172f9547f7',
-        date: '2025-04-05',
-        clockInTime: '2025-04-05T09:00:00',
-        clockOutTime: '2025-04-05T19:00:00',
-        breaks: [
-          {
-            from: '2025-04-05 11:00:00',
-            to: '2025-04-05 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '1f56c305-fdb8-4b4a-ae0a-7092592eef01',
-        date: '2024-09-25',
-        clockInTime: '2024-09-25T10:00:00',
-        clockOutTime: '2024-09-25T20:00:00',
-        breaks: [
-          {
-            from: '2024-09-25 12:00:00',
-            to: '2024-09-25 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '249b302a-574a-414d-92c1-bef72a00b632',
-        date: '2025-02-25',
-        clockInTime: '2025-02-25T08:00:00',
-        clockOutTime: '2025-02-25T18:00:00',
-        breaks: [
-          {
-            from: '2025-02-25 10:00:00',
-            to: '2025-02-25 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '8472b705-c2d8-4975-86f5-e09a185d708a',
-        date: '2024-09-12',
-        clockInTime: '2024-09-12T09:00:00',
-        clockOutTime: '2024-09-12T15:00:00',
-        breaks: [
-          {
-            from: '2024-09-12 11:00:00',
-            to: '2024-09-12 11:30:00',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: '78158890-d1fb-4c4b-a999-c084b6f44858',
-    title: 'Dr.',
-    firstName: 'Richard',
-    otherNames: 'Christopher',
-    lastName: 'Cole',
-    email: 'anndavidson@evans-guerra.com',
-    phoneNumber: '755.682.8183x95081',
-    role: 'Software Engineer',
-    team: 'Software Development',
-    status: 'active',
-    homeAddress: {
-      line1: '49910 Kelly Cliffs Apt. 188',
-      streetName: 'Meyers Plain',
-      city: 'Acostaton',
-      postcode: '13713',
-      state: 'DC',
-      country: 'Tanzania',
-    },
-    emergencyContact: {
-      relationship: 'Parent',
-      name: 'Christy Chavez',
-      phoneNumber: '001-999-938-8395',
-      address: 'PSC 8980, Box 1150\nAPO AP 48273',
-    },
-    financialInformation: {
-      taxFileNumber: '292-21-5189',
-      bankBSB: '387-489',
-      accountName: 'Scott Barajas',
-      accountNumber: 'GB06MOFC36622031611323',
-      superFundName: 'Jordan, Hernandez and Gardner',
-      fundABN: '70 23 51 51',
-      memberNumber: '0690608687446',
-    },
-    wageType: 'manual',
-    manualRatePerHour: 65,
-    teamBasedRate: undefined,
-    awardRate: undefined,
-    timeLogs: [
-      {
-        id: 'bf3bedca-039e-435a-bea6-8f9027733bdc',
-        date: '2025-01-26',
-        clockInTime: '2025-01-26T07:00:00',
-        clockOutTime: '2025-01-26T14:00:00',
-        breaks: [
-          {
-            from: '2025-01-26 09:00:00',
-            to: '2025-01-26 09:30:00',
-          },
-        ],
-      },
-      {
-        id: '0997c700-5256-4f1d-ad24-318d4d144c47',
-        date: '2025-03-30',
-        clockInTime: '2025-03-30T08:00:00',
-        clockOutTime: '2025-03-30T15:00:00',
-        breaks: [
-          {
-            from: '2025-03-30 10:00:00',
-            to: '2025-03-30 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'ba97c4e4-032e-413a-8f40-2289d90d55b0',
-        date: '2025-02-20',
-        clockInTime: '2025-02-20T09:00:00',
-        clockOutTime: '2025-02-20T15:00:00',
-        breaks: [
-          {
-            from: '2025-02-20 11:00:00',
-            to: '2025-02-20 11:30:00',
-          },
-        ],
-      },
-      {
-        id: 'a245fb07-b40e-40fb-89d4-e9ea2dc86ebb',
-        date: '2024-05-25',
-        clockInTime: '2024-05-25T10:00:00',
-        clockOutTime: '2024-05-25T19:00:00',
-        breaks: [
-          {
-            from: '2024-05-25 12:00:00',
-            to: '2024-05-25 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '2c3982eb-2e70-4c77-9a89-b3fcfb3f3fc0',
-        date: '2024-12-02',
-        clockInTime: '2024-12-02T08:00:00',
-        clockOutTime: '2024-12-02T18:00:00',
-        breaks: [
-          {
-            from: '2024-12-02 10:00:00',
-            to: '2024-12-02 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '22b1f029-7926-4e3b-a305-e0094dc0424d',
-        date: '2024-08-15',
-        clockInTime: '2024-08-15T07:00:00',
-        clockOutTime: '2024-08-15T16:00:00',
-        breaks: [
-          {
-            from: '2024-08-15 09:00:00',
-            to: '2024-08-15 09:30:00',
-          },
-        ],
-      },
-      {
-        id: 'cbf08a70-f7c7-4b27-981c-5e68c2430502',
-        date: '2025-03-15',
-        clockInTime: '2025-03-15T08:00:00',
-        clockOutTime: '2025-03-15T14:00:00',
-        breaks: [
-          {
-            from: '2025-03-15 10:00:00',
-            to: '2025-03-15 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '0418012d-d8a5-4a37-8f83-3bfdbaaf32c4',
-        date: '2024-12-11',
-        clockInTime: '2024-12-11T08:00:00',
-        clockOutTime: '2024-12-11T17:00:00',
-        breaks: [
-          {
-            from: '2024-12-11 10:00:00',
-            to: '2024-12-11 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'cbbdc0f7-2b23-47bc-a14a-81d3c890aad9',
-        date: '2024-08-04',
-        clockInTime: '2024-08-04T09:00:00',
-        clockOutTime: '2024-08-04T16:00:00',
-        breaks: [
-          {
-            from: '2024-08-04 11:00:00',
-            to: '2024-08-04 11:30:00',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'f9581c65-c615-4879-ab42-94af92e02bee',
-    title: 'Mr.',
-    firstName: 'Lindsay',
-    otherNames: 'Kenneth',
-    lastName: 'Johnson',
-    email: 'imyers@powers-ramirez.com',
-    phoneNumber: '001-128-489-1959x9928',
-    role: 'Product Manager',
+    id: '6db5c322-97f4-475f-bdf3-e08d9aeafd2d',
+    firstName: 'Jane',
+    lastName: 'Wilson',
+    email: 'jane.wilson@example.com',
     team: 'Product',
-    status: 'active',
-    homeAddress: {
-      line1: '22500 Scott Canyon',
-      streetName: 'Stephanie Extensions',
-      city: 'East Rebeccashire',
-      postcode: '33070',
-      state: 'MS',
-      country: 'Djibouti',
-    },
-    emergencyContact: {
-      relationship: 'Spouse',
-      name: 'Tracy Sanchez',
-      phoneNumber: '4891349424',
-      address: '718 Heather Mission Suite 913\nNorth Michael, MO 15968',
-    },
-    financialInformation: {
-      taxFileNumber: '320-12-6486',
-      bankBSB: '758-828',
-      accountName: 'Jenny Cooper',
-      accountNumber: 'GB81DSKL43164231336748',
-      superFundName: 'Orr, Brown and Baker',
-      fundABN: '26 95 97 58',
-      memberNumber: '8786764530060',
-    },
+    role: 'Product Manager',
     wageType: 'team_based',
     manualRatePerHour: undefined,
-    teamBasedRate: 67,
-    awardRate: undefined,
-    timeLogs: [
-      {
-        id: 'fe1deb95-4a8b-4c46-99d6-154efc2df1b9',
-        date: '2024-11-28',
-        clockInTime: '2024-11-28T08:00:00',
-        clockOutTime: '2024-11-28T16:00:00',
-        breaks: [
-          {
-            from: '2024-11-28 10:00:00',
-            to: '2024-11-28 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'e600d947-7327-46d7-a4df-486630010063',
-        date: '2024-11-28',
-        clockInTime: '2024-11-28T10:00:00',
-        clockOutTime: '2024-11-28T16:00:00',
-        breaks: [
-          {
-            from: '2024-11-28 12:00:00',
-            to: '2024-11-28 12:30:00',
-          },
-        ],
-      },
-      {
-        id: 'b226f834-50e3-4573-acdf-abc8ebc33c0a',
-        date: '2025-04-17',
-        clockInTime: '2025-04-17T09:00:00',
-        clockOutTime: '2025-04-17T15:00:00',
-        breaks: [
-          {
-            from: '2025-04-17 11:00:00',
-            to: '2025-04-17 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '0b3c906e-e0e2-43c1-865b-0b5c46c7d521',
-        date: '2024-11-12',
-        clockInTime: '2024-11-12T07:00:00',
-        clockOutTime: '2024-11-12T13:00:00',
-        breaks: [
-          {
-            from: '2024-11-12 09:00:00',
-            to: '2024-11-12 09:30:00',
-          },
-        ],
-      },
-      {
-        id: 'e99a61eb-a943-48de-b688-35a8ac99deca',
-        date: '2024-06-15',
-        clockInTime: '2024-06-15T10:00:00',
-        clockOutTime: '2024-06-15T17:00:00',
-        breaks: [
-          {
-            from: '2024-06-15 12:00:00',
-            to: '2024-06-15 12:30:00',
-          },
-        ],
-      },
-      {
-        id: 'd47116bf-7f35-466d-9934-59e4e9ee38eb',
-        date: '2025-03-06',
-        clockInTime: '2025-03-06T07:00:00',
-        clockOutTime: '2025-03-06T15:00:00',
-        breaks: [
-          {
-            from: '2025-03-06 09:00:00',
-            to: '2025-03-06 09:30:00',
-          },
-        ],
-      },
-      {
-        id: '0dc5f963-ddca-4dad-89bd-781c9d622ed6',
-        date: '2024-12-21',
-        clockInTime: '2024-12-21T08:00:00',
-        clockOutTime: '2024-12-21T14:00:00',
-        breaks: [
-          {
-            from: '2024-12-21 10:00:00',
-            to: '2024-12-21 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'b7479af4-7c32-4484-a195-18a72bc90abf',
-        date: '2025-01-07',
-        clockInTime: '2025-01-07T08:00:00',
-        clockOutTime: '2025-01-07T15:00:00',
-        breaks: [
-          {
-            from: '2025-01-07 10:00:00',
-            to: '2025-01-07 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'ff2e63ff-0063-4df2-b0c7-330b50fa8e78',
-        date: '2024-10-08',
-        clockInTime: '2024-10-08T10:00:00',
-        clockOutTime: '2024-10-08T18:00:00',
-        breaks: [
-          {
-            from: '2024-10-08 12:00:00',
-            to: '2024-10-08 12:30:00',
-          },
-        ],
-      },
-      {
-        id: 'd2643fed-e37b-4789-a1f3-db3e13632d10',
-        date: '2024-10-13',
-        clockInTime: '2024-10-13T09:00:00',
-        clockOutTime: '2024-10-13T19:00:00',
-        breaks: [
-          {
-            from: '2024-10-13 11:00:00',
-            to: '2024-10-13 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '099ae1c1-a6dd-45ea-82d3-fedf84ed54c3',
-        date: '2024-10-10',
-        clockInTime: '2024-10-10T07:00:00',
-        clockOutTime: '2024-10-10T15:00:00',
-        breaks: [
-          {
-            from: '2024-10-10 09:00:00',
-            to: '2024-10-10 09:30:00',
-          },
-        ],
-      },
-      {
-        id: '2c76d390-cdbe-427f-8c2e-3b38e2af0c00',
-        date: '2025-02-19',
-        clockInTime: '2025-02-19T07:00:00',
-        clockOutTime: '2025-02-19T14:00:00',
-        breaks: [
-          {
-            from: '2025-02-19 09:00:00',
-            to: '2025-02-19 09:30:00',
-          },
-        ],
-      },
-      {
-        id: 'a0cfde39-67fc-44e5-b242-f66c3dd08994',
-        date: '2024-07-29',
-        clockInTime: '2024-07-29T08:00:00',
-        clockOutTime: '2024-07-29T18:00:00',
-        breaks: [
-          {
-            from: '2024-07-29 10:00:00',
-            to: '2024-07-29 10:30:00',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'feea5cf8-cf5c-4884-8c21-fdc7bb431e3f',
-    title: 'Mx.',
-    firstName: 'Tyler',
-    otherNames: 'Emma',
-    lastName: 'Moore',
-    email: 'hcoffey@gmail.com',
-    phoneNumber: '9469749778',
-    role: 'QA Analyst',
-    team: 'QA',
-    status: 'active',
+    teamBasedRatePerHour: 35,
+    awardBasedRatePerHour: undefined,
+    title: 'ms',
+    otherNames: undefined,
+    phoneNumber: '0437991536',
+    status: 'pending_onboarding',
     homeAddress: {
-      line1: '86742 Ktora Forge Suite 434',
-      streetName: 'Gray Roads',
-      city: 'Joshuaside',
-      postcode: '73678',
-      state: 'IA',
-      country: 'Oman',
+      line: 'Unit 1',
+      streetName: '67 Main Street',
+      city: 'Melbourne',
+      postcode: '3000',
     },
-    emergencyContact: {
+    emergencyContactInformation: {
       relationship: 'Spouse',
-      name: 'Jessica Brady',
-      phoneNumber: '+1-483-906-4138',
-      address: '90575 Juan Throughway Suite 301\nWest Karaborough, UT 52443',
+      name: 'Alex Smith',
+      phoneNumber: '0471133488',
+      address: '123 Emergency St, Melbourne VIC',
     },
     financialInformation: {
-      taxFileNumber: '669-29-2017',
-      bankBSB: '758-251',
-      accountName: 'Troy Zavala',
-      accountNumber: 'GB86MFVS61200144967024',
-      superFundName: 'Hoffman, Singleton and Nash',
-      fundABN: '26 93 18 79',
-      memberNumber: '0407520861850',
+      taxFileNumber: '293207923',
+      bankBSB: '516-256',
+      accountName: 'Jane Wilson',
+      accountNumber: '96574007',
+      superFundName: 'SuperFund Co',
+      fundABN: '52012404795',
+      memberNumber: '277375',
     },
-    wageType: 'team_based',
-    manualRatePerHour: undefined,
-    teamBasedRate: 34,
-    awardRate: undefined,
     timeLogs: [
       {
-        id: 'd9b60ec5-9706-4223-9723-7e92c809a785',
-        date: '2025-01-16',
-        clockInTime: '2025-01-16T10:00:00',
-        clockOutTime: '2025-01-16T19:00:00',
+        id: 'd5650d8b-bddc-4c97-b26d-42bfd8ba0ae9',
+        date: '2025-05-14',
+        clockInTime: '2025-05-14T09:00:00',
+        clockOutTime: '2025-05-14T17:00:00',
         breaks: [
           {
-            from: '2025-01-16 12:00:00',
-            to: '2025-01-16 12:30:00',
+            id: '24e54c56-d0bd-4328-8425-2147f89022e3',
+            from: '2025-05-14T11:17:35',
+            to: '2025-05-14T11:27:35',
+            type: 'recess',
           },
         ],
       },
       {
-        id: '67999453-db30-4f80-b318-0df422d3e38e',
-        date: '2024-09-01',
-        clockInTime: '2024-09-01T10:00:00',
-        clockOutTime: '2024-09-01T19:00:00',
+        id: 'f4d28a56-c7c1-4c23-abd6-5c49ae654791',
+        date: '2025-05-21',
+        clockInTime: '2025-05-21T09:00:00',
+        clockOutTime: '2025-05-21T17:00:00',
         breaks: [
           {
-            from: '2024-09-01 12:00:00',
-            to: '2024-09-01 12:30:00',
+            id: 'cd9e3a55-9dfb-4b14-8e9f-1f9085a01e84',
+            from: '2025-05-21T09:26:23',
+            to: '2025-05-21T09:48:23',
+            type: 'recess',
+          },
+          {
+            id: 'caf7a5d9-5f1c-4b12-be63-cf40c54258f9',
+            from: '2025-05-21T09:46:43',
+            to: '2025-05-21T09:58:43',
+            type: 'recess',
           },
         ],
       },
       {
-        id: '89922104-4971-41c6-b21c-cbebed7602a4',
-        date: '2025-03-14',
-        clockInTime: '2025-03-14T09:00:00',
-        clockOutTime: '2025-03-14T17:00:00',
+        id: '6550b204-852a-4688-9f15-f5a9d3c7be78',
+        date: '2025-05-06',
+        clockInTime: '2025-05-06T09:00:00',
+        clockOutTime: '2025-05-06T17:00:00',
+        breaks: [],
+      },
+      {
+        id: 'e5d379fc-42da-458f-a81b-152cd9e25898',
+        date: '2025-05-10',
+        clockInTime: '2025-05-10T09:00:00',
+        clockOutTime: '2025-05-10T17:00:00',
         breaks: [
           {
-            from: '2025-03-14 11:00:00',
-            to: '2025-03-14 11:30:00',
+            id: '3808983a-a8db-4ffa-934f-93cd35abac59',
+            from: '2025-05-10T13:00:23',
+            to: '2025-05-10T13:23:23',
+            type: 'lunch',
+          },
+          {
+            id: '1775d106-9e3a-4f4d-b8fa-ce3b819c8c7a',
+            from: '2025-05-10T13:55:07',
+            to: '2025-05-10T14:08:07',
+            type: 'recess',
           },
         ],
       },
       {
-        id: 'f88fc8a9-7c37-4eca-a2b3-f05b4db912e9',
-        date: '2024-05-23',
-        clockInTime: '2024-05-23T07:00:00',
-        clockOutTime: '2024-05-23T17:00:00',
+        id: 'c8bcdb29-7f13-4806-9bda-6bc5a16e86d2',
+        date: '2025-05-10',
+        clockInTime: '2025-05-10T09:00:00',
+        clockOutTime: '2025-05-10T17:00:00',
         breaks: [
           {
-            from: '2024-05-23 09:00:00',
-            to: '2024-05-23 09:30:00',
-          },
-        ],
-      },
-      {
-        id: 'f8d0b352-4181-4820-af5c-5873bf44fe9b',
-        date: '2025-01-04',
-        clockInTime: '2025-01-04T08:00:00',
-        clockOutTime: '2025-01-04T16:00:00',
-        breaks: [
-          {
-            from: '2025-01-04 10:00:00',
-            to: '2025-01-04 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '83ef1485-f8b1-4923-9c64-c35aa3882b80',
-        date: '2024-07-12',
-        clockInTime: '2024-07-12T10:00:00',
-        clockOutTime: '2024-07-12T20:00:00',
-        breaks: [
-          {
-            from: '2024-07-12 12:00:00',
-            to: '2024-07-12 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '1b81dac7-c02c-4d18-bd33-791426d5d232',
-        date: '2025-02-17',
-        clockInTime: '2025-02-17T07:00:00',
-        clockOutTime: '2025-02-17T14:00:00',
-        breaks: [
-          {
-            from: '2025-02-17 09:00:00',
-            to: '2025-02-17 09:30:00',
-          },
-        ],
-      },
-      {
-        id: 'acf8d1e9-7143-4299-9759-7f79e4ed1541',
-        date: '2024-12-07',
-        clockInTime: '2024-12-07T09:00:00',
-        clockOutTime: '2024-12-07T17:00:00',
-        breaks: [
-          {
-            from: '2024-12-07 11:00:00',
-            to: '2024-12-07 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '4e5f3d75-a16b-4d4d-b8ca-2761698e119a',
-        date: '2024-11-03',
-        clockInTime: '2024-11-03T09:00:00',
-        clockOutTime: '2024-11-03T17:00:00',
-        breaks: [
-          {
-            from: '2024-11-03 11:00:00',
-            to: '2024-11-03 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '3b3ee413-f2ff-47da-8001-33a831e5138c',
-        date: '2025-02-24',
-        clockInTime: '2025-02-24T07:00:00',
-        clockOutTime: '2025-02-24T17:00:00',
-        breaks: [
-          {
-            from: '2025-02-24 09:00:00',
-            to: '2025-02-24 09:30:00',
-          },
-        ],
-      },
-      {
-        id: '23a0b14f-95ea-47b7-b67d-9e0f646b61f0',
-        date: '2024-12-22',
-        clockInTime: '2024-12-22T08:00:00',
-        clockOutTime: '2024-12-22T17:00:00',
-        breaks: [
-          {
-            from: '2024-12-22 10:00:00',
-            to: '2024-12-22 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'a3977336-c8f6-4321-ac0f-a11a0566c3cb',
-        date: '2025-04-29',
-        clockInTime: '2025-04-29T07:00:00',
-        clockOutTime: '2025-04-29T16:00:00',
-        breaks: [
-          {
-            from: '2025-04-29 09:00:00',
-            to: '2025-04-29 09:30:00',
-          },
-        ],
-      },
-      {
-        id: 'bc26aaaa-9705-482c-b0b8-c6b4ff88eb1d',
-        date: '2025-02-27',
-        clockInTime: '2025-02-27T09:00:00',
-        clockOutTime: '2025-02-27T16:00:00',
-        breaks: [
-          {
-            from: '2025-02-27 11:00:00',
-            to: '2025-02-27 11:30:00',
+            id: '5052d3d0-817a-40e8-a593-8afd779db360',
+            from: '2025-05-10T10:52:04',
+            to: '2025-05-10T11:02:04',
+            type: 'recess',
           },
         ],
       },
     ],
   },
+];
+
+export const teamsMockData: Team[] = [
   {
-    id: 'e45538da-146c-4c7a-857d-b5abb2ad2312',
-    title: 'Mr.',
-    firstName: 'April',
-    otherNames: 'Michael',
-    lastName: 'Todd',
-    email: 'jonesjohn@sharp.com',
-    phoneNumber: '708-059-4291',
-    role: 'Software Engineer',
-    team: 'Engineering',
-    status: 'active',
-    homeAddress: {
-      line1: '9622 Collin Pine',
-      streetName: 'Jessica Turnpike',
-      city: 'Carolmouth',
-      postcode: '79850',
-      state: 'MN',
-      country: 'Luxembourg',
-    },
-    emergencyContact: {
-      relationship: 'Spouse',
-      name: 'James Werner',
-      phoneNumber: '001-200-043-0408x45485',
-      address: '3158 Melanie Overpass Apt. 761\nThomasstad, OK 77626',
-    },
-    financialInformation: {
-      taxFileNumber: '782-98-1324',
-      bankBSB: '351-655',
-      accountName: 'Sara Sims',
-      accountNumber: 'GB70ETFD49692846626253',
-      superFundName: 'Jones-Smith',
-      fundABN: '66 11 14 77',
-      memberNumber: '1924464054623',
-    },
-    wageType: 'award_rate',
-    manualRatePerHour: undefined,
-    teamBasedRate: undefined,
-    awardRate: 60,
-    timeLogs: [
-      {
-        id: '98c5cfb7-0720-4938-98b2-af8b3274d7dd',
-        date: '2024-06-17',
-        clockInTime: '2024-06-17T10:00:00',
-        clockOutTime: '2024-06-17T18:00:00',
-        breaks: [
-          {
-            from: '2024-06-17 12:00:00',
-            to: '2024-06-17 12:30:00',
-          },
-        ],
-      },
-      {
-        id: 'f1f37884-5f3e-49eb-9842-33597daccb56',
-        date: '2025-04-22',
-        clockInTime: '2025-04-22T10:00:00',
-        clockOutTime: '2025-04-22T19:00:00',
-        breaks: [
-          {
-            from: '2025-04-22 12:00:00',
-            to: '2025-04-22 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '7c006842-20c6-4d6a-a256-c8c875459b1a',
-        date: '2025-01-27',
-        clockInTime: '2025-01-27T08:00:00',
-        clockOutTime: '2025-01-27T17:00:00',
-        breaks: [
-          {
-            from: '2025-01-27 10:00:00',
-            to: '2025-01-27 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '579197fc-b33a-4732-896b-33fb6571895b',
-        date: '2024-06-05',
-        clockInTime: '2024-06-05T10:00:00',
-        clockOutTime: '2024-06-05T20:00:00',
-        breaks: [
-          {
-            from: '2024-06-05 12:00:00',
-            to: '2024-06-05 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '3ae4a7b0-c5a0-4c7e-ad93-8924374e2b15',
-        date: '2025-01-10',
-        clockInTime: '2025-01-10T10:00:00',
-        clockOutTime: '2025-01-10T20:00:00',
-        breaks: [
-          {
-            from: '2025-01-10 12:00:00',
-            to: '2025-01-10 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '3738ec2c-0f17-477d-8f9d-000c1edacf3e',
-        date: '2024-07-27',
-        clockInTime: '2024-07-27T08:00:00',
-        clockOutTime: '2024-07-27T18:00:00',
-        breaks: [
-          {
-            from: '2024-07-27 10:00:00',
-            to: '2024-07-27 10:30:00',
-          },
-        ],
-      },
-      {
-        id: 'b9809a1c-9c52-4f6d-831d-1b0d88b62484',
-        date: '2025-03-30',
-        clockInTime: '2025-03-30T09:00:00',
-        clockOutTime: '2025-03-30T19:00:00',
-        breaks: [
-          {
-            from: '2025-03-30 11:00:00',
-            to: '2025-03-30 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '93077b7e-903b-45d5-ab20-519a94a1a3a0',
-        date: '2024-12-08',
-        clockInTime: '2024-12-08T08:00:00',
-        clockOutTime: '2024-12-08T14:00:00',
-        breaks: [
-          {
-            from: '2024-12-08 10:00:00',
-            to: '2024-12-08 10:30:00',
-          },
-        ],
-      },
-      {
-        id: '90c18f43-84dc-4b73-989f-b9cfbf9ce7ba',
-        date: '2024-12-07',
-        clockInTime: '2024-12-07T10:00:00',
-        clockOutTime: '2024-12-07T16:00:00',
-        breaks: [
-          {
-            from: '2024-12-07 12:00:00',
-            to: '2024-12-07 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '630834c0-8a12-4999-bd0d-6437eae61139',
-        date: '2025-03-20',
-        clockInTime: '2025-03-20T10:00:00',
-        clockOutTime: '2025-03-20T16:00:00',
-        breaks: [
-          {
-            from: '2025-03-20 12:00:00',
-            to: '2025-03-20 12:30:00',
-          },
-        ],
-      },
-      {
-        id: 'c203277c-d510-4441-b7bc-f0684b40fae1',
-        date: '2025-03-22',
-        clockInTime: '2025-03-22T09:00:00',
-        clockOutTime: '2025-03-22T19:00:00',
-        breaks: [
-          {
-            from: '2025-03-22 11:00:00',
-            to: '2025-03-22 11:30:00',
-          },
-        ],
-      },
-      {
-        id: 'e793a5cb-7a05-453d-a366-d565d111dba8',
-        date: '2024-10-19',
-        clockInTime: '2024-10-19T09:00:00',
-        clockOutTime: '2024-10-19T16:00:00',
-        breaks: [
-          {
-            from: '2024-10-19 11:00:00',
-            to: '2024-10-19 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '5724b9a8-ba2d-4e54-897d-b54a73eafa9c',
-        date: '2025-02-21',
-        clockInTime: '2025-02-21T08:00:00',
-        clockOutTime: '2025-02-21T18:00:00',
-        breaks: [
-          {
-            from: '2025-02-21 10:00:00',
-            to: '2025-02-21 10:30:00',
-          },
-        ],
-      },
-    ],
+    id: 'team-design-001',
+    name: 'Design',
+    memberIds: staffsMockData
+      .filter((staff) => staff.team === 'Design')
+      .map((s) => s.id),
+    teamWage: 30,
   },
   {
-    id: 'ec7653fe-c27d-44d8-9e48-e3c032375390',
-    title: 'Mrs.',
-    firstName: 'John',
-    otherNames: 'Lisa',
-    lastName: 'Harris',
-    email: 'melissamedina@gmail.com',
-    phoneNumber: '482-232-2510',
-    role: 'Software Engineer',
-    team: 'Operations',
-    status: 'active',
-    homeAddress: {
-      line1: '1962 Oneill Landing',
-      streetName: 'Jessica Villages',
-      city: 'Robertschester',
-      postcode: '36845',
-      state: 'ID',
-      country: 'Tajikistan',
-    },
-    emergencyContact: {
-      relationship: 'Sibling',
-      name: 'Jerry Sullivan',
-      phoneNumber: '131.715.6511x66163',
-      address: '283 Roberts Trafficway\nStonefurt, HI 81252',
-    },
-    financialInformation: {
-      taxFileNumber: '222-24-7608',
-      bankBSB: '649-971',
-      accountName: 'William Cunningham',
-      accountNumber: 'GB81HCVP89232174036414',
-      superFundName: 'Beard PLC',
-      fundABN: '39 69 87 58',
-      memberNumber: '6673901688680',
-    },
-    wageType: 'manual',
-    manualRatePerHour: 49,
-    teamBasedRate: undefined,
-    awardRate: undefined,
-    timeLogs: [
-      {
-        id: '48aa9f83-f375-4f56-a47b-6a91cc576bbd',
-        date: '2024-08-10',
-        clockInTime: '2024-08-10T09:00:00',
-        clockOutTime: '2024-08-10T18:00:00',
-        breaks: [
-          {
-            from: '2024-08-10 11:00:00',
-            to: '2024-08-10 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '0a5f4592-bbfe-480a-8edc-4d6967f2d8b9',
-        date: '2024-12-06',
-        clockInTime: '2024-12-06T10:00:00',
-        clockOutTime: '2024-12-06T18:00:00',
-        breaks: [
-          {
-            from: '2024-12-06 12:00:00',
-            to: '2024-12-06 12:30:00',
-          },
-        ],
-      },
-      {
-        id: '9052402f-69e4-49db-a9a3-f2c4d68ebaae',
-        date: '2024-12-29',
-        clockInTime: '2024-12-29T09:00:00',
-        clockOutTime: '2024-12-29T15:00:00',
-        breaks: [
-          {
-            from: '2024-12-29 11:00:00',
-            to: '2024-12-29 11:30:00',
-          },
-        ],
-      },
-      {
-        id: '8181c015-c17d-469e-8cf9-09800b6acbdd',
-        date: '2025-02-25',
-        clockInTime: '2025-02-25T09:00:00',
-        clockOutTime: '2025-02-25T18:00:00',
-        breaks: [
-          {
-            from: '2025-02-25 11:00:00',
-            to: '2025-02-25 11:30:00',
-          },
-        ],
-      },
-      {
-        id: 'bbadcd75-c149-497e-a6eb-6d0294b73966',
-        date: '2024-10-17',
-        clockInTime: '2024-10-17T10:00:00',
-        clockOutTime: '2024-10-17T20:00:00',
-        breaks: [
-          {
-            from: '2024-10-17 12:00:00',
-            to: '2024-10-17 12:30:00',
-          },
-        ],
-      },
-      {
-        id: 'f126528c-f6bb-4ab5-adb3-78f73d32e95a',
-        date: '2024-07-23',
-        clockInTime: '2024-07-23T09:00:00',
-        clockOutTime: '2024-07-23T18:00:00',
-        breaks: [
-          {
-            from: '2024-07-23 11:00:00',
-            to: '2024-07-23 11:30:00',
-          },
-        ],
-      },
-      {
-        id: 'c9d19787-0828-4c90-9587-0c43f1937712',
-        date: '2024-12-23',
-        clockInTime: '2024-12-23T10:00:00',
-        clockOutTime: '2024-12-23T18:00:00',
-        breaks: [
-          {
-            from: '2024-12-23 12:00:00',
-            to: '2024-12-23 12:30:00',
-          },
-        ],
-      },
-    ],
+    id: 'team-eng-001',
+    name: 'Engineering',
+    memberIds: staffsMockData
+      .filter((staff) => staff.team === 'Engineering')
+      .map((s) => s.id),
+    teamWage: 35,
+  },
+  {
+    id: 'team-ops-001',
+    name: 'Operations',
+    memberIds: staffsMockData
+      .filter((staff) => staff.team === 'Operations')
+      .map((s) => s.id),
+    teamWage: 28,
+  },
+  {
+    id: 'team-sales-001',
+    name: 'Sales',
+    memberIds: staffsMockData
+      .filter((staff) => staff.team === 'Sales')
+      .map((s) => s.id),
+  },
+  {
+    id: 'team-marketing-001',
+    name: 'Marketing',
+    memberIds: staffsMockData
+      .filter((staff) => staff.team === 'Marketing')
+      .map((s) => s.id),
+    teamWage: 32,
+  },
+  {
+    id: 'team-product-001',
+    name: 'Product',
+    memberIds: staffsMockData
+      .filter((staff) => staff.team === 'Product')
+      .map((s) => s.id),
+    teamWage: 40,
   },
 ];
 
@@ -1942,7 +1253,7 @@ export const searchMockData = (searchTerm: string) => {
       url: `/teams/${team.id}`,
     }));
 
-  const filteredStaff = staffs
+  const filteredStaff = staffsMockData
     .filter((staff) =>
       `${staff.firstName} ${staff.lastName}`
         .toLowerCase()
@@ -1964,15 +1275,148 @@ export const searchMockData = (searchTerm: string) => {
   };
 };
 
-export const getStaffMockData = () => {
+export const searchStaffByTeamMockData = (searchTerm: string, teamId: string ) => {
   let isLoading = false;
 
   setTimeout(() => {
     isLoading = true;
   }, 2000);
 
+  const team = teamsMockData.find((team) => team.id === teamId);
+
+  const filteredStaff = staffsMockData.filter((staff) => staff.team === team?.name)
+    .filter((staff) =>
+      `${staff.firstName} ${staff.lastName}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    )
+    .map((staff) => ({
+      id: staff.id,
+      label: `${staff.firstName} ${staff.lastName}`,
+      value: `${staff.firstName} ${staff.lastName}`,
+      type: 'staff',
+      url: `/staff/${staff.id}`,
+    }));
+
   return {
     isLoading,
-    data: staffs,
+    data: filteredStaff,
   };
+};
+
+// Helper to get staff members for a team
+const getTeamMembers = (memberIds: string[]): Staff[] => {
+  return staffsMockData.filter((staff) => memberIds.includes(staff.id));
+};
+
+export const getTeams = (): Team[] => {
+  return teamsMockData.map((team) => ({
+    ...team,
+    members: getTeamMembers(team.memberIds), // Optionally include full member objects or just count
+  }));
+};
+
+export const getTeamById = (teamId: string): Team => {
+  const team = teamsMockData.find((t) => t.id === teamId);
+  if (team) {
+    return {
+      ...team,
+      members: getTeamMembers(team.memberIds),
+    };
+  }
+
+  throw new Error('Team not found!');
+};
+
+export const addTeam = (data: TeamFormData): Team => {
+  const newTeam: Team = {
+    id: `team-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    name: data.name,
+    memberIds: data.memberIds || [],
+    teamWage: data.teamWage,
+  };
+  teamsMockData.push(newTeam);
+
+  // Update staff members
+  (data.memberIds || []).forEach((staffId) => {
+    const staffIndex = staffsMockData.findIndex((s) => s.id === staffId);
+    if (staffIndex !== -1) {
+      staffsMockData[staffIndex].team = newTeam.name; // Or newTeam.id if preferred
+      if (
+        staffsMockData[staffIndex].wageType === 'team_based' &&
+        newTeam.teamWage
+      ) {
+        staffsMockData[staffIndex].teamBasedRatePerHour = newTeam.teamWage;
+      }
+    }
+  });
+  return newTeam;
+};
+
+export const updateTeam = (teamId: string, data: TeamFormData): Team => {
+  const teamIndex = teamsMockData.findIndex((t) => t.id === teamId);
+  if (teamIndex === -1) throw new Error('Team not found!');
+
+  const oldTeam = teamsMockData[teamIndex];
+  const updatedTeam: Team = { ...oldTeam, ...data };
+  teamsMockData[teamIndex] = updatedTeam;
+
+  // Naive update of staff members:
+  // 1. Remove team from staff who are no longer in the team
+  const removedMemberIds = oldTeam.memberIds.filter(
+    (id) => !(updatedTeam.memberIds || []).includes(id)
+  );
+  removedMemberIds.forEach((staffId) => {
+    const staffIdx = staffsMockData.findIndex((s) => s.id === staffId);
+    if (staffIdx !== -1 && staffsMockData[staffIdx].team === oldTeam.name) {
+      // or oldTeam.id
+      staffsMockData[staffIdx].team = undefined; // Or assign to a default/unassigned team
+      staffsMockData[staffIdx].teamBasedRatePerHour = undefined;
+    }
+  });
+
+  // 2. Add team to new members / update existing ones
+  (updatedTeam.memberIds || []).forEach((staffId) => {
+    const staffIdx = staffsMockData.findIndex((s) => s.id === staffId);
+    if (staffIdx !== -1) {
+      staffsMockData[staffIdx].team = updatedTeam.name; // Or updatedTeam.id
+      if (
+        staffsMockData[staffIdx].wageType === 'team_based' &&
+        updatedTeam.teamWage
+      ) {
+        staffsMockData[staffIdx].teamBasedRatePerHour = updatedTeam.teamWage;
+      }
+    }
+  });
+
+  return updatedTeam;
+};
+
+export const deleteTeam = (teamId: string) => {
+  const teamIndex = teamsMockData.findIndex((t) => t.id === teamId);
+  if (teamIndex === -1) return false;
+
+  const teamToDelete = teamsMockData[teamIndex];
+  // Update staff members who were in this team
+  teamToDelete.memberIds.forEach((staffId) => {
+    const staffIdx = staffsMockData.findIndex((s) => s.id === staffId);
+    if (
+      staffIdx !== -1 &&
+      staffsMockData[staffIdx].team === teamToDelete.name
+    ) {
+      // or teamToDelete.id
+      staffsMockData[staffIdx].team = undefined; // Or assign to a default/unassigned team
+      staffsMockData[staffIdx].teamBasedRatePerHour = undefined;
+    }
+  });
+
+  teamsMockData.splice(teamIndex, 1);
+  return true;
+};
+
+export const getStaffOptionsForSelect = () => {
+  return staffsMockData.map((staff) => ({
+    value: staff.id,
+    label: `${staff.firstName} ${staff.lastName} (${staff.role || 'No role'})`,
+  }));
 };

@@ -9,14 +9,15 @@ import {
   TableRow,
 } from '@/components/molecules/Table';
 import { Button } from '@/components/molecules/Button';
-import { AdjustmentItem, AdjustmentModalData } from '@/features/(dashboard)/types';
+import {
+  AdjustmentItem,
+  AdjustmentModalData,
+} from '@/features/(dashboard)/types/dashboard.type';
 import { Card } from '@/components/atoms/card';
 import { Skeleton } from '@/components/atoms/skeleton';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { ConfirmDialog } from '@/components/molecules/ConfirmDialog';
-
-
 
 interface AdjustmentsTableProps {
   adjustments: AdjustmentItem[];
@@ -33,7 +34,6 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
   onDeny,
   isLoading,
 }) => {
-  
   const [staffId, setStaffId] = useState<string | null>(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState<'approve' | 'deny' | null>(
     null
@@ -118,10 +118,7 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
             </TableHeader>
             <TableBody>
               {adjustments.map((item) => (
-                <TableRow
-                  key={item.id}
-                  className="hover:bg-slate-50"
-                >
+                <TableRow key={item.id} className="hover:bg-slate-50">
                   <TableCell
                     onClick={() => {
                       onOpenModal({
@@ -136,11 +133,46 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
                   >
                     {item.staffName}
                   </TableCell>
-                  <TableCell>{format(item.date, 'PP')}</TableCell>
-                  <TableCell>{item.overtime}</TableCell>
+                  <TableCell
+                    onClick={() => {
+                      onOpenModal({
+                        name: item.staffName,
+                        email: item.email,
+                        date: item.date,
+                        overtime: item.overtime,
+                        reason: item.reason,
+                      });
+                    }}
+                    className="cursor-pointer"
+                  >
+                    {format(item.date, 'PP')}
+                  </TableCell>
+                  <TableCell
+                    onClick={() => {
+                      onOpenModal({
+                        name: item.staffName,
+                        email: item.email,
+                        date: item.date,
+                        overtime: item.overtime,
+                        reason: item.reason,
+                      });
+                    }}
+                    className="cursor-pointer"
+                  >
+                    {item.overtime}
+                  </TableCell>
 
                   <TableCell
-                    className="max-w-[25ch] truncate ..."
+                    onClick={() => {
+                      onOpenModal({
+                        name: item.staffName,
+                        email: item.email,
+                        date: item.date,
+                        overtime: item.overtime,
+                        reason: item.reason,
+                      });
+                    }}
+                    className="cursor-pointer max-w-[25ch] truncate ..."
                     title={item.reason}
                   >
                     {item.reason}

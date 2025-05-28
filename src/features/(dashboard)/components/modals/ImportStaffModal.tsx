@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useMemo } from 'react';
-import { StaffImportRow } from '@/features/(dashboard)/types';
+import { ImportStep, StaffImportRow } from '@/features/(dashboard)/types/staff.type';
 import { Button } from '@/components/molecules/Button';
 import {
   Dialog,
@@ -9,8 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogFooter,
-  DialogClose,
+
 } from '@/components/atoms/dialog';
 import {
   Table,
@@ -20,67 +19,48 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/molecules/Table';
-import { Alert, AlertDescription, AlertTitle } from '@/components/atoms/alert'; // Assuming Shadcn Alert
+import { Alert, AlertDescription } from '@/components/atoms/alert'; // Assuming Shadcn Alert
 import { Progress } from '@/components/atoms/progress'; // Assuming Shadcn Progress
-import {
-  UploadCloud,
-  X,
-  CheckCircle2,
-  AlertCircle,
-  Trash2,
-  Loader2,
-} from 'lucide-react';
+import {   AlertCircle } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/utils';
-
-type ImportStep = 'upload' | 'review' | 'processing' | 'completed' | 'error';
+import Image from 'next/image';
+import useAlert from '@/hooks/useAlert';
+import { ImportSummary, processStaffCsv } from '@/lib/processStaffCsv';
 
 interface ImportStaffModalProps {
   isOpen: boolean;
   onClose: () => void;
-  // Props from useStaffManagement hook
-  importStep: ImportStep;
-  importedFile: File | null;
-  staffToImport: StaffImportRow[];
-  importError: string | null;
-  importSummary: {
-    successCount: number;
-    failureCount: number;
-    errors: string[];
-  } | null;
-  onFileSelect: (file: File | null) => Promise<void>; // Make it async to allow for processing state
-  onRemoveStaffFromReview: (rowId: string) => void;
-  onConfirmImport: () => Promise<void>; // Make it async
-  onResetImport: () => void;
-  setImportStep: (step: ImportStep) => void; // To manually change step if needed
 }
 
 export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
   isOpen,
   onClose,
-  importStep,
-  importedFile,
-  staffToImport,
-  importError,
-  importSummary,
-  onFileSelect,
-  onRemoveStaffFromReview,
-  onConfirmImport,
-  onResetImport,
-  setImportStep,
 }) => {
+  const alert = useAlert();
+
   const [isUploading, setIsUploading] = useState(false); // Local state for upload progress simulation
   const [uploadProgress, setUploadProgress] = useState(0);
+
+  const [file, setFile] = useState<File | null>(null);
+  const [staffToImport, setStaffToImport] = useState<StaffImportRow[]>([]);
+  const [importSummary, setImportSummary] = useState<ImportSummary>({
+    successCount: 0,
+    failureCount: 0,
+    errors: [],
+  });
+console.log(importSummary)
+  const [importStep, setImportStep] = useState<ImportStep>('upload');
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       if (acceptedFiles && acceptedFiles.length > 0) {
         const file = acceptedFiles[0];
         if (file.type !== 'text/csv') {
-          // Handle file type error locally before calling onFileSelect
-          setImportStep('upload'); // Stay on upload step or set to an error state
-          // This error should ideally be displayed near the dropzone
-          alert('Invalid file type. Please upload a CSV file.'); // Replace with better UI feedback
+          setImportStep('upload');
+          alert.showAlert('Invalid file type', 'error', {
+            subtext: 'Please upload a CSV file.',
+          });
           return;
         }
         setIsUploading(true);
@@ -94,12 +74,14 @@ export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
           if (progress >= 100) {
             clearInterval(interval);
             setIsUploading(false);
-            onFileSelect(file); // This will trigger processing and move to 'review' or 'error' step
+            setFile(file);
+            handleFileUpload(file);
+            setImportStep('review');
           }
         }, 200);
       }
     },
-    [onFileSelect, setImportStep]
+    [setFile, setImportStep]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -111,23 +93,62 @@ export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
 
   const handleModalClose = () => {
     onClose();
-    // Consider resetting import state if modal is closed prematurely,
-    // or let the parent handle it via onResetImport if needed.
-    // For now, just closing. Parent hook might reset on next open.
+    setFile(null);
+    setImportStep('upload');
+    setStaffToImport([]);
+    setImportSummary({
+      successCount: 0,
+      failureCount: 0,
+      errors: [],
+    });
+    setIsUploading(false);
+    setUploadProgress(0);
   };
+
+  const handleConfirmImport = () => {
+    onClose();
+    alert.showAlert('Staff import successful.', 'success', {
+      subtext: `You have successfully added ${newRowsCount} new staff members to Casuals HQ.`,
+    });
+    // API Call to import
+    console.log(file);
+  };
+
+
+    const handleRemoveStaffFromReview = (staffIdToRemove: string) => {
+      setStaffToImport((currentStaff) =>
+        currentStaff.filter((staff) => staff.id !== staffIdToRemove)
+      );
+      
+    };
+
+  async function handleFileUpload(file: File) {
+    if (file) {
+      try {
+        const { staffToImport, importSummary } = await processStaffCsv(file);
+        setStaffToImport(staffToImport);
+        setImportSummary(importSummary);
+
+        // The `onRemoveStaffFromReview` function would be a separate function
+        // in your component that modifies the `staffForReview` state.
+        // For example:
+      
+      } catch (err) {
+        console.error('Error processing CSV:', err);
+        if (err instanceof Error)
+          alert.showAlert('Error processing CSV', 'error', {
+            subtext: err.message,
+          });
+      }
+    }
+  }
 
   const currentTitle = useMemo(() => {
     switch (importStep) {
       case 'upload':
-        return 'Import staff members';
+        return 'Import staff';
       case 'review':
-        return 'Review staff for import';
-      case 'processing':
-        return 'Processing import...';
-      case 'completed':
-        return 'Import completed';
-      case 'error':
-        return 'Import error';
+        return 'Review';
       default:
         return 'Import staff';
     }
@@ -137,53 +158,53 @@ export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
     () => staffToImport.filter((row) => row.status !== 'new').length,
     [staffToImport]
   );
+
   const newRowsCount = useMemo(
     () => staffToImport.filter((row) => row.status === 'new').length,
     [staffToImport]
   );
 
   const renderUploadStep = () => (
-    <div className="p-6 space-y-6">
-      <p className="text-sm text-slate-600">
-        Upload a CSV file with staff information. Ensure your file has a header
-        row and includes at least Name, Email. Team is optional. Max file size:
-        10MB.
-      </p>
+    <div className="space-y-6">
       <div
         {...getRootProps()}
         className={cn(
-          'flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-lg cursor-pointer transition-colors',
-          isDragActive
-            ? 'border-blue-500 bg-blue-50'
-            : 'border-slate-300 hover:border-slate-400 hover:bg-slate-50'
+          'flex flex-col gap-2 items-center justify-center p-10 border rounded-lg cursor-pointer transition-colors',
+
+          'border-slate-300 hover:border-slate-400 hover:bg-slate-50'
         )}
       >
         <input {...getInputProps()} />
-        <UploadCloud
-          size={48}
-          className={cn(
-            'mb-3',
-            isDragActive ? 'text-blue-600' : 'text-slate-400'
-          )}
-        />
+        <span className="rounded-full p-2 shadow-lg h-16 w-16 flex items-center justify-center">
+          <Image
+            src="/admin-staff/import.svg"
+            alt="Upload icon"
+            className="opacity-50"
+            width={30}
+            height={30}
+          />
+        </span>
         {isDragActive ? (
           <p className="text-blue-600 font-semibold">Drop the file here...</p>
         ) : (
           <>
-            <p className="text-slate-700 font-medium">
-              <span className="text-blue-600 hover:underline">
+            <p className="text-slate-500 font-medium">
+              <span className="text-primary hover:underline">
                 Click to upload
               </span>{' '}
               or drag and drop
             </p>
-            <p className="text-xs text-slate-500 mt-1">CSV files up to 10MB</p>
+            <p className="text-xs text-center text-slate-500 mt-1">
+              Make sure your CSV file is under 10 MB, has a header row and valid
+              information.
+            </p>
           </>
         )}
       </div>
       {isUploading && (
         <div className="space-y-2">
           <p className="text-sm font-medium text-slate-700">
-            Uploading {importedFile?.name}...
+            Uploading {file?.name}...
           </p>
           <Progress value={uploadProgress} className="w-full h-2" />
         </div>
@@ -194,13 +215,7 @@ export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
 
   const renderReviewStep = () => (
     <div className="p-0">
-      {' '}
-      {/* Remove padding for full-width table */}
-      <div className="px-6 py-4">
-        <p className="text-sm text-slate-600 mb-1">
-          Review the staff members to be imported. Rows with issues are
-          highlighted. You can remove rows before confirming the import.
-        </p>
+      <div className="">
         {rowsWithIssues > 0 && (
           <Alert variant="destructive" className="mb-3 text-xs p-2">
             <AlertCircle className="h-4 w-4" />
@@ -211,57 +226,28 @@ export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
           </Alert>
         )}
       </div>
-      <div className="max-h-[400px] overflow-y-auto border-t border-b">
-        <Table className="min-w-full">
-          <TableHeader className="bg-slate-50 sticky top-0 z-10">
+      <div className="h-[calc(100vh-20rem)] overflow-y-auto">
+        <Table>
+          <TableHeader>
             <TableRow>
-              <TableHead className="px-4 py-2 text-xs">Name</TableHead>
-              <TableHead className="px-4 py-2 text-xs">Email</TableHead>
-              <TableHead className="px-4 py-2 text-xs">
-                Team (Optional)
-              </TableHead>
-              <TableHead className="px-4 py-2 text-xs">Status</TableHead>
-              <TableHead className="px-4 py-2 text-xs text-right">
-                Action
-              </TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Status</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="overflow-x-auto">
             {staffToImport.map((row) => (
-              <TableRow
-                key={row.id}
-                className={cn(
-                  row.status !== 'new' && 'bg-red-50 hover:bg-red-100'
-                )}
-              >
-                <TableCell className="px-4 py-2 text-sm">{row.name}</TableCell>
-                <TableCell className="px-4 py-2 text-sm">{row.email}</TableCell>
-                <TableCell className="px-4 py-2 text-sm">
-                  {row.team || <span className="text-slate-400">N/A</span>}
-                </TableCell>
-                <TableCell className="px-4 py-2 text-sm">
-                  {row.status === 'new' && (
-                    <span className="text-green-600">New</span>
-                  )}
-                  {row.status === 'duplicate_email' && (
-                    <span className="text-orange-600" title={row.errorMessage}>
-                      Duplicate
-                    </span>
-                  )}
-                  {row.status === 'error' && (
-                    <span className="text-red-600" title={row.errorMessage}>
-                      Error
-                    </span>
-                  )}
-                </TableCell>
-                <TableCell className="px-4 py-2 text-sm text-right">
+              <TableRow key={row.id}>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.email}</TableCell>
+
+                <TableCell>
                   <Button
-                    variant="ghost"
-                    className="h-7 w-7 p-0 text-red-500 hover:bg-red-100"
-                    onClick={() => onRemoveStaffFromReview(row.id)}
+                    variant="secondary"
+                    onClick={() => handleRemoveStaffFromReview(row.id)}
                     title="Remove from import list"
                   >
-                    <Trash2 size={14} />
+                    Remove
                   </Button>
                 </TableCell>
               </TableRow>
@@ -269,137 +255,15 @@ export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
           </TableBody>
         </Table>
       </div>
-      <DialogFooter className="px-6 py-4 mt-0 border-t-0 bg-slate-50">
-        <span className="text-sm text-slate-600 mr-auto">
+
+      <div className="flex flex-col gap-2 items-center px-6 py-4 mt-0 border-t-0 bg-slate-50">
+        <Button onClick={handleConfirmImport} disabled={newRowsCount === 0}>
+          Confirm
+        </Button>
+        <span className="text-sm text-custom-gray ">
           {newRowsCount} new staff member(s) will be invited.
         </span>
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={onResetImport}
-          className="border-slate-300"
-        >
-          Upload New File
-        </Button>
-        <Button
-          onClick={onConfirmImport}
-          disabled={newRowsCount === 0}
-          className="bg-slate-800 hover:bg-slate-700 text-white"
-        >
-          Confirm & Import {newRowsCount > 0 ? `(${newRowsCount})` : ''}
-        </Button>
-      </DialogFooter>
-    </div>
-  );
-
-  const renderProcessingStep = () => (
-    <div className="p-10 flex flex-col items-center justify-center space-y-4">
-      <Loader2 size={48} className="text-blue-500 animate-spin" />
-      <p className="text-slate-700 font-medium">
-        Processing import, please wait...
-      </p>
-      <p className="text-sm text-slate-500">This may take a few moments.</p>
-    </div>
-  );
-
-  const renderCompletedStep = () => (
-    <div className="p-6 space-y-4">
-      {importSummary && importSummary.successCount > 0 && !importError && (
-        <Alert
-          variant="default"
-          className="bg-green-50 border-green-200 text-green-700"
-        >
-          <CheckCircle2 className="h-5 w-5 text-green-600" />
-          <AlertTitle className="font-semibold">Import Successful!</AlertTitle>
-          <AlertDescription>
-            {importSummary.successCount} staff member(s) imported and invited
-            successfully.
-            {importSummary.failureCount > 0 &&
-              ` ${importSummary.failureCount} row(s) were skipped.`}
-          </AlertDescription>
-        </Alert>
-      )}
-      {importSummary &&
-        importSummary.successCount === 0 &&
-        importSummary.failureCount > 0 &&
-        !importError && (
-          <Alert
-            variant="default"
-            className="bg-yellow-50 border-yellow-200 text-yellow-700"
-          >
-            <AlertCircle className="h-5 w-5 text-yellow-600" />
-            <AlertTitle className="font-semibold">
-              Import Partially Completed
-            </AlertTitle>
-            <AlertDescription>
-              No new staff members were imported. {importSummary.failureCount}{' '}
-              row(s) were skipped due to issues.
-            </AlertDescription>
-          </Alert>
-        )}
-      {importError && ( // This handles errors during the confirm step
-        <Alert variant="destructive">
-          <AlertCircle className="h-5 w-5" />
-          <AlertTitle>Import Failed</AlertTitle>
-          <AlertDescription>{importError}</AlertDescription>
-        </Alert>
-      )}
-      {importSummary &&
-        importSummary.errors &&
-        importSummary.errors.length > 0 && (
-          <div className="mt-3">
-            <p className="text-sm font-medium text-slate-700 mb-1">Details:</p>
-            <ul className="list-disc list-inside text-xs text-slate-600 max-h-32 overflow-y-auto bg-slate-50 p-2 rounded-md border">
-              {importSummary.errors.map((err, i) => (
-                <li key={i}>{err}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      <DialogFooter className="pt-4 sm:justify-center">
-        <Button
-          onClick={handleModalClose}
-          className="bg-slate-800 hover:bg-slate-700 text-white"
-        >
-          Close
-        </Button>
-        <Button
-          variant="secondary"
-          onClick={onResetImport}
-          className="border-slate-300"
-        >
-          Import Another File
-        </Button>
-      </DialogFooter>
-    </div>
-  );
-
-  const renderErrorStep = () => (
-    // For errors during initial file processing by onFileSelect
-    <div className="p-6 space-y-4">
-      <Alert variant="destructive">
-        <AlertCircle className="h-5 w-5" />
-        <AlertTitle>File Processing Error</AlertTitle>
-        <AlertDescription>
-          {importError ||
-            'An unknown error occurred while processing the file.'}
-        </AlertDescription>
-      </Alert>
-      <DialogFooter className="pt-4 sm:justify-center">
-        <Button
-          variant="secondary"
-          onClick={onResetImport}
-          className="border-slate-300"
-        >
-          Try Again
-        </Button>
-        <Button
-          onClick={handleModalClose}
-          className="bg-slate-800 hover:bg-slate-700 text-white"
-        >
-          Close
-        </Button>
-      </DialogFooter>
+      </div>
     </div>
   );
 
@@ -409,12 +273,6 @@ export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
         return renderUploadStep();
       case 'review':
         return renderReviewStep();
-      case 'processing':
-        return renderProcessingStep();
-      case 'completed':
-        return renderCompletedStep();
-      case 'error':
-        return renderErrorStep();
       default:
         return <p>Unknown import step.</p>;
     }
@@ -422,8 +280,13 @@ export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleModalClose()}>
-      <DialogContent className="sm:max-w-xl md:max-w-2xl lg:max-w-3xl bg-white p-0 data-[state=open]:animate-contentShow">
-        <DialogHeader className="px-6 py-4 border-b">
+      <DialogContent
+        className={cn(
+          'bg-white p-8 data-[state=open]:animate-contentShow space-y-4 w-xl',
+          importStep === 'review' && 'w-[90%] sm:w-4xl overflow-x-auto'
+        )}
+      >
+        <DialogHeader className="">
           <DialogTitle className="text-xl font-semibold text-slate-800">
             {currentTitle}
           </DialogTitle>
@@ -432,15 +295,12 @@ export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
               Upload a CSV file to bulk import staff members.
             </DialogDescription>
           )}
-          <DialogClose asChild>
-            <Button
-              variant="ghost"
-              className="absolute right-4 top-3 text-slate-500 hover:bg-slate-100 rounded-full"
-              onClick={handleModalClose}
-            >
-              <X size={20} /> <span className="sr-only">Close</span>
-            </Button>
-          </DialogClose>
+          {importStep === 'review' && (
+            <DialogDescription className="text-sm text-slate-500">
+              The following staff members will receive an invitation to onboard
+              into your company.
+            </DialogDescription>
+          )}
         </DialogHeader>
 
         {renderStepContent()}

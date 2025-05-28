@@ -7,7 +7,6 @@ interface FilterDropdownProps {
   appliedFilters: Filters;
   roleOptions: { value: string; label: string; id: string }[];
   teamOptions: { value: string; label: string; id: string }[];
-
   onApplyFilters: (filters: Filters) => void;
   onCancelFilters: () => void;
 }

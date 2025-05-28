@@ -31,6 +31,7 @@ const Select: React.FC<SelectProps> = ({
   placeholder = 'Select...',
   disabled = false,
 }) => {
+  console.log("value", value)
   return (
     <div className="flex flex-col gap-1 w-full">
       {label && (

@@ -1,5 +1,7 @@
 'use client';
+
 import React from 'react';
+
 import {
   Table,
   TableBody,
@@ -11,19 +13,21 @@ import {
 } from '@/components/molecules/Table';
 import Image from 'next/image';
 
-import { StaffMember } from '@/features/(dashboard)/types';
+import { Staff } from '@/features/(dashboard)/types/staff.type';
 
 import { PaginationControls } from './PaginationControls';
 import { StaffActionDropdown } from './StaffActionDropdown';
 import { Button } from '@/components/molecules/Button';
 import { StaffNameDropdown } from './StaffNameDropdown';
+import { Skeleton } from '@/components/atoms/skeleton';
 
 interface StaffListTableProps {
-  staffMembers: StaffMember[];
+  staffMembers: Staff[];
   isLoading: boolean;
-  onEditStaff: (staff: StaffMember) => void;
+  onEditStaff: (staffId: string) => void;
   onDeleteStaff: (staffId: string) => void;
-  onViewDetails: (staffId: StaffMember) => void;
+  onViewDetails: (staffMember: Staff) => void;
+  onAddStaff: () => void;
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
@@ -37,6 +41,7 @@ export const StaffListTable: React.FC<StaffListTableProps> = ({
   onEditStaff,
   onDeleteStaff,
   onViewDetails,
+  onAddStaff,
   currentPage,
   totalPages,
   onPageChange,
@@ -46,6 +51,21 @@ export const StaffListTable: React.FC<StaffListTableProps> = ({
   return (
     <div className="">
       <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Email address</TableHead>
+            <TableHead>Team</TableHead>
+            <TableHead></TableHead>
+          </TableRow>
+        </TableHeader>
+
+        {isLoading && (
+          <TableCaption>
+            <Skeleton className="h-[calc(100vh-250px)]"></Skeleton>
+          </TableCaption>
+        )}
+
         {!isLoading && staffMembers.length === 0 && (
           <TableCaption className="py-10 text-base">
             <div className="flex flex-col items-center justify-center h-[calc(100vh-400px)] text-center ">
@@ -67,9 +87,7 @@ export const StaffListTable: React.FC<StaffListTableProps> = ({
 
               <Button
                 variant="primary"
-                onClick={() => {}}
-                // TODO: Implement add staff
-                // onClick={() => openAddStaffModal()}
+                onClick={() => onAddStaff()}
                 leftIcon={
                   <Image
                     src="/admin-staff/plus.svg"
@@ -84,14 +102,7 @@ export const StaffListTable: React.FC<StaffListTableProps> = ({
             </div>
           </TableCaption>
         )}
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email address</TableHead>
-            <TableHead>Team</TableHead>
-            <TableHead></TableHead>
-          </TableRow>
-        </TableHeader>
+
         <TableBody>
           {!isLoading &&
             staffMembers.map((staff) => (
@@ -101,22 +112,26 @@ export const StaffListTable: React.FC<StaffListTableProps> = ({
                 className="cursor-pointer hover:bg-slate-50 transition-colors duration-150 group"
               >
                 <TableCell>
-                  {staff.status === 'active' && (
+                  {staff.status !== 'pending_onboarding' && (
                     <span>
                       {staff.firstName} {staff.lastName}
                     </span>
                   )}
-                  {staff.status !== 'active' && (
+                  {staff.status === 'pending_onboarding' && (
                     <StaffNameDropdown
                       name={`${staff.firstName} ${staff.lastName}`}
                     />
                   )}
                 </TableCell>
+
                 <TableCell
-                  className={staff.status !== 'active' ? 'text-gray-300' : ''}
+                  className={
+                    staff.status === 'pending_onboarding' ? 'text-gray-300' : ''
+                  }
                 >
                   {staff.email || 'N/A'}
                 </TableCell>
+
                 <TableCell>{staff.team || 'N/A'}</TableCell>
 
                 <TableCell className="text-right">
@@ -124,13 +139,13 @@ export const StaffListTable: React.FC<StaffListTableProps> = ({
                     staff={staff}
                     onEdit={onEditStaff}
                     onDelete={onDeleteStaff}
-                    onViewDetails={onViewDetails}
                   />
                 </TableCell>
               </TableRow>
             ))}
         </TableBody>
       </Table>
+
       {totalStaffCount > 0 && (
         <PaginationControls
           currentPage={currentPage}

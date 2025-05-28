@@ -11,7 +11,8 @@ import { FilterDropdown } from './FilterDropdown';
 
 import Link from 'next/link';
 import { Button } from '@/components/molecules/Button';
-import { SearchData, SearchSchema } from '../types/schema';
+import { SearchSchema } from '@/features/(dashboard)/types/schema';
+import { SearchData } from '@/features/(dashboard)/types/schema';
 import {
   Form,
   FormControl,
@@ -28,18 +29,25 @@ import {
   searchMockData,
 } from '@/lib/mockData';
 import { DateRange } from 'react-day-picker';
- 
+
 interface HeaderProps {
   pageTitle: string;
   pageDescription: string;
-  onSidebarOpen: () => void;
-  appliedFilters: Filters;
-  onDateRangeChange?: (dateRange: DateRange) => void;
-  onApplyFilters: (filters: Filters) => void;
-  onCancelFilters: () => void;
+
   dateRange?: DateRange;
+  appliedFilters?: Filters;
+  backButtonText?: string;
+  organizationName?: string;
+
+  onSidebarOpen: () => void;
+  onDateRangeChange?: (dateRange: DateRange) => void;
+  onApplyFilters?: (filters: Filters) => void;
+  onCancelFilters?: () => void;
+
   showDatePicker?: boolean;
   showBackButton?: boolean;
+  showFilter?: boolean;
+
   // Custom actions slot
   customActions?: React.ReactNode;
 }
@@ -47,14 +55,20 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   pageTitle,
   pageDescription,
-  onSidebarOpen,
   appliedFilters,
+  dateRange,
+  backButtonText = 'Back to Staff',
+  organizationName,
+
+  onSidebarOpen,
   onDateRangeChange,
   onApplyFilters,
   onCancelFilters,
-  dateRange,
+
   showDatePicker = true,
   showBackButton = false,
+  showFilter = true,
+
   customActions,
 }) => {
   const router = useRouter();
@@ -124,16 +138,36 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="top-0 z-30 bg-white/90 backdrop-blur-md border-slate-200">
+      {!organizationName && (
+        <section className="flex items-center px-4 sm:px-6 lg:px-8 pt-4">
+          <button
+            onClick={onSidebarOpen}
+            className="md:hidden text-[#667185] border hover:text-slate-700 p-2 rounded hover:bg-slate-100"
+            aria-label="Open sidebar"
+          >
+            <Menu size={24} />
+          </button>
+        </section>
+      )}
+
+      {organizationName && (
+        <section className="border-b flex items-center px-4 sm:px-6 lg:px-8 pt-4 pb-4">
+          <button
+            onClick={onSidebarOpen}
+            className="md:hidden text-[#667185] border hover:text-slate-700 p-2 rounded hover:bg-slate-100"
+            aria-label="Open sidebar"
+          >
+            <Menu size={24} />
+          </button>
+          <article className="container mx-auto px-4 sm:px-6 lg:px-8">
+            {organizationName}
+          </article>
+        </section>
+      )}
+
       <section className="container mx-auto">
-        <section className="flex items-center justify-between h-auto px-4 sm:px-6 lg:px-8 pt-10 pb-4">
+        <section className="flex items-center justify-between h-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
           <div className="flex items-center">
-            <button
-              onClick={onSidebarOpen}
-              className="md:hidden text-[#667185] border hover:text-slate-700 mr-3 p-1 -ml-1 rounded hover:bg-slate-100"
-              aria-label="Open sidebar"
-            >
-              <Menu size={24} />
-            </button>
             {showBackButton && (
               <Link
                 href="/staff"
@@ -148,16 +182,17 @@ export const Header: React.FC<HeaderProps> = ({
                     />
                   }
                 >
-                  Back to Staff
+                  {backButtonText}
                 </Button>
               </Link>
             )}
-            <div>
-              <h1 className="text-2xl font-semibold text-slate-900">
+
+            <article>
+              <h2 className="text-2xl font-medium text-slate-900">
                 {pageTitle}
-              </h1>
+              </h2>
               <p className="text-sm text-slate-500">{pageDescription}</p>
-            </div>
+            </article>
           </div>
 
           <div className="hidden md:flex items-center gap-4">
@@ -173,9 +208,10 @@ export const Header: React.FC<HeaderProps> = ({
         </section>
 
         {/* Bottom section: Search and Filters */}
+
         <div className="px-4 sm:px-6 lg:px-8 pt-3 pb-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {showSearch && (
+            {showSearch && showFilter && (
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -222,7 +258,9 @@ export const Header: React.FC<HeaderProps> = ({
               </Form>
             )}
 
-            {!showSearch && <Skeleton className="h-14 w-full"></Skeleton>}
+            {!showSearch && showFilter && (
+                <Skeleton className="h-14 w-full"></Skeleton>
+            )}
 
             <div className="flex items-center justify-between md:justify-end">
               <div className="flex md:hidden items-center gap-2 md:gap-4">
@@ -236,16 +274,18 @@ export const Header: React.FC<HeaderProps> = ({
                 {customActions}
               </div>
 
-              <FilterDropdown
-                // Filters
-                appliedFilters={appliedFilters}
-                // Dropdown options
-                roleOptions={getRoleOptionsMockData().data}
-                teamOptions={getTeamOptionsMockData().data}
-                // Filter handlers
-                onApplyFilters={onApplyFilters}
-                onCancelFilters={onCancelFilters}
-              />
+              {showFilter && (
+                <FilterDropdown
+                  // Filters
+                  appliedFilters={appliedFilters || { teams: {}, roles: {} }}
+                  // Dropdown options
+                  roleOptions={getRoleOptionsMockData().data}
+                  teamOptions={getTeamOptionsMockData().data}
+                  // Filter handlers
+                  onApplyFilters={onApplyFilters || (() => {})}
+                  onCancelFilters={onCancelFilters || (() => {})}
+                />
+              )}
             </div>
           </div>
         </div>

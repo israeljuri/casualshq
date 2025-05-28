@@ -15,7 +15,7 @@ import {
 } from '@/components/atoms/card';
 import { CustomPieTooltip } from './tooltip';
 
-import { PieChartDataItem } from '@/features/(dashboard)/types';
+import { PieChartDataItem } from '@/features/(dashboard)/types/dashboard.type';
 import { Skeleton } from '@/components/atoms/skeleton';
 
 // Define pie chart colors - shades of olive green (#5C6D66)

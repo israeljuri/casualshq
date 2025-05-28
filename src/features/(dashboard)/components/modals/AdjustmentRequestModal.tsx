@@ -1,10 +1,17 @@
 'use client';
 import React, { useState } from 'react';
 import { Button } from '@/components/molecules/Button';
-import { AdjustmentModalData } from '@/features/(dashboard)/types';
+import { AdjustmentModalData } from '@/features/(dashboard)/types/dashboard.type';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import { ConfirmDialog } from '@/components/molecules/ConfirmDialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/atoms/dialog';
 
 interface AdjustmentRequestModalProps {
   isOpen: boolean;
@@ -87,35 +94,17 @@ export const AdjustmentRequestModal: React.FC<AdjustmentRequestModalProps> = ({
           </article>
         }
       />
-      <section className="h-screen">
-        <div
-          onClick={onClose}
-          className="fixed inset-0 z-40 w-full h-full flex items-center justify-end bg-black/30 transition-opacity duration-300 ease-in-out p-4"
-        ></div>
-        <div className="z-50 absolute top-0 right-0 bg-white h-[95%] my-5 mr-5 w-full max-w-xl shadow-xl flex flex-col rounded-xl overflow-hidden">
-          {/* Header */}
-          <div className="p-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-medium text-slate-800">
-                Adjustment Request
-              </h2>
-              <button
-                onClick={onClose}
-                className="text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100"
-                aria-label="Close modal"
-              >
-                <Image
-                  width={15}
-                  height={15}
-                  src="/admin-dashboard/close-icon.svg"
-                  alt="Close icon"
-                />
-              </button>
-            </div>
-          </div>
+
+      <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+        <DialogContent className="sm:max-w-lg bg-white p-4 flex flex-col items-stretch justify-stretch h-[calc(100vh-50px)]">
+          <DialogHeader className="px-4 pt-4">
+            <DialogTitle className="text-2xl font-medium text-slate-800">
+              Adjustment Request
+            </DialogTitle>
+          </DialogHeader>
 
           {/* Content */}
-          <ul className="p-6 space-y-5 overflow-y-auto flex-grow">
+          <ul className="px-4 py-6 space-y-5 overflow-y-auto flex-grow">
             <InfoItem
               label="Name"
               value={data.name}
@@ -143,39 +132,36 @@ export const AdjustmentRequestModal: React.FC<AdjustmentRequestModalProps> = ({
             />
           </ul>
 
-          {/* Footer / Actions */}
-          <div className="p-6 border-t bg-slate-50">
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                variant="secondary"
-                className="w-full border-red-900 text-red-900"
-                onClick={handleDenyAction}
-                leftIcon={
-                  <img
-                    src="/admin-dashboard/red-close-circle.svg"
-                    alt="Close icon"
-                  />
-                }
-              >
-                Deny
-              </Button>
-              <Button
-                variant="primary" // Primary action
-                // className="w-full bg-slate-800 hover:bg-slate-700 text-white"
-                onClick={handleApproveAction}
-                leftIcon={
-                  <img
-                    src="/admin-dashboard/white-check-circle.svg"
-                    alt="Close icon"
-                  />
-                }
-              >
-                Approve
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+          <DialogFooter className="grid grid-cols-2 px-6 py-4">
+            <Button
+              variant="secondary"
+              className="w-full border-red-900 text-red-900"
+              onClick={handleDenyAction}
+              leftIcon={
+                <img
+                  src="/admin-dashboard/red-close-circle.svg"
+                  alt="Close icon"
+                />
+              }
+            >
+              Deny
+            </Button>
+            <Button
+              variant="primary" // Primary action
+              // className="w-full bg-slate-800 hover:bg-slate-700 text-white"
+              onClick={handleApproveAction}
+              leftIcon={
+                <img
+                  src="/admin-dashboard/white-check-circle.svg"
+                  alt="Close icon"
+                />
+              }
+            >
+              Approve
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

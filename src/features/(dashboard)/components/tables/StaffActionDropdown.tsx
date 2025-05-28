@@ -1,14 +1,15 @@
 'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/molecules/Button';
-import { MoreHorizontal, Edit3, Trash2 } from 'lucide-react';
-import { StaffMember } from '@/features/(dashboard)/types';
+import { MoreHorizontal, Trash2 } from 'lucide-react';
+import { Staff } from '@/features/(dashboard)/types/staff.type';
+import Image from 'next/image';
 
 interface StaffActionDropdownProps {
-  staff: StaffMember;
-  onEdit: (staff: StaffMember) => void;
+  staff: Staff;
+  onEdit: (staffId: string) => void;
   onDelete: (staffId: string) => void;
-  onViewDetails: (staffId: StaffMember) => void;
 }
 
 export const StaffActionDropdown: React.FC<StaffActionDropdownProps> = ({
@@ -59,25 +60,35 @@ export const StaffActionDropdown: React.FC<StaffActionDropdownProps> = ({
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-lg z-20 py-1">
+        <div className="absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-lg z-20 p-3">
           <button
             onClick={(e) => {
               e.stopPropagation();
-              handleAction(() => onEdit(staff));
+              handleAction(() => {
+                if (staff.id) onEdit(staff.id);
+              });
             }}
-            className="flex items-center w-full px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+            className="flex items-center gap-2 w-full px-3 py-2 text-sm text-slate-700 hover:text-slate-900"
           >
-            <Edit3 size={14} className="mr-2.5 text-slate-500" /> Edit
+            <Image
+              width={14}
+              height={14}
+              src="/admin-staff/staff-edit.svg"
+              alt="Edit"
+            />
+            Edit
           </button>
           <div className="my-1 border-t border-slate-100"></div>
           <button
             onClick={(e) => {
               e.stopPropagation();
-              handleAction(() => onDelete(staff.id));
+              handleAction(() => {
+                if (staff.id) onDelete(staff.id);
+              });
             }}
-            className="flex items-center w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
+            className="flex items-center w-full px-3 py-2 text-sm text-red-600 hover:text-red-700"
           >
-            <Trash2 size={14} className="mr-2.5" /> Delete
+            <Trash2 size={14} className="mr-2" /> Delete
           </button>
         </div>
       )}

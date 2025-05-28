@@ -1,27 +1,17 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  staffFormSchema,
-  StaffFormValues,
-} from '@/features/(dashboard)/types/schema';
-import {
-  StaffMember,
-  StaffFormData,
-  WageType,
-} from '@/features/(dashboard)/types';
 
+import Image from 'next/image';
 import { Button } from '@/components/molecules/Button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
-  DialogClose,
 } from '@/components/atoms/dialog';
 import { Input } from '@/components/molecules/Input';
 import { Label } from '@/components/atoms/label';
@@ -33,180 +23,116 @@ import {
   SelectValue,
 } from '@/components/atoms/select';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
-
-import { X } from 'lucide-react';
+import { WAGE_TYPE_OPTIONS } from '../../config/constants';
+import { staffFormSchema } from '../../types/staff.schema';
+import { Staff, StaffFormData } from '../../types/staff.type';
 
 interface AddStaffModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: Omit<StaffMember, 'id' | 'timeLogs' | 'latestAdjustment' | 'status'>) => void; // Changed to StaffFormData
-  initialData?: StaffMember | null; // For editing
-  teamOptions:  { value: string; label: string; id: string; }[];
-  isLoading?: boolean; // To disable form during submission
+  teamOptions: { value: string; label: string; id: string }[];
 }
-
-const WAGE_TYPE_OPTIONS: { value: WageType; label: string }[] = [
-  { value: 'manual', label: 'Manual' },
-  { value: 'team_based', label: 'From team' },
-  { value: 'award_rate', label: 'From award rate' },
-];
 
 export const AddStaffModal: React.FC<AddStaffModalProps> = ({
   isOpen,
   onClose,
-  onSubmit,
-  initialData,
   teamOptions,
-  isLoading = false,
 }) => {
   const {
     register,
     handleSubmit,
     control,
-    reset,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<StaffFormValues>({
+  } = useForm<StaffFormData>({
     resolver: zodResolver(staffFormSchema),
     defaultValues: {
       firstName: '',
+      otherNames: '',
       lastName: '',
       email: '',
       team: '',
       role: '',
       wageType: 'manual',
-      manualRatePerHour: undefined, // Ensure it's undefined initially for the placeholder
+      manualRatePerHour: undefined,
     },
   });
 
+  const handleAddStaff = (data: Omit<Staff, 'id' | 'timeLogs' | 'status'>) => {
+    // API Call to add
+    console.log(data);
+  };
+
   const selectedWageType = watch('wageType');
 
-  useEffect(() => {
-    if (initialData) {
-      reset({
-        firstName: initialData.firstName || '',
-        lastName: initialData.lastName || '',
-        email: initialData.email || '',
-        team: initialData.team || '',
-        role: initialData.role || '',
-        title: initialData.title || '',
-        otherNames: initialData.otherNames || '',
-        phoneNumber: initialData.phoneNumber || '',
-        wageType: initialData.wageDetails?.type || 'manual',
-        manualRatePerHour:
-          initialData.wageDetails?.type === 'manual'
-            ? Number(initialData.wageDetails?.manualRatePerHour) || undefined
-            : undefined,
-      });
-    } else {
-      reset({
-        // Default values for new staff
-        firstName: '',
-        lastName: '',
-        email: '',
-        team: '',
-        role: '',
-        title: '',
-        otherNames: '',
-        phoneNumber: '',
-        wageType: 'manual',
-        manualRatePerHour: undefined,
-      });
-    }
-  }, [initialData, reset, isOpen]); // Reset form when modal opens or initialData changes
-
-  const handleFormSubmit = async (data: StaffFormValues) => {
-    // Convert to StaffFormData structure expected by the service/hook
-    const submissionData: StaffFormData = {
-      ...data, // includes firstName, lastName, email, team, role, title, otherNames, phoneNumber
-    };
-    await onSubmit(submissionData);
+  const handleFormSubmit = (data: StaffFormData) => {
+    handleAddStaff(data);
     onClose(); // The parent hook/page will typically call onClose after successful submission
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-lg bg-white p-0">
-        <DialogHeader className="px-6 py-4 border-b">
-          <DialogTitle className="text-xl font-semibold text-slate-800">
-            {initialData ? 'Edit staff member' : 'Add new staff member'}
+      <DialogContent className="sm:max-w-lg bg-white p-4 h-[calc(100vh-50px)]">
+        <DialogHeader className="px-4 pt-4">
+          <DialogTitle className="text-2xl font-medium text-slate-800">
+            Add staff
           </DialogTitle>
-          <DialogDescription className="text-sm text-slate-500">
-            {initialData
-              ? 'Update the details below.'
-              : 'Fill in the details to add a new staff member.'}
-          </DialogDescription>
-          <DialogClose asChild>
-            <Button
-              variant="ghost"
-              className="absolute right-4 top-3 text-slate-500 hover:bg-slate-100 rounded-full"
-              onClick={onClose}
-            >
-              <X size={20} />
-              <span className="sr-only">Close</span>
-            </Button>
-          </DialogClose>
         </DialogHeader>
 
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
-          className="overflow-y-auto max-h-[calc(100vh-200px)]"
+          className="overflow-y-auto"
         >
-          <div className="px-6 py-5 space-y-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <Label
-                  htmlFor="firstName"
-                  className="text-sm font-medium text-slate-700"
-                >
-                  First Name <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="firstName"
-                  {...register('firstName')}
-                  className="mt-1 h-10 border-slate-300"
-                  placeholder="e.g. John"
-                />
-                {errors.firstName && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.firstName.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <Label
-                  htmlFor="lastName"
-                  className="text-sm font-medium text-slate-700"
-                >
-                  Last Name <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="lastName"
-                  {...register('lastName')}
-                  className="mt-1 h-10 border-slate-300"
-                  placeholder="e.g. Doe"
-                />
-                {errors.lastName && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.lastName.message}
-                  </p>
-                )}
-              </div>
+          <div className="px-4 py-5 space-y-6">
+            <div>
+              <Input
+                label="First Name"
+                id="firstName"
+                {...register('firstName')}
+                placeholder="Enter staff frist name"
+              />
+              {errors.firstName && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.firstName.message}
+                </p>
+              )}
             </div>
 
             <div>
-              <Label
-                htmlFor="email"
-                className="text-sm font-medium text-slate-700"
-              >
-                Email Address <span className="text-red-500">*</span>
-              </Label>
               <Input
+                label="Other Name(s)"
+                id="otherNames"
+                {...register('otherNames')}
+                placeholder="Enter other name(s)..."
+              />
+              {errors.otherNames && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.otherNames.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Input
+                label="Last Name"
+                id="lastName"
+                {...register('lastName')}
+                placeholder="Enter staff last name"
+              />
+              {errors.lastName && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.lastName.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Input
+                label="Email Address"
                 id="email"
                 type="email"
                 {...register('email')}
-                className="mt-1 h-10 border-slate-300"
-                placeholder="e.g. john.doe@example.com"
+                placeholder="Enter staff email address"
               />
               {errors.email && (
                 <p className="text-xs text-red-500 mt-1">
@@ -215,31 +141,10 @@ export const AddStaffModal: React.FC<AddStaffModalProps> = ({
               )}
             </div>
 
-            <div>
-              <Label
-                htmlFor="role"
-                className="text-sm font-medium text-slate-700"
-              >
-                Role / Job Title <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="role"
-                {...register('role')}
-                className="mt-1 h-10 border-slate-300"
-                placeholder="e.g. Sales Manager"
-              />
-              {errors.role && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.role.message}
-                </p>
-              )}
-            </div>
+            {/* TODO: Add role select */}
 
             <div>
-              <Label
-                htmlFor="team"
-                className="text-sm font-medium text-slate-700"
-              >
+              <Label htmlFor="team" className="text-sm font-medium">
                 Team (Optional)
               </Label>
               <Controller
@@ -251,7 +156,7 @@ export const AddStaffModal: React.FC<AddStaffModalProps> = ({
                     value={field.value}
                     defaultValue={field.value}
                   >
-                    <SelectTrigger className="mt-1 h-10 border-slate-300">
+                    <SelectTrigger className="w-full py-6 text-base">
                       <SelectValue placeholder="Select team..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -275,9 +180,7 @@ export const AddStaffModal: React.FC<AddStaffModalProps> = ({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-slate-700">
-                Wage <span className="text-red-500">*</span>
-              </Label>
+              <Label className="text-sm font-medium">Wage</Label>
               <Controller
                 name="wageType"
                 control={control}
@@ -285,7 +188,7 @@ export const AddStaffModal: React.FC<AddStaffModalProps> = ({
                   <RadioGroup
                     onValueChange={field.onChange}
                     value={field.value}
-                    className="flex flex-col sm:flex-row sm:items-center gap-x-6 gap-y-2"
+                    className=""
                   >
                     {WAGE_TYPE_OPTIONS.map((option) => (
                       <Label
@@ -298,6 +201,34 @@ export const AddStaffModal: React.FC<AddStaffModalProps> = ({
                           id={`wageType-${option.value}`}
                         />
                         <span>{option.label}</span>
+
+                        {selectedWageType === 'manual' &&
+                          option.value === 'manual' && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
+                              <div>
+                                <Input
+                                  id="manualRatePerHour"
+                                  type="number"
+                                  step="0.01"
+                                  {...register('manualRatePerHour')}
+                                  className="py-2"
+                                  placeholder="e.g. 50"
+                                />
+                                {errors.manualRatePerHour && (
+                                  <p className="text-xs text-red-500 mt-1">
+                                    {errors.manualRatePerHour.message}
+                                  </p>
+                                )}
+                                {/* Catch-all for the refine error */}
+                                {errors.manualRatePerHour &&
+                                  !errors.manualRatePerHour && (
+                                    <p className="text-xs text-red-500 mt-1">
+                                      {errors.manualRatePerHour}
+                                    </p>
+                                  )}
+                              </div>
+                            </div>
+                          )}
                       </Label>
                     ))}
                   </RadioGroup>
@@ -309,65 +240,42 @@ export const AddStaffModal: React.FC<AddStaffModalProps> = ({
                 </p>
               )}
             </div>
-
-            {selectedWageType === 'manual' && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
-                <div>
-                  <Label
-                    htmlFor="manualRatePerHour"
-                    className="text-sm font-medium text-slate-700"
-                  >
-                    Manual Rate per Hour <span className="text-red-500">*</span>
-                  </Label>
-                  <Input
-                    id="manualRatePerHour"
-                    type="number"
-                    step="0.01"
-                    {...register('manualRatePerHour')}
-                    className="mt-1 h-10 border-slate-300"
-                    placeholder="e.g. 25.50"
-                  />
-                  {errors.manualRatePerHour && (
-                    <p className="text-xs text-red-500 mt-1">
-                      {errors.manualRatePerHour.message}
-                    </p>
-                  )}
-                  {/* Catch-all for the refine error */}
-                  {errors.manualRatePerHour && !errors.manualRatePerHour && (
-                    <p className="text-xs text-red-500 mt-1">
-                      {errors.manualRatePerHour}
-                    </p>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
-
-          <DialogFooter className="px-6 py-4 border-t bg-slate-50">
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={onClose}
-              className="border-slate-300 hover:bg-slate-100"
-              disabled={isSubmitting || isLoading}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              className="bg-slate-800 hover:bg-slate-700 text-white"
-              disabled={isSubmitting || isLoading}
-            >
-              {isSubmitting || isLoading
-                ? initialData
-                  ? 'Saving...'
-                  : 'Adding...'
-                : initialData
-                ? 'Save changes'
-                : 'Add staff'}
-            </Button>
-          </DialogFooter>
         </form>
+
+        <DialogFooter className="grid grid-cols-2 px-6 py-4">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={onClose}
+            disabled={isSubmitting}
+            leftIcon={
+              <Image
+                src="/admin-staff/cancel.svg"
+                alt="Cancel"
+                width={20}
+                height={20}
+              />
+            }
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={isSubmitting}
+            leftIcon={
+              <Image
+                src="/admin-staff/save-white.svg"
+                alt="Save"
+                width={15}
+                height={15}
+              />
+            }
+          >
+            {isSubmitting ? 'Saving' : 'Save Changes'}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

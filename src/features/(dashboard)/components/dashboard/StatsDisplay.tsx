@@ -2,7 +2,7 @@ import React from 'react';
 import { StatCard } from './StatsCard';
 
 import { Skeleton } from '@/components/atoms/skeleton';
-import { StatsData } from '../../types';
+import { StatsData } from '@/features/(dashboard)/types/dashboard.type';
 
 interface StatsDisplayProps {
   stats: StatsData;

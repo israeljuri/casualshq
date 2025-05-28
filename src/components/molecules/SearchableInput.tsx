@@ -4,18 +4,18 @@ import * as React from 'react';
 import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from './Input';
-import { StaffMember } from '@/features/(dashboard)/types';
+import {  Staff } from '@/features/(dashboard)/types/staff.type';
 
 export interface SearchableInputProps {
-  data: StaffMember[];
-  searchKeys: (keyof StaffMember)[];
-  onResults: (results: StaffMember[]) => void;
-  onSelectItem: (item: StaffMember) => void;
+  data: Staff[];
+  searchKeys: (keyof Staff)[];
+  onResults: (results: Staff[]) => void;
+  onSelectItem: (item: Staff) => void;
   initialValue?: string;
   debounceTime?: number;
   label?: string;
   placeholder?: string;
-  renderResultItem?: (item: StaffMember) => React.ReactNode;
+  renderResultItem?: (item: Staff) => React.ReactNode;
   className?: string;
   leftIcon: React.ReactNode;
 }
@@ -36,7 +36,7 @@ const SearchableInput = ({
   ...props
 }: SearchableInputProps) => {
   const [searchTerm, setSearchTerm] = React.useState(initialValue);
-  const [filteredResults, setFilteredResults] = React.useState<StaffMember[]>(
+  const [filteredResults, setFilteredResults] = React.useState<Staff[]>(
     []
   );
   const [showDropdown, setShowDropdown] = React.useState(false);
@@ -81,7 +81,7 @@ const SearchableInput = ({
     setSearchTerm(event.target.value);
   };
 
-  const handleSelectItem = (item: StaffMember) => {
+  const handleSelectItem = (item: Staff) => {
     onSelectItem(item);
     // Combine firstName and lastName when available, fallback to first search key
     const displayName = [

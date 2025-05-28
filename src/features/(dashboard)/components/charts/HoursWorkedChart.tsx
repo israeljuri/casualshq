@@ -21,7 +21,7 @@ import {
   BarChartFilterPeriod,
   DataPoint,
   HoursWorkedChartProps,
-} from '@/features/(dashboard)/types';
+} from '@/features/(dashboard)/types/dashboard.type';
 import { cn } from '@/lib/utils'; // Assuming global cn utility
 import { CustomBarTooltip } from './tooltip';
 import { Skeleton } from '@/components/atoms/skeleton';

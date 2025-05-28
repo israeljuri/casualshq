@@ -1,41 +1,40 @@
 'use client';
 
 import React, { useState } from 'react';
-import { StaffMember } from '@/features/(dashboard)/types';
+import { Staff } from '@/features/(dashboard)/types/staff.type';
 import { Button } from '@/components/molecules/Button';
 
-import { useRouter } from 'next/navigation'; // For navigation to full details page
 import Image from 'next/image';
 import { ConfirmDialog } from '@/components/molecules/ConfirmDialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/atoms/dialog';
+import { DialogFooter, DialogHeader } from '@/components/atoms/dialog';
+import { Status } from '@/components/molecules/Status';
+import { getStaffTimeSummary } from '../../lib/utils';
+import WageCard from '@/components/molecules/WageCard';
 
 interface StaffDetailsModalProps {
-  staffMember: StaffMember | null;
+  staffMember: Staff | null;
   onClose: () => void;
   onDelete: (staffId: string) => void;
+  onEdit: (staffId: string) => void;
+  isOpen: boolean;
 }
-
- 
 
 export const StaffDetailsModal: React.FC<StaffDetailsModalProps> = ({
   staffMember,
   onClose,
   onDelete,
+  onEdit,
+  isOpen,
 }) => {
-  const router = useRouter();
   const [isConfirmOpen, setIsConfirmOpen] = useState<boolean>(false);
 
   if (!staffMember) return null;
 
-  const handleViewFullInformation = () => {
-    onClose();
-    router.push(`/staff/${staffMember.id}`);
-  };
-
   const handleDelete = () => {
-    onDelete(staffMember.id);
+    if (staffMember.id) onDelete(staffMember.id);
     onClose();
   };
-
 
   const handleApproveAction = () => {
     setIsConfirmOpen(true);
@@ -50,16 +49,22 @@ export const StaffDetailsModal: React.FC<StaffDetailsModalProps> = ({
     setIsConfirmOpen(false);
   };
 
-  const getWage = (staffMember: StaffMember): string | number => {
+  const getWage = (staffMember: Staff): string | number => {
     if (staffMember.wageType === 'manual') {
-      return staffMember.manualRatePerHour || 'N/A';
+      if (staffMember.manualRatePerHour)
+        return `$${staffMember.manualRatePerHour}/hr`;
+      return 'N/A';
     } else if (staffMember.wageType === 'team_based') {
-      return staffMember.teamBasedRate || 'N/A';
+      if (staffMember.wageType === "team_based") return `$${staffMember.teamBasedRatePerHour}/hr`;
+      return 'N/A';
     } else if (staffMember.wageType === 'award_rate') {
-      return staffMember.awardRate || 'N/A';
+      if (staffMember.wageType === "award_rate") return `$${staffMember.awardBasedRatePerHour}/hr`;
+      return 'N/A';
     }
     return 'N/A';
   };
+
+  const staffTimeSummary = getStaffTimeSummary(staffMember);
 
   return (
     <>
@@ -98,35 +103,14 @@ export const StaffDetailsModal: React.FC<StaffDetailsModalProps> = ({
         }
       />
 
-      <section className="h-screen">
-        <div
-          onClick={onClose}
-          className="fixed inset-0 z-40 w-full h-full flex items-center justify-end bg-black/30 transition-opacity duration-300 ease-in-out p-4"
-        ></div>
-        <div className="z-50 absolute top-0 right-0 bg-white h-[95%] my-5 mr-5 w-full max-w-xl shadow-xl flex flex-col rounded-xl overflow-hidden">
-          {/* Header */}
-          <div className="p-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-medium text-slate-800">
-                Staff Details
-              </h2>
-              <button
-                onClick={onClose}
-                className="text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100"
-                aria-label="Close modal"
-              >
-                <Image
-                  width={15}
-                  height={15}
-                  src="/admin-dashboard/close-icon.svg"
-                  alt="Close icon"
-                />
-              </button>
-            </div>
-          </div>
-
-          {/* Content */}
-          <ul className="p-6 space-y-5 overflow-y-auto flex-grow">
+      <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+        <DialogContent className="flex flex-col justify-stretch w-full items-start sm:max-w-lg bg-white p-4 h-[calc(100vh-50px)]">
+          <DialogHeader className="px-4 pt-4">
+            <DialogTitle className="text-2xl font-medium text-slate-800">
+              Staff Details
+            </DialogTitle>
+          </DialogHeader>
+          <ul className="px-4 py-6 space-y-5 overflow-y-auto flex-grow">
             <InfoItem
               label="Name"
               value={`${staffMember.firstName} ${staffMember.lastName}`}
@@ -148,57 +132,101 @@ export const StaffDetailsModal: React.FC<StaffDetailsModalProps> = ({
               image="/admin-staff/team.svg"
             />
             <InfoItem
+              label="Status"
+              value={<Status status={staffMember.status} />}
+              image="/admin-staff/clock.svg"
+            />
+            <InfoItem
               label="Wage"
               value={getWage(staffMember)}
               image="/admin-staff/wage.svg"
+              others={
+                <>
+                  <WageCard wageType={staffMember.wageType} />
+                </>
+              }
             />
+
+            {staffTimeSummary.lastWorkDate && (
+              <>
+                <hr />
+                <InfoItem
+                  label="Last work date"
+                  value={staffTimeSummary.lastWorkDate}
+                  image=""
+                />
+                <InfoItem
+                  label="Clock-out time"
+                  value={staffTimeSummary.lastClockOut}
+                  image=""
+                />
+                <InfoItem
+                  label="Clock-in time"
+                  value={staffTimeSummary.lastClockIn}
+                  image=""
+                />
+                <InfoItem
+                  label="Break taken"
+                  value={staffTimeSummary.totalBreakTime}
+                  image=""
+                />
+                <InfoItem
+                  label="Hours worked"
+                  value={staffTimeSummary.totalHoursWorked}
+                  image=""
+                />
+              </>
+            )}
           </ul>
 
-          {/* Footer / Actions */}
-          <div className="p-6 border-t bg-slate-50">
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                variant="secondary"
-                onClick={handleViewFullInformation}
-                leftIcon={
-                  <img src="/admin-staff/staff-edit.svg" alt="Edit icon" />
-                }
-              >
-                Edit information
-              </Button>
-              <Button
-                variant="secondary" // Primary action
-                className="w-full bg-red-500 text-white hover:bg-red-600 transition-colors duration-300"
-                onClick={handleApproveAction}
-                leftIcon={
-                  <img
-                    src="/admin-staff/staff-delete-white.svg"
-                    alt="Delete icon"
-                  />
-                }
-              >
-                Delete staff
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+          <DialogFooter className="w-full grid grid-cols-2 px-6 py-4">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                if (staffMember.id) onEdit(staffMember?.id);
+              }}
+              leftIcon={
+                <img src="/admin-staff/staff-edit.svg" alt="Edit icon" />
+              }
+            >
+              Edit information
+            </Button>
+            <Button
+              variant="secondary" // Primary action
+              className="w-full bg-red-500 text-white hover:bg-red-600 transition-colors duration-300"
+              onClick={handleApproveAction}
+              leftIcon={
+                <img
+                  src="/admin-staff/staff-delete-white.svg"
+                  alt="Delete icon"
+                />
+              }
+            >
+              Delete staff
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
 
 interface InfoItemProps {
   label: string;
-  value: string | number;
+  value: string | number | React.ReactNode;
   image: string;
+  others?: React.ReactNode;
 }
 
-const InfoItem: React.FC<InfoItemProps> = ({ label, value, image }) => (
-  <li className="grid grid-cols-[1.5fr_2fr] items-start">
+const InfoItem: React.FC<InfoItemProps> = ({ label, value, image, others }) => (
+  <li className="grid grid-cols-[1.5fr_2fr] gap-4 items-start">
     <span className="flex items-center gap-2">
-      <Image src={image} alt="" width={22} height={22} />
+      {image && <Image src={image} alt="" width={22} height={22} />}
       <span className="text-[#98A2B3]">{label}</span>
     </span>
-    <span>{value}</span>
+    <div className="flex items-center justify-start gap-2">
+      <span>{value}</span>
+      {others}
+    </div>
   </li>
 );

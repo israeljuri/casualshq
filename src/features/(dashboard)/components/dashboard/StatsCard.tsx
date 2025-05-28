@@ -7,7 +7,7 @@ import {
 } from '@/components/atoms/card';
 
 import Image from 'next/image';
-import { StatsData } from '../../types';
+import { StatsData } from '@/features/(dashboard)/types/dashboard.type'
 
 interface StatCardProps {
   stat: StatsData[keyof StatsData];

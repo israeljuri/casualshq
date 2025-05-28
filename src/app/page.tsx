@@ -10,7 +10,8 @@ import { HoursWorkedChart } from '@/features/(dashboard)/components/charts/Hours
 import { WageDistributionPieChart } from '@/features/(dashboard)/components/charts/WageDistributionPieChart';
 import { AdjustmentsTable } from '@/features/(dashboard)/components/dashboard/AdjustmentsTable';
 import { AdjustmentRequestModal } from '@/features/(dashboard)/components/modals/AdjustmentRequestModal';
-import { AdjustmentModalData, Filters } from '@/features/(dashboard)/types';
+import { Filters } from '@/features/(dashboard)/types';
+import { AdjustmentModalData } from '@/features/(dashboard)/types/dashboard.type';
 
 import useAlert from '@/hooks/useAlert';
 

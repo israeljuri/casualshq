@@ -1,30 +1,33 @@
 'use client';
-import React, { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { Sidebar } from '@/features/(dashboard)/components/Sidebar';
 import { Header } from '@/features/(dashboard)/components/Header';
 import { StaffListTable } from '@/features/(dashboard)/components/tables/StaffListTable';
 import { AddStaffModal } from '@/features/(dashboard)/components/modals/AddStaffModal';
-// import { ImportStaffModal } from '@/features/(dashboard)/components/modals/ImportStaffModal';
+import { ImportStaffModal } from '@/features/(dashboard)/components/modals/ImportStaffModal';
 
 import { Button } from '@/components/molecules/Button';
 import Image from 'next/image';
 
 import { StaffDetailsModal } from '@/features/(dashboard)/components/modals/StaffDetailsModal';
-import { StaffMember } from '@/features/(dashboard)/types';
-// import { AdjustmentModalData } from '@/features/(dashboard)/types';
-import { Filters } from '@/features/(dashboard)/types';
+ 
 import { DateRange } from 'react-day-picker';
-import { getStaffMockData, getTeamOptionsMockData } from '@/lib/mockData';
+import { getTeamOptionsMockData, staffsMockData } from '@/lib/mockData';
+import { getPaginatedStaffList } from '@/features/(dashboard)/lib/utils';
+import { Staff } from '@/features/(dashboard)/types/staff.type';
+import { Filters } from '@/features/(dashboard)/types';
 
 export default function StaffPage() {
+  const router = useRouter();
   const pathname = usePathname();
+  const pageTitle = 'Staff';
+  const pageDescription = 'Manage staff profiles and track individual details.';
+  const pageSize = 5;
 
+  // Utils
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  // const [isAdjustmentModalOpen, setIsAdjustmentModalOpen] = useState(false);
-  // const [currentAdjustmentData, setCurrentAdjustmentData] =
-  //   useState<AdjustmentModalData | null>(null);
   const [filters, setFilters] = useState<Filters>({
     teams: {},
     roles: {},
@@ -35,33 +38,47 @@ export default function StaffPage() {
     to: new Date(),
   });
 
+  // Modals
+  const [isImportStaffModalOpen, setIsImportStaffModalOpen] = useState(false);
   const [isStaffModalOpen, setIsStaffModalOpen] = useState(false);
   const [isAddStaffModalOpen, setIsAddStaffModalOpen] = useState(false);
-  const [staff, setStaff] = useState<StaffMember | null>(null);
 
-  const openStaffSummaryModal = (staff: StaffMember) => {
+  // Modals data
+  const [staff, setStaff] = useState<Staff | null>(null);
+
+  // Table data
+  const [isLoading, setIsLoading] = useState(false);
+  const [staffMembers, setStaffMembers] = useState<Staff[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalStaffCount, setTotalStaffCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const paginateData = (page: number) => {
+    setIsLoading(true);
+    const result = getPaginatedStaffList(staffsMockData, page, pageSize);
+    setStaffMembers(result.data);
+    setTotalPages(result.totalPages);
+    setTotalStaffCount(result.totalStaffCount);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    paginateData(currentPage);
+  }, [currentPage]);
+
+  const openStaffSummaryModal = (staff: Staff) => {
     setStaff(staff);
     setIsStaffModalOpen(true);
   };
-  const closeStaffSummaryModal = () => {
-    setIsStaffModalOpen(false);
-    setStaff(null);
-  };
 
   const handleDeleteStaff = (id: string) => {
-    // API Call to delete
-    console.log(id);
+    // TODO: implement API call
+    console.log(id)
   };
 
-  const handleAddStaff = (
-    data: Omit<StaffMember, 'id' | 'timeLogs' | 'latestAdjustment' | 'status'>
-  ) => {
-    // API Call to add
-    console.log(data);
+  const handleEditStaff = (staffId: string) => {
+    router.push(`/staff/${staffId}`);
   };
-
-  const pageTitle = 'Staff';
-  const pageDescription = 'Manage staff profiles and track individual details.';
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -103,12 +120,10 @@ export default function StaffPage() {
           showDatePicker={false}
           // Custom action buttons for Staff page
           customActions={
-            <div className="flex items-center gap-2">
+            <div className="flex items-center flex-wrap w-full gap-4">
               <Button
                 variant="secondary"
-                onClick={() => {}}
-                // TODO: Implement import staff
-                // onClick={openImportStaffModal}
+                onClick={() => setIsImportStaffModalOpen(true)}
                 leftIcon={
                   <Image
                     src="/admin-staff/import.svg"
@@ -140,28 +155,19 @@ export default function StaffPage() {
 
         <section className="container mx-auto">
           <div className="flex-1 p-4 sm:p-6 lg:p-8">
-            {/* TODO: Implement error state */}
-
-            {/* // !error && */}
-            {/* // TODO: Get staffs from API */}
-            {/* // [].length > 0 && */}
-            {/* // TODO: Implement loading state  */}
-            {/* // !isLoading && (   */}
             <StaffListTable
-              // TODO: Get staffs from API
-              staffMembers={getStaffMockData().data}
-              isLoading={getStaffMockData().isLoading}
-              // TODO: Implement edit, delete staff
-              onEditStaff={() => {}}
-              onDeleteStaff={() => {}}
+              staffMembers={staffMembers}
+              isLoading={isLoading}
+              onAddStaff={() => setIsAddStaffModalOpen(true)}
+              onEditStaff={(staffId) => handleEditStaff(staffId)}
+              onDeleteStaff={(id) => handleDeleteStaff(id)}
               onViewDetails={(staffId) => openStaffSummaryModal(staffId)}
               // Pagination props
-              // TODO: Implement pagination (currentPage, totalPages, onPageChange, totalStaffCount, pageSize)
-              currentPage={1}
-              totalPages={1}
-              onPageChange={() => {}}
-              totalStaffCount={0}
-              pageSize={10}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => setCurrentPage(page)}
+              totalStaffCount={totalStaffCount}
+              pageSize={pageSize}
             />
           </div>
         </section>
@@ -171,36 +177,29 @@ export default function StaffPage() {
         <AddStaffModal
           isOpen={isAddStaffModalOpen}
           onClose={() => setIsAddStaffModalOpen(false)}
-          onSubmit={handleAddStaff}
-          initialData={null}
           teamOptions={getTeamOptionsMockData().data}
         />
       )}
 
-      {/* TODO: Implement import staff modal */}
-      {/* {isImportStaffModalOpen && ( */}
-      {/* <ImportStaffModal
-        isOpen={false}
-        onClose={() => {}}
-        importStep={''}
-        importedFile={null}
-        staffToImport={[]}
-        importError={''}
-        importSummary={''}
-        onFileSelect={() => {}}
-        onRemoveStaffFromReview={() => {}}
-        onConfirmImport={() => {}}
-        onResetImport={() => {}}
-        setImportStep={() => {}}
-      /> */}
-      {/* )} */}
+      {isImportStaffModalOpen && (
+        <ImportStaffModal
+          isOpen={isImportStaffModalOpen}
+          onClose={() => setIsImportStaffModalOpen(false)}
+        />
+      )}
 
       {isStaffModalOpen && staff && (
         <StaffDetailsModal
           staffMember={staff}
-          onClose={closeStaffSummaryModal}
+          isOpen={isStaffModalOpen}
+          onClose={() => {
+            setIsStaffModalOpen(false);
+            setStaff(null);
+          }}
+          onEdit={(staffId) => {
+            handleEditStaff(staffId);
+          }}
           onDelete={(id) => {
-            closeStaffSummaryModal();
             handleDeleteStaff(id);
           }}
         />
