@@ -1,4 +1,4 @@
-import { WageType } from '@/features/(dashboard)/types';
+import { WageType } from '@/features/(dashboard)/types/staff.type';
 import React from 'react';
 
 const WageCard = ({ wageType }: { wageType: WageType }) => {
