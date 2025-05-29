@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/molecules/Button';
@@ -11,10 +11,12 @@ import { Sidebar } from '@/features/(dashboard)/components/Sidebar';
 import { EmptyStatePaymentDetails } from '@/features/(dashboard)/components/payments/EmptyStatePaymentDetails';
 import { StaffPaymentSummary } from '@/features/(dashboard)/types/payments.type';
 
+// Define the props type to match Next.js 14+ PageProps interface
 interface PaymentPeriodDetailPageProps {
-  params: { periodId: string };
+  params: Promise<{ periodId: string }>;
 }
 
+// Component to handle the details display
 function PaymentPeriodDetails({ periodId }: { periodId: string }) {
   const paymentPeriodDetails = getPaymentPeriodById(periodId); // In real app: await fetchPaymentPeriodDetails(periodId);
 
@@ -94,11 +96,14 @@ function PaymentPeriodDetails({ periodId }: { periodId: string }) {
   );
 }
 
+// Main page component that unwraps the params promise
 export default function PaymentPeriodDetailPage({
   params,
 }: PaymentPeriodDetailPageProps) {
-  // Extract periodId from params
-  const { periodId } = params;
+  // Unwrap the params promise using use() hook
+  const unwrappedParams = use(params);
+  const periodId = unwrappedParams.periodId;
+  
   // Return the details component with the extracted periodId
   return <PaymentPeriodDetails periodId={periodId} />;
 }
