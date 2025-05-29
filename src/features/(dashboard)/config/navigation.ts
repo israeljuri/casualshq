@@ -37,4 +37,11 @@ export const ADMIN_NAV_ITEMS: NavItem[] = [
     icon: '/admin-sidebar/Gear.svg',
     href: '/settings',
   },
+  {
+    name: 'User management',
+    iconAlt: '/admin-sidebar/users-management-alt.svg',
+    icon: '/admin-sidebar/users-management.svg',
+    href: '/user-management',
+    isAdmin: true
+  },
 ];

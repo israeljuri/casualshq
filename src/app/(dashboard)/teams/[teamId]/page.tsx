@@ -60,7 +60,7 @@ export default function TeamInfoPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalMemberCount, setTotalMemberCount] = useState(0);
-  const pageSize = 10;
+  const pageSize = 2;
 
   const handleDeleteSuccess = () => {
     router.push('/teams'); // Navigate back to teams list after deletion
@@ -168,7 +168,7 @@ export default function TeamInfoPage() {
   const handleEditMember = (memberId: string) => {
     console.log(`Edit member with ID: ${memberId}`);
     // Implement edit functionality
-    router.push(`/staff/${memberId}`)
+    router.push(`/staff/${memberId}`);
   };
 
   // Handle delete member

@@ -980,6 +980,7 @@ export default function SettingsPage() {
           pageDescription={pageDescription}
           showDatePicker={false}
           showFilter={false}
+          showSearch={false}
           onSidebarOpen={() => setIsSidebarOpen(true)}
         />
 

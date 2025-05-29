@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/molecules/Button';
-import { MoreHorizontal, Trash2 } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 import { Staff } from '@/features/(dashboard)/types/staff.type';
 import Image from 'next/image';
 
@@ -88,7 +88,14 @@ export const StaffActionDropdown: React.FC<StaffActionDropdownProps> = ({
             }}
             className="flex items-center w-full px-3 py-2 text-sm text-red-600 hover:text-red-700"
           >
-            <Trash2 size={14} className="mr-2" /> Delete
+            <Image
+              width={14}
+              height={14}
+              src="/admin-staff/trash.svg"
+              alt="Edit"
+              className="mr-2"
+            />
+            Delete
           </button>
         </div>
       )}

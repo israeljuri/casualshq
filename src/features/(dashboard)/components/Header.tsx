@@ -47,6 +47,7 @@ interface HeaderProps {
   showDatePicker?: boolean;
   showBackButton?: boolean;
   showFilter?: boolean;
+  showSearch?: boolean;
 
   // Custom actions slot
   customActions?: React.ReactNode;
@@ -65,12 +66,14 @@ export const Header: React.FC<HeaderProps> = ({
   onApplyFilters,
   onCancelFilters,
 
+  showSearch = true,
   showDatePicker = true,
   showBackButton = false,
   showFilter = true,
 
   customActions,
 }) => {
+  const searchEnabledPaths = ['/', '/staff', '/teams', '/user-management'];
   const router = useRouter();
   const pathname = usePathname();
   const [searchResults, setSearchResult] = useState<
@@ -84,18 +87,24 @@ export const Header: React.FC<HeaderProps> = ({
     | undefined
   >();
   const [isLoading, setIsLoading] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
+  const [showSearchBox, setShowSearchBox] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-
   const [hasSearched, setHasSearched] = useState(false);
+
   // Determine if search should be shown based on the current path
   useEffect(() => {
-    const searchEnabledPaths = ['/', '/staff', '/teams'];
     const shouldShowSearch = searchEnabledPaths.some(
       (path) => pathname === path
     );
-    setShowSearch(shouldShowSearch);
+    setShowSearchBox(shouldShowSearch);
   }, [pathname]);
+
+  const getPlaceHolder = () => {
+    if (pathname === '/teams') {
+      return 'Search teams by name...';
+    }
+    return 'Search by name...';
+  };
 
   const form = useForm<SearchData>({
     resolver: zodResolver(SearchSchema),
@@ -211,7 +220,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         <div className="px-4 sm:px-6 lg:px-8 pt-3 pb-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {showSearch && showFilter && (
+            {showSearchBox && showSearch && (
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -226,7 +235,7 @@ export const Header: React.FC<HeaderProps> = ({
                           <FormControl>
                             <SearchInput
                               hasSearched={hasSearched}
-                              placeholder="Search staff or teams..."
+                              placeholder={getPlaceHolder()}
                               value={searchTerm}
                               onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
@@ -258,8 +267,8 @@ export const Header: React.FC<HeaderProps> = ({
               </Form>
             )}
 
-            {!showSearch && showFilter && (
-                <Skeleton className="h-14 w-full"></Skeleton>
+            {!showSearchBox && showSearch && (
+              <Skeleton className="h-14 w-full"></Skeleton>
             )}
 
             <div className="flex items-center justify-between md:justify-end">

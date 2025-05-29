@@ -15,7 +15,7 @@ import Image from 'next/image';
 
 import { TeamMemberDisplay } from '@/features/(dashboard)/types/teams.type';
 import { PaginationControls } from './PaginationControls';
-import { TeamMemberActionDropdown } from './TeamMemberActionDropdown';
+// import { TeamMemberActionDropdown } from './TeamMemberActionDropdown';
 import { Skeleton } from '@/components/atoms/skeleton';
 
 interface TeamMemberTableProps {
@@ -33,8 +33,8 @@ interface TeamMemberTableProps {
 export const TeamMemberTable: React.FC<TeamMemberTableProps> = ({
   teamMembers,
   isLoading,
-  onEditMember,
-  onDeleteMember,
+  // onEditMember,
+  // onDeleteMember,
   currentPage,
   totalPages,
   onPageChange,
@@ -50,7 +50,7 @@ export const TeamMemberTable: React.FC<TeamMemberTableProps> = ({
             <TableHead>Email Address</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Wage ($)</TableHead>
-            <TableHead></TableHead>
+            {/* <TableHead></TableHead> */}
           </TableRow>
         </TableHeader>
 
@@ -84,10 +84,7 @@ export const TeamMemberTable: React.FC<TeamMemberTableProps> = ({
         <TableBody>
           {!isLoading &&
             teamMembers.map((member) => (
-              <TableRow
-                key={member.id}
-                className="cursor-pointer hover:bg-slate-50 transition-colors duration-150 group"
-              >
+              <TableRow key={member.id}>
                 <TableCell>
                   <span>
                     {member.firstName} {member.lastName}
@@ -96,13 +93,13 @@ export const TeamMemberTable: React.FC<TeamMemberTableProps> = ({
                 <TableCell>{member.email || 'N/A'}</TableCell>
                 <TableCell>{member.role || 'N/A'}</TableCell>
                 <TableCell>${member.effectiveWage.toFixed(2)}</TableCell>
-                <TableCell className="text-right">
+                {/* <TableCell>
                   <TeamMemberActionDropdown
                     member={member}
                     onEdit={onEditMember}
                     onDelete={onDeleteMember}
                   />
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
         </TableBody>

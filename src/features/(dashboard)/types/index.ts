@@ -3,6 +3,7 @@ export type NavItem = {
   iconAlt: string;
   icon: string;
   href: string;
+  isAdmin?: boolean;
 };
 
 // Dashboard - Filters Type

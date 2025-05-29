@@ -35,11 +35,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
     >
       {/* Sidebar Header */}
       <div className="flex items-center justify-between h-16 px-4 border-slate-200 shrink-0">
-        <Link
-          href="/"
-          className="text-2xl font-bold text-slate-800"
-        >
-          <Image src="/logo.png" alt="CasualsHQ Logo" width={160} height={160} />
+        <Link href="/" className="text-2xl font-bold text-slate-800">
+          <Image
+            src="/logo.png"
+            alt="CasualsHQ Logo"
+            width={160}
+            height={160}
+          />
         </Link>
         <button
           onClick={onClose}
@@ -54,29 +56,60 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Navigation */}
         <nav className="flex-grow py-4 overflow-y-auto">
           <ul>
-            {ADMIN_NAV_ITEMS.map((item) => (
-              <li key={item.name} className="px-3 py-0.5">
-                <Link
-                  href={item.href}
-                  className={`flex items-center text-base px-3 py-2.5 gap-2 font-medium transition-colors duration-150 ease-in-out text-[#667185] rounded-r-md border-l-4
+            {ADMIN_NAV_ITEMS.map((item) => {
+              if (item.isAdmin)
+                return (
+                  <li key={item.name} className="px-3 mt-6 border-t py-5">
+                    <Link
+                      href={item.href}
+                      className={`flex items-center text-base px-3 py-2.5 gap-2 font-medium transition-colors duration-150 ease-in-out text-[#667185] rounded-r-md border-l-4
                   ${
                     activePath === item.href ||
                     (item.href !== '/' && activePath.startsWith(item.href))
                       ? 'border-primary bg-[#F0F2F5] text-primary '
                       : 'hover:bg-[#F0F2F5] border-transparent'
                   }`}
-                  onClick={onClose} // Close sidebar on mobile after navigation
-                >
-                  <img
-                    src={cn(
-                      activePath === item.href ? item.icon : item.iconAlt
-                    )}
-                    alt=""
-                  />
-                  {item.name}
-                </Link>
-              </li>
-            ))}
+                      onClick={onClose} // Close sidebar on mobile after navigation
+                    >
+                      <Image
+                        src={cn(
+                          activePath === item.href ? item.icon : item.iconAlt
+                        )}
+                        alt=""
+                        width={activePath === item.href ? 20 : 18}
+                        height={activePath === item.href ? 20 : 18}
+                      />
+                      {item.name}
+                    </Link>
+                  </li>
+                );
+
+              return (
+                <li key={item.name} className="px-3 py-0.5">
+                  <Link
+                    href={item.href}
+                    className={`flex items-center text-base px-3 py-2.5 gap-2 font-medium transition-colors duration-150 ease-in-out text-[#667185] rounded-r-md border-l-4
+  ${
+    activePath === item.href ||
+    (item.href !== '/' && activePath.startsWith(item.href))
+      ? 'border-primary bg-[#F0F2F5] text-primary '
+      : 'hover:bg-[#F0F2F5] border-transparent'
+  }`}
+                    onClick={onClose} // Close sidebar on mobile after navigation
+                  >
+                    <Image
+                      src={cn(
+                        activePath === item.href ? item.icon : item.iconAlt
+                      )}
+                      alt=""
+                      width={20}
+                      height={20}
+                    />
+                    {item.name}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
