@@ -65,7 +65,7 @@ export default function TeamsPage() {
 
           {!teams ||
             (teams.length === 0 && (
-              <div className="border border-olive-100 rounded-xl flex items-center flex-col gap-2 text-center py-40 mx-9">
+              <div className="border border-olive-100 rounded-xl flex items-center flex-col gap-2 text-center py-40 mx-9 h-[calc(100vh-400px)]">
                 <Image
                   src="/table/empty-table.svg"
                   alt="teams"

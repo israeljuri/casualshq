@@ -1,11 +1,7 @@
 // src/features/admin/components/staff/PaginationControls.tsx
 import React from 'react';
 import { Button } from '@/components/molecules/Button';
-import {
-  ArrowLeft,
-  ArrowRight,
- 
-} from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface PaginationControlsProps {
   currentPage: number;
@@ -29,8 +25,7 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
   const startItem = (currentPage - 1) * pageSize + 1;
   const endItem = Math.min(currentPage * pageSize, totalItems);
 
-  console.log(startItem, endItem)
-
+  console.log(startItem, endItem);
   // Determine pages to show (e.g., current page, 2 before, 2 after, first, last)
   const getPageNumbers = () => {
     const pageNumbers = [];
@@ -85,57 +80,56 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
   const pageNumbersToDisplay = getPageNumbers();
 
   return (
- 
-      <nav aria-label="Pagination" className="flex mt-5 items-center justify-between">
-        <Button
-          variant="secondary"
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          aria-label="Previous page"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          <span>Previous</span>
-        </Button>
+    <nav
+      aria-label="Pagination"
+      className="flex flex-wrap gap-2 mt-5 items-center justify-between"
+    >
+      <Button
+        variant="secondary"
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        aria-label="Previous page"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        <span>Previous</span>
+      </Button>
 
-        <ul className="inline-flex items-center space-x-1">
-          {pageNumbersToDisplay.map((page, index) => (
-            <li key={index}>
-              {page === '...' ? (
-                <Button variant="ghost">
-                  ...
-                </Button>
-              ) : (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={`h-9 w-9 p-0 text-base border-slate-300 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed
+      <ul className="inline-flex items-center space-x-1">
+        {pageNumbersToDisplay.map((page, index) => (
+          <li key={index}>
+            {page === '...' ? (
+              <Button variant="ghost">...</Button>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                className={`h-9 w-9 p-0 text-base border-slate-300 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed
                     ${
                       currentPage === page
                         ? 'bg-primary-100 text-gray-700 z-10'
                         : 'hover:bg-slate-100 border-x-0 border-y-slate-300'
                     }
                   `}
-                  onClick={() => onPageChange(page as number)}
-                  disabled={currentPage === page}
-                  aria-current={currentPage === page ? 'page' : undefined}
-                >
-                  {page}
-                </Button>
-              )}
-            </li>
-          ))}
-        </ul>
+                onClick={() => onPageChange(page as number)}
+                disabled={currentPage === page}
+                aria-current={currentPage === page ? 'page' : undefined}
+              >
+                {page}
+              </Button>
+            )}
+          </li>
+        ))}
+      </ul>
 
-        <Button
-          variant="secondary"
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          aria-label="Next page"
-        >
-          <span>Next</span>
-          <ArrowRight className="h-4 w-4" />
-        </Button>
-      </nav>
- 
+      <Button
+        variant="secondary"
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        aria-label="Next page"
+      >
+        <span>Next</span>
+        <ArrowRight className="h-4 w-4" />
+      </Button>
+    </nav>
   );
 };

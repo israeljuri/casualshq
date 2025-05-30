@@ -8,7 +8,7 @@ import { SearchInput } from '@/components/molecules/SearchInput';
 import { DatePicker } from '@/components/molecules/DatePicker';
 import { useRouter, usePathname } from 'next/navigation';
 import { FilterDropdown } from './FilterDropdown';
-
+// import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/molecules/Button';
 import { SearchSchema } from '@/features/(dashboard)/types/schema';
@@ -217,9 +217,9 @@ export const Header: React.FC<HeaderProps> = ({
         </section>
 
         {/* Bottom section: Search and Filters */}
-
         <div className="px-4 sm:px-6 lg:px-8 pt-3 pb-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Search */}
             {showSearchBox && showSearch && (
               <Form {...form}>
                 <form
@@ -271,7 +271,7 @@ export const Header: React.FC<HeaderProps> = ({
               <Skeleton className="h-14 w-full"></Skeleton>
             )}
 
-            <div className="flex items-center justify-between md:justify-end">
+            <div className="flex items-center flex-wrap justify-between md:justify-end gap-2">
               <div className="flex md:hidden items-center gap-2 md:gap-4">
                 {showDatePicker && onDateRangeChange && (
                   <DatePicker
@@ -283,6 +283,21 @@ export const Header: React.FC<HeaderProps> = ({
                 {customActions}
               </div>
 
+              {/* <Button
+                variant="ghost"
+                leftIcon={
+                  <Image
+                    src="/admin-staff/roles-management.svg"
+                    alt=""
+                    width={20}
+                    height={20}
+                  />
+                }
+              >
+                Manage roles
+              </Button> */}
+
+              {/* FilterDropDown */}
               {showFilter && (
                 <FilterDropdown
                   // Filters

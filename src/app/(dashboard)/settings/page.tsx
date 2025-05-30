@@ -12,6 +12,7 @@ import {
 } from '@/features/(dashboard)/types/settings.schema';
 import {
   AwardRateData,
+  BreakTimeData,
   SettingsData,
 } from '@/features/(dashboard)/types/settings.type';
 import { Button } from '@/components/molecules/Button';
@@ -45,6 +46,15 @@ import {
   TableRow,
 } from '@/components/molecules/Table';
 import { Header } from '@/features/(dashboard)/components/Header';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/atoms/dialog';
+import { Badge } from '@/components/atoms/badge';
+import { Checkbox } from '@/components/atoms/checkbox';
 
 export default function SettingsPage() {
   const pageTitle = 'Settings';
@@ -56,9 +66,12 @@ export default function SettingsPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [awardRates, setAwardRates] = useState<AwardRateData[]>([]);
+  const [breakTimes, setBreakTimes] = useState<BreakTimeData[]>([]);
   const [isSettingRules, setIsSettingRules] = useState(
     Boolean(awardRates.length)
   );
+
+  const [isBreakTimesModalOpen, setIsBreakTimesModalOpen] = useState(false);
 
   const form = useForm<SettingsData>({
     resolver: zodResolver(SettingsSchema),
@@ -91,7 +104,12 @@ export default function SettingsPage() {
   });
 
   const onSubmit: SubmitHandler<SettingsData> = (data) => {
-    console.log(data);
+    const completeData = {
+      ...data,
+      awardRates,
+      breakTimes,
+    };
+    console.log(completeData);
   };
 
   useEffect(() => {
@@ -838,6 +856,72 @@ export default function SettingsPage() {
             />
           </div>
 
+          {/* Allotted break times */}
+          <div className="p-5 rounded-2xl border border-olive-100 grid grid-cols-1 gap-4 justify-between items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-between items-center">
+              <article>
+                <h3 className="text-base font-medium">Allotted break times</h3>
+                <p className="text-sm text-slate-500">
+                  Specify the type of break and the time allotted during a
+                  workday.
+                </p>
+              </article>
+
+              <div className="w-full flex justify-start md:justify-end items-center">
+                <Button
+                  variant="ghost"
+                  disabled={!isEditing}
+                  onClick={() => setIsBreakTimesModalOpen(true)}
+                  className="text-primary"
+                >
+                  Set break times
+                </Button>
+              </div>
+            </div>
+
+            {breakTimes.length > 0 && (
+              <div className="col-span-2 mt-4">
+                {breakTimes.map((breakTime, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-2 items-center justify-between py-2 border-b border-gray-100"
+                  >
+                    <div className="flex items-center gap-1">
+                      <span className="capitalize font-medium">
+                        {breakTime.type}
+                      </span>
+                      <Badge className="px-1 py-1 capitalize rounded-sm bg-[#F0F2F5] border border-[#E4E7EC] text-custom-gray">
+                        {breakTime.isPaid ? 'Paid' : 'Unpaid'}
+                      </Badge>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <Input type="number" value={breakTime.timeInMinutes} readOnly />
+                      {isEditing && (
+                        <Button
+                          variant="ghost"
+                          className="text-red-500"
+                          onClick={() => {
+                            const newBreakTimes = [...breakTimes];
+                            newBreakTimes.splice(index, 1);
+                            setBreakTimes(newBreakTimes);
+                          }}
+                        >
+                          <Image
+                            src="/admin-settings/trash.svg"
+                            alt="Delete"
+                            width={16}
+                            height={16}
+                          />
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           <div className="p-5 rounded-2xl border border-olive-100 grid grid-cols-1 md:grid-cols-2 gap-4 justify-between items-center">
             <article>
               <h3 className="text-base font-medium">Enable daily fixed rate</h3>
@@ -868,32 +952,34 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl border border-olive-100 grid grid-cols-1 md:grid-cols-2 gap-4 justify-between items-center">
-            <article>
-              <h3 className="text-base font-medium">Daily fixed rate</h3>
-              <p className="text-sm text-slate-500">
-                Set the daily rate for staff who are not on hourly pay.
-              </p>
-            </article>
+          {form.watch('enableDailyFixedRate') && (
+            <div className="p-5 rounded-2xl border border-olive-100 grid grid-cols-1 md:grid-cols-2 gap-4 justify-between items-center">
+              <article>
+                <h3 className="text-base font-medium">Daily fixed rate</h3>
+                <p className="text-sm text-slate-500">
+                  Set the daily rate for staff who are not on hourly pay.
+                </p>
+              </article>
 
-            <FormField
-              control={form.control}
-              name="dailyFixedRate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={!isEditing}
-                      type="number"
-                      placeholder="Enter rate"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+              <FormField
+                control={form.control}
+                name="dailyFixedRate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        disabled={!isEditing}
+                        type="number"
+                        placeholder="Enter rate"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
 
           <div className="p-5 rounded-2xl border border-olive-100 grid grid-cols-1 md:grid-cols-2 gap-4 justify-between items-center">
             <article>
@@ -902,7 +988,6 @@ export default function SettingsPage() {
                 Define when your team gets paid.
               </p>
             </article>
-
             <div className="space-y-2 flex justify-start md:justify-end items-center">
               <Controller
                 name="paymentFrequency"
@@ -1040,12 +1125,19 @@ export default function SettingsPage() {
             </div>
           </div>
         </section>
+
+        <SetBreakTimesModal
+          isOpen={isBreakTimesModalOpen}
+          onClose={() => setIsBreakTimesModalOpen(false)}
+          breakTimes={breakTimes}
+          setBreakTimes={setBreakTimes}
+        />
       </main>
     </div>
   );
 }
 
-// --- For editing and displaying rules ---
+// --- Start For editing and displaying rules ---
 
 const EditRulesTable = ({
   saveAwardRates,
@@ -1237,5 +1329,250 @@ const DisplayRulesTable = ({ awardRates }: { awardRates: AwardRateData[] }) => {
         ))}
       </TableBody>
     </Table>
+  );
+};
+
+// --- Set break time modal ---
+
+const SetBreakTimesModal = ({
+  isOpen,
+  onClose,
+  breakTimes,
+  setBreakTimes,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  breakTimes: BreakTimeData[];
+  setBreakTimes: React.Dispatch<React.SetStateAction<BreakTimeData[]>>;
+}) => {
+  const [localBreakTimes, setLocalBreakTimes] = useState<
+    {
+      type: string;
+      timeInMinutes: number | string;
+      id: string;
+      isPaid: boolean;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    // Initialize local state with current break times or a default empty one
+    if (breakTimes.length > 0) {
+      setLocalBreakTimes(
+        breakTimes.map((breakTime) => ({
+          ...breakTime,
+          id: Math.random().toString(),
+        }))
+      );
+    } else {
+      setLocalBreakTimes([
+        {
+          type: '',
+          timeInMinutes: '',
+          id: Math.random().toString(),
+          isPaid: false,
+        },
+      ]);
+    }
+  }, [breakTimes, isOpen]);
+
+  const handleAddBreakType = () => {
+    setLocalBreakTimes([
+      ...localBreakTimes,
+      {
+        type: '',
+        timeInMinutes: '',
+        id: Math.random().toString(),
+        isPaid: false,
+      },
+    ]);
+  };
+
+  const handleRemoveBreakType = (id: string) => {
+    setLocalBreakTimes(
+      localBreakTimes.filter((breakTime) => breakTime.id !== id)
+    );
+  };
+
+  const handleInputChange = (
+    id: string,
+    field: 'type' | 'timeInMinutes' | 'isPaid',
+    value?: string,
+    isPaid?: boolean
+  ) => {
+    setLocalBreakTimes(
+      localBreakTimes.map((breakTime) => {
+        if (breakTime.id === id) {
+          if (field === 'isPaid') {
+            return {
+              ...breakTime,
+              isPaid: isPaid || false,
+            };
+          }
+          return {
+            ...breakTime,
+            [field]: value || '',
+          };
+        }
+        return breakTime;
+      })
+    );
+  };
+
+  const handleSaveChanges = () => {
+    // Validate inputs
+    const isValid = localBreakTimes.every(
+      (breakTime) => breakTime.type && breakTime.timeInMinutes !== ''
+    );
+
+    if (!isValid) {
+      // Show error or handle invalid inputs
+      return;
+    }
+
+    // Convert to proper BreakTimeData format
+    const formattedBreakTimes = localBreakTimes.map((breakTime) => ({
+      type: breakTime.type,
+      timeInMinutes: Number(breakTime.timeInMinutes),
+      isPaid: breakTime.isPaid,
+    }));
+
+    setBreakTimes(formattedBreakTimes);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="px-6 sm:max-w-lg flex flex-col bg-white h-[calc(100vh-50px)]">
+        <DialogHeader className="pt-2">
+          <DialogTitle className="text-xl font-medium">
+            Set break times
+          </DialogTitle>
+        </DialogHeader>
+
+        <section className="h-[calc(100vh-10rem)] flex flex-col justify-between">
+          <div className="space-y-6 overflow-y-auto">
+            {localBreakTimes.map((breakTime, index) => (
+              <div key={breakTime.id} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Type of break
+                  </label>
+                  <Input
+                    value={breakTime.type}
+                    onChange={(e) =>
+                      handleInputChange(breakTime.id, 'type', e.target.value)
+                    }
+                    placeholder="Enter name of break"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Allotted break time (in minutes)
+                  </label>
+                  <Input
+                    type="number"
+                    value={breakTime.timeInMinutes}
+                    onChange={(e) =>
+                      handleInputChange(
+                        breakTime.id,
+                        'timeInMinutes',
+                        e.target.value
+                      )
+                    }
+                    placeholder="Enter allotted break time"
+                  />
+                </div>
+
+                <div>
+                  <Label>
+                    <Checkbox
+                      checked={breakTime.isPaid}
+                      onCheckedChange={(checked) =>
+                        handleInputChange(
+                          breakTime.id,
+                          'isPaid',
+                          '',
+                          checked ? true : false
+                        )
+                      }
+                    />
+                    Mark break as paid
+                  </Label>
+                </div>
+
+                {index > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-500"
+                    onClick={() => handleRemoveBreakType(breakTime.id)}
+                  >
+                    <Image
+                      src="/admin-settings/trash.svg"
+                      alt="Remove"
+                      width={16}
+                      height={16}
+                      className="mr-1"
+                    />{' '}
+                    Remove
+                  </Button>
+                )}
+
+                {index < localBreakTimes.length - 1 && <hr className="my-4" />}
+              </div>
+            ))}
+
+            <Button
+              variant="ghost"
+              className="text-primary"
+              onClick={handleAddBreakType}
+              leftIcon={
+                <Image
+                  src="/admin-settings/add.svg"
+                  alt="Add"
+                  width={15}
+                  height={15}
+                />
+              }
+            >
+              Add new break type
+            </Button>
+          </div>
+
+          <DialogFooter className="grid grid-cols-1 md:grid-cols-2 mt-4">
+            <Button
+              variant="secondary"
+              onClick={onClose}
+              leftIcon={
+                <Image
+                  src="/admin-settings/cancel.svg"
+                  alt="Cancel"
+                  width={16}
+                  height={16}
+                />
+              }
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSaveChanges}
+              leftIcon={
+                <Image
+                  src="/admin-settings/check-white.svg"
+                  alt="Save"
+                  width={16}
+                  height={16}
+                />
+              }
+            >
+              Save changes
+            </Button>
+          </DialogFooter>
+        </section>
+      </DialogContent>
+    </Dialog>
   );
 };

@@ -26,7 +26,7 @@ import { Label } from '@radix-ui/react-label';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { staffsMockData } from '@/lib/mockData';
 
-import { convertStaffToCSV } from '@/lib/processStaffCsv';
+import { convertStaffToCSV } from '@/lib/convertToCSV';
 import { Staff, StaffFormData } from '@/features/(dashboard)/types/staff.type';
 import { staffFormSchema } from '@/features/(dashboard)/types/staff.schema';
 
@@ -42,41 +42,13 @@ export default function FullStaffDetailsPage() {
 
   const form = useForm<StaffFormData>({
     resolver: zodResolver(staffFormSchema),
-    defaultValues: {
-      title: 'mr',
-      firstName: '',
-      otherNames: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      role: '',
-      team: '',
-      status: 'pending_onboarding',
-      homeAddress: {
-        line: '',
-        streetName: '',
-        city: '',
-        postcode: '',
-      },
-      emergencyContactInformation: {
-        relationship: '',
-        name: '',
-        phoneNumber: '',
-        address: '',
-      },
-      financialInformation: {
-        taxFileNumber: '',
-        bankBSB: '',
-        accountName: '',
-        accountNumber: '',
-      },
-    },
+    defaultValues: {},
   });
 
   const onSubmit = async (data: Omit<StaffFormData, 'timeLogs'>) => {
     if (staffMember) {
       // TODO: Implement update staff from api
-      console.log(data)
+      console.log(data);
     }
   };
 
@@ -85,9 +57,10 @@ export default function FullStaffDetailsPage() {
       //  TODO: Implement fetch staff details from api
       const staff = staffsMockData.find((staff) => staff.id === staffId);
       if (!staff) return;
+
       form.reset(staff as Omit<StaffFormData, 'timeLogs'>);
     }
-  }, [staffId, form]);
+  }, [staffId]);
 
   const handleDelete = async () => {
     if (staffMember) {
@@ -208,6 +181,7 @@ export default function FullStaffDetailsPage() {
                         { value: 'ms', label: 'Ms' },
                         { value: 'dr', label: 'Dr' },
                         { value: 'prof', label: 'Prof' },
+                        { value: 'others', label: 'Others' }
                       ]}
                       {...field}
                     />
@@ -762,6 +736,7 @@ export default function FullStaffDetailsPage() {
                     onValueChange={field.onChange}
                     className="grid grid-cols-1 md:grid-cols-[max-content_max-content_max-content] gap-2"
                     disabled={!isEditing}
+                    value={field.value}
                   >
                     {WAGE_TYPE_OPTIONS_FORM.map((option) => (
                       <Label

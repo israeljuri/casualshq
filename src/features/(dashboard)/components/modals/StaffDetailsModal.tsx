@@ -75,10 +75,11 @@ export const StaffDetailsModal: React.FC<StaffDetailsModalProps> = ({
           <article className="p-5 bg-white rounded-2xl">
             <article className="space-y-3">
               <h4 className="font-medium text-2xl text-black">
-                Delete Staff Member
+                Delete Staff?
               </h4>
               <p className="text-base text-custom-gray">
-                Are you sure you want to delete this staff member?
+                This action cannot be undone and will permanently remove this
+                staff member&apos;s data.
               </p>
             </article>
             <div className="grid grid-cols-2 gap-4 w-full mt-4">
@@ -219,7 +220,7 @@ interface InfoItemProps {
 }
 
 const InfoItem: React.FC<InfoItemProps> = ({ label, value, image, others }) => (
-  <li className="grid grid-cols-[1.5fr_2fr] gap-4 items-start">
+  <li className="grid grid-cols-1 md:grid-cols-[1.5fr_2fr] gap-4 items-start">
     <span className="flex items-center gap-2">
       {image && <Image src={image} alt="" width={22} height={22} />}
       <span className="text-[#98A2B3]">{label}</span>

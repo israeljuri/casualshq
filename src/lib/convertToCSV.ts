@@ -171,6 +171,25 @@ export async function processStaffCsv(
   });
 }
 
+// function flattenObject(
+//   obj: Record<string, any>,
+//   prefix = ''
+// ): Record<string, string> {
+//   return Object.entries(obj).reduce((acc, [key, value]) => {
+//     const fullKey = prefix ? `${prefix}.${key}` : key;
+
+//     if (value === null || value === undefined) {
+//       acc[fullKey] = '';
+//     } else if (typeof value === 'object' && !Array.isArray(value)) {
+//       Object.assign(acc, flattenObject(value, fullKey));
+//     } else {
+//       acc[fullKey] = String(value);
+//     }
+
+//     return acc;
+//   }, {} as Record<string, string>);
+// }
+
 function flattenObject(
   obj: Record<string, any>,
   prefix = ''
@@ -180,7 +199,16 @@ function flattenObject(
 
     if (value === null || value === undefined) {
       acc[fullKey] = '';
-    } else if (typeof value === 'object' && !Array.isArray(value)) {
+    } else if (Array.isArray(value)) {
+      value.forEach((item, index) => {
+        const arrayKey = `${fullKey}[${index}]`;
+        if (typeof item === 'object' && item !== null) {
+          Object.assign(acc, flattenObject(item, arrayKey));
+        } else {
+          acc[arrayKey] = String(item);
+        }
+      });
+    } else if (typeof value === 'object') {
       Object.assign(acc, flattenObject(value, fullKey));
     } else {
       acc[fullKey] = String(value);
@@ -195,6 +223,15 @@ function flattenObject(
  */
 export function convertStaffToCSV(staff: Staff): string {
   const flat = flattenObject(staff);
+  const rows = Object.entries(flat).map(
+    ([key, value]) => `"${key}","${value}"`
+  );
+  return ['"Key","Value"', ...rows].join('\n');
+}
+
+
+export function convertPaymentDetailToCSV(paymentDetail: any): string {
+  const flat = flattenObject(paymentDetail);
   const rows = Object.entries(flat).map(
     ([key, value]) => `"${key}","${value}"`
   );

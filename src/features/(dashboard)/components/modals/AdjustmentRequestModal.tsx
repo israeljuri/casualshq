@@ -135,7 +135,7 @@ export const AdjustmentRequestModal: React.FC<AdjustmentRequestModalProps> = ({
           <DialogFooter className="grid grid-cols-2 px-6 py-4">
             <Button
               variant="secondary"
-              className="w-full border-red-900 text-red-900"
+              className="w-full text-red-900"
               onClick={handleDenyAction}
               leftIcon={
                 <img

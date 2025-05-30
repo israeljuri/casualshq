@@ -17,7 +17,7 @@ export const staffsMockData: Staff[] = [
     title: 'others',
     otherNames: undefined,
     phoneNumber: '0435183977',
-    status: 'pending_onboarding',
+    status: 'on_break',
     homeAddress: {
       line: 'Unit 1',
       streetName: '25 Main Street',
@@ -25,7 +25,7 @@ export const staffsMockData: Staff[] = [
       postcode: '3000',
     },
     emergencyContactInformation: {
-      relationship: 'Spouse',
+      relationship: 'spouse',
       name: 'Alex Smith',
       phoneNumber: '0432795265',
       address: '123 Emergency St, Melbourne VIC',
@@ -104,7 +104,7 @@ export const staffsMockData: Staff[] = [
     title: 'miss',
     otherNames: undefined,
     phoneNumber: '0457932040',
-    status: 'pending_onboarding',
+    status: 'clocked_in',
     homeAddress: {
       line: 'Unit 1',
       streetName: '78 Main Street',
@@ -112,7 +112,7 @@ export const staffsMockData: Staff[] = [
       postcode: '3000',
     },
     emergencyContactInformation: {
-      relationship: 'Spouse',
+      relationship: 'spouse',
       name: 'Alex Smith',
       phoneNumber: '0420040937',
       address: '123 Emergency St, Melbourne VIC',
@@ -197,7 +197,7 @@ export const staffsMockData: Staff[] = [
     title: 'dr',
     otherNames: undefined,
     phoneNumber: '0460256763',
-    status: 'pending_onboarding',
+    status: 'clocked_in',
     homeAddress: {
       line: 'Unit 1',
       streetName: '73 Main Street',
@@ -205,7 +205,7 @@ export const staffsMockData: Staff[] = [
       postcode: '3000',
     },
     emergencyContactInformation: {
-      relationship: 'Spouse',
+      relationship: 'spouse',
       name: 'Alex Smith',
       phoneNumber: '0482094985',
       address: '123 Emergency St, Melbourne VIC',
@@ -292,7 +292,7 @@ export const staffsMockData: Staff[] = [
       postcode: '3000',
     },
     emergencyContactInformation: {
-      relationship: 'Spouse',
+      relationship: 'spouse',
       name: 'Alex Smith',
       phoneNumber: '0452612559',
       address: '123 Emergency St, Melbourne VIC',
@@ -366,7 +366,7 @@ export const staffsMockData: Staff[] = [
       postcode: '3000',
     },
     emergencyContactInformation: {
-      relationship: 'Spouse',
+      relationship: 'spouse',
       name: 'Alex Smith',
       phoneNumber: '0435122365',
       address: '123 Emergency St, Melbourne VIC',
@@ -446,7 +446,7 @@ export const staffsMockData: Staff[] = [
     title: 'mr',
     otherNames: undefined,
     phoneNumber: '0455193088',
-    status: 'clocked_in',
+    status: 'pending_onboarding',
     homeAddress: {
       line: 'Unit 1',
       streetName: '68 Main Street',
@@ -454,7 +454,7 @@ export const staffsMockData: Staff[] = [
       postcode: '3000',
     },
     emergencyContactInformation: {
-      relationship: 'Spouse',
+      relationship: 'spouse',
       name: 'Alex Smith',
       phoneNumber: '0440324269',
       address: '123 Emergency St, Melbourne VIC',
@@ -560,7 +560,7 @@ export const staffsMockData: Staff[] = [
       postcode: '3000',
     },
     emergencyContactInformation: {
-      relationship: 'Spouse',
+      relationship: 'spouse',
       name: 'Alex Smith',
       phoneNumber: '0448290174',
       address: '123 Emergency St, Melbourne VIC',
@@ -646,7 +646,7 @@ export const staffsMockData: Staff[] = [
       postcode: '3000',
     },
     emergencyContactInformation: {
-      relationship: 'Spouse',
+      relationship: 'spouse',
       name: 'Alex Smith',
       phoneNumber: '0494136972',
       address: '123 Emergency St, Melbourne VIC',
@@ -745,7 +745,7 @@ export const staffsMockData: Staff[] = [
     title: 'mr',
     otherNames: undefined,
     phoneNumber: '0468629092',
-    status: 'pending_onboarding',
+    status: 'clocked_in',
     homeAddress: {
       line: 'Unit 1',
       streetName: '31 Main Street',
@@ -753,7 +753,7 @@ export const staffsMockData: Staff[] = [
       postcode: '3000',
     },
     emergencyContactInformation: {
-      relationship: 'Spouse',
+      relationship: 'spouse',
       name: 'Alex Smith',
       phoneNumber: '0410928576',
       address: '123 Emergency St, Melbourne VIC',
@@ -832,7 +832,7 @@ export const staffsMockData: Staff[] = [
     title: 'ms',
     otherNames: undefined,
     phoneNumber: '0437991536',
-    status: 'pending_onboarding',
+    status: 'clocked_in',
     homeAddress: {
       line: 'Unit 1',
       streetName: '67 Main Street',
@@ -840,7 +840,7 @@ export const staffsMockData: Staff[] = [
       postcode: '3000',
     },
     emergencyContactInformation: {
-      relationship: 'Spouse',
+      relationship: 'spouse',
       name: 'Alex Smith',
       phoneNumber: '0471133488',
       address: '123 Emergency St, Melbourne VIC',

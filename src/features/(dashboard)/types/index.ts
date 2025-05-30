@@ -10,4 +10,5 @@ export type NavItem = {
 export interface Filters {
   teams: Record<string, boolean>;
   roles: Record<string, boolean>;
+  status?: Record<string, boolean>;
 }

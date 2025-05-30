@@ -25,9 +25,6 @@ import {
   getWageDistributionMockData,
 } from '@/lib/mockData';
 
-const result = getHoursWorkedMockData();
-console.log({ result });
-
 export default function AdminDashboardPage() {
   const alert = useAlert();
   const pathname = usePathname();
@@ -93,7 +90,7 @@ export default function AdminDashboardPage() {
           activePath={pathname} // Pass current path
         />
 
-        <main className="flex-1 flex flex-col overflow-y-auto">
+        <main className="flex-1 flex flex-col overflow-y-auto max-h-screen">
           <Header
             pageTitle="Dashboard"
             pageDescription="Track staff performance and manage team operations."
@@ -156,7 +153,7 @@ export default function AdminDashboardPage() {
           </section>
         </main>
       </div>
-      
+
       <AdjustmentRequestModal
         isOpen={isAdjustmentModalOpen}
         onClose={handleCloseAdjustmentModal}

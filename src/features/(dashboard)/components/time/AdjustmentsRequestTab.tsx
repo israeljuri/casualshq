@@ -10,39 +10,34 @@ import {
   TableRow,
 } from '@/components/molecules/Table';
 import { Button } from '@/components/molecules/Button';
-import {
-  AdjustmentItem,
-  AdjustmentModalData,
-} from '@/features/(dashboard)/types/dashboard.type';
- 
-import { Skeleton } from '@/components/atoms/skeleton';
+import { AdjustmentModalData } from '@/features/(dashboard)/types/dashboard.type';
+
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { ConfirmDialog } from '@/components/molecules/ConfirmDialog';
-import Link from 'next/link';
+import { AdjustmentRequestModal } from '@/features/(dashboard)/components/modals/AdjustmentRequestModal';
+import { getAdjustmentsMockData } from '@/lib/mockData';
+import { PaginationControls } from '../tables/PaginationControls';
 
-interface AdjustmentsTableProps {
-  adjustments: AdjustmentItem[];
-  onOpenModal: (data: AdjustmentModalData) => void;
-  onApprove: (staffId: string) => void;
-  onDeny: (staffId: string) => void;
-  isLoading: boolean;
-}
+export const AdjustmentsRequestTab = () => {
+  const [adjustmentPage, setAdjustmentPage] = useState(1);
+  const adjustmentPageSize = 2; // Show 2 items per page as requested
 
-export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
-  adjustments,
-  onOpenModal,
-  onApprove,
-  onDeny,
-  isLoading,
-}) => {
-  const [staffId, setStaffId] = useState<string | null>(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState<'approve' | 'deny' | null>(
     null
   );
-  if (isLoading) {
-    return <Skeleton className="h-[30rem] rounded-2xl"></Skeleton>;
-  }
+  const [modalData, setModalData] = useState<AdjustmentModalData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Get mock data
+  const { data: adjustments } = getAdjustmentsMockData();
+
+  // Pagination
+  const totalItems = adjustments.length;
+  const totalPages = Math.ceil(totalItems / adjustmentPageSize);
+  const startIndex = (adjustmentPage - 1) * adjustmentPageSize;
+  const endIndex = Math.min(startIndex + adjustmentPageSize, totalItems);
+  const paginatedAdjustments = adjustments.slice(startIndex, endIndex);
 
   const handleApproveAction = () => {
     setIsConfirmOpen('approve');
@@ -54,20 +49,53 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
 
   const handleApprove = () => {
     setIsConfirmOpen(null);
-    onApprove(staffId!);
   };
 
   const handleDeny = () => {
     setIsConfirmOpen(null);
-    onDeny(staffId!);
   };
 
   const handleCancel = () => {
     setIsConfirmOpen(null);
   };
 
+  const handleOpenModal = (data: AdjustmentModalData) => {
+    setModalData(data);
+    setIsModalOpen(true);
+  };
+
+  const handleModalApprove = (data: AdjustmentModalData) => {
+    // Find the staff ID associated with this data
+    const adjustment = adjustments.find(
+      (item) => item.staffName === data.name && item.email === data.email
+    );
+    if (adjustment) {
+      console.log(adjustment);
+    }
+    setIsModalOpen(false);
+  };
+
+  const handleModalDeny = (data: AdjustmentModalData) => {
+    // Find the staff ID associated with this data
+    const adjustment = adjustments.find(
+      (item) => item.staffName === data.name && item.email === data.email
+    );
+    if (adjustment) {
+      console.log(adjustment);
+    }
+    setIsModalOpen(false);
+  };
+
   return (
     <>
+      <AdjustmentRequestModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        data={modalData}
+        onApprove={handleModalApprove}
+        onDeny={handleModalDeny}
+      />
+
       <ConfirmDialog
         open={!!isConfirmOpen}
         onOpenChange={(open) => setIsConfirmOpen(open ? 'approve' : 'deny')}
@@ -105,15 +133,9 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
           </article>
         }
       />
-      <section className="space-y-4">
-        <article className="flex items-center justify-between">
-          <h3 className="text-xl font-medium">Recent adjustment requests</h3>
 
-          <Link href="/time">
-            <Button variant="secondary">See All</Button>
-          </Link>
-        </article>
-        {adjustments.length > 0 ? (
+      {paginatedAdjustments.length > 0 ? (
+        <>
           <Table>
             <TableHeader>
               <TableRow>
@@ -125,11 +147,11 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {adjustments.map((item) => (
+              {paginatedAdjustments.map((item) => (
                 <TableRow key={item.id} className="hover:bg-slate-50">
                   <TableCell
                     onClick={() => {
-                      onOpenModal({
+                      handleOpenModal({
                         name: item.staffName,
                         email: item.email,
                         date: item.date,
@@ -143,7 +165,7 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
                   </TableCell>
                   <TableCell
                     onClick={() => {
-                      onOpenModal({
+                      handleOpenModal({
                         name: item.staffName,
                         email: item.email,
                         date: item.date,
@@ -153,11 +175,11 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
                     }}
                     className="cursor-pointer"
                   >
-                    {format(item.date, 'PP')}
+                    {format(new Date(item.date), 'PP')}
                   </TableCell>
                   <TableCell
                     onClick={() => {
-                      onOpenModal({
+                      handleOpenModal({
                         name: item.staffName,
                         email: item.email,
                         date: item.date,
@@ -172,7 +194,7 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
 
                   <TableCell
                     onClick={() => {
-                      onOpenModal({
+                      handleOpenModal({
                         name: item.staffName,
                         email: item.email,
                         date: item.date,
@@ -190,10 +212,7 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
                       variant="secondary"
                       className="text-green-800"
                       size="md"
-                      onClick={() => {
-                        setStaffId(item.staffId);
-                        handleApproveAction();
-                      }}
+                      onClick={handleApproveAction}
                       leftIcon={
                         <Image
                           width={15}
@@ -209,10 +228,7 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
                       size="md"
                       variant="secondary"
                       className="text-red-800"
-                      onClick={() => {
-                        setStaffId(item.staffId);
-                        handleDenyAction();
-                      }}
+                      onClick={handleDenyAction}
                       leftIcon={
                         <Image
                           width={10}
@@ -229,31 +245,45 @@ export const AdjustmentsTable: React.FC<AdjustmentsTableProps> = ({
               ))}
             </TableBody>
           </Table>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Overtime</TableHead>
-                <TableHead>Reason</TableHead>
-                <TableHead></TableHead>
-              </TableRow>
-              <TableCaption aria-label="empty" className="py-20">
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <PaginationControls
+              totalPages={totalPages}
+              currentPage={adjustmentPage}
+              onPageChange={setAdjustmentPage}
+              totalItems={totalItems}
+              pageSize={adjustmentPageSize}
+            />
+          )}
+        </>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Overtime</TableHead>
+              <TableHead>Reason</TableHead>
+              <TableHead></TableHead>
+            </TableRow>
+            <TableCaption aria-label="empty" className="py-10 text-base">
+              <div className="flex flex-col items-center justify-center h-[calc(100vh-400px)] text-center ">
                 <Image
                   src="/table/empty-table.svg"
-                  alt="No data"
+                  alt="No adjustment requests available yet."
                   width={90}
                   height={90}
                 />
+
                 <p className="font-medium mt-6 mb-1.5 text-lg text-black">
                   No adjustment requests available yet.
                 </p>
-              </TableCaption>
-            </TableHeader>
-          </Table>
-        )}
-      </section>
+              </div>
+            </TableCaption>
+          </TableHeader>
+        </Table>
+      )}
     </>
   );
 };

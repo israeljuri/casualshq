@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useState, useCallback, useMemo } from 'react';
-import { ImportStep, StaffImportRow } from '@/features/(dashboard)/types/staff.type';
+import {
+  ImportStep,
+  StaffImportRow,
+} from '@/features/(dashboard)/types/staff.type';
 import { Button } from '@/components/molecules/Button';
 import {
   Dialog,
@@ -9,7 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-
 } from '@/components/atoms/dialog';
 import {
   Table,
@@ -21,12 +23,12 @@ import {
 } from '@/components/molecules/Table';
 import { Alert, AlertDescription } from '@/components/atoms/alert'; // Assuming Shadcn Alert
 import { Progress } from '@/components/atoms/progress'; // Assuming Shadcn Progress
-import {   AlertCircle } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import useAlert from '@/hooks/useAlert';
-import { ImportSummary, processStaffCsv } from '@/lib/processStaffCsv';
+import { ImportSummary, processStaffCsv } from '@/lib/convertToCSV';
 
 interface ImportStaffModalProps {
   isOpen: boolean;
@@ -49,7 +51,7 @@ export const ImportStaffModal: React.FC<ImportStaffModalProps> = ({
     failureCount: 0,
     errors: [],
   });
-console.log(importSummary)
+  console.log(importSummary);
   const [importStep, setImportStep] = useState<ImportStep>('upload');
 
   const onDrop = useCallback(
@@ -114,13 +116,11 @@ console.log(importSummary)
     console.log(file);
   };
 
-
-    const handleRemoveStaffFromReview = (staffIdToRemove: string) => {
-      setStaffToImport((currentStaff) =>
-        currentStaff.filter((staff) => staff.id !== staffIdToRemove)
-      );
-      
-    };
+  const handleRemoveStaffFromReview = (staffIdToRemove: string) => {
+    setStaffToImport((currentStaff) =>
+      currentStaff.filter((staff) => staff.id !== staffIdToRemove)
+    );
+  };
 
   async function handleFileUpload(file: File) {
     if (file) {
@@ -132,7 +132,6 @@ console.log(importSummary)
         // The `onRemoveStaffFromReview` function would be a separate function
         // in your component that modifies the `staffForReview` state.
         // For example:
-      
       } catch (err) {
         console.error('Error processing CSV:', err);
         if (err instanceof Error)
@@ -169,7 +168,7 @@ console.log(importSummary)
       <div
         {...getRootProps()}
         className={cn(
-          'flex flex-col gap-2 items-center justify-center p-10 border rounded-lg cursor-pointer transition-colors',
+          'flex flex-col gap-2 items-center justify-center p-10 border rounded-lg cursor-pointer transition-colors text-center',
 
           'border-slate-300 hover:border-slate-400 hover:bg-slate-50'
         )}

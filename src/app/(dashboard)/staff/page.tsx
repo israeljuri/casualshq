@@ -14,7 +14,7 @@ import Image from 'next/image';
 import { StaffDetailsModal } from '@/features/(dashboard)/components/modals/StaffDetailsModal';
  
 import { DateRange } from 'react-day-picker';
-import { getTeamOptionsMockData, staffsMockData } from '@/lib/mockData';
+import { getRoleOptionsMockData, getTeamOptionsMockData, staffsMockData } from '@/lib/mockData';
 import { getPaginatedStaffList } from '@/features/(dashboard)/lib/utils';
 import { Staff } from '@/features/(dashboard)/types/staff.type';
 import { Filters } from '@/features/(dashboard)/types';
@@ -24,7 +24,7 @@ export default function StaffPage() {
   const pathname = usePathname();
   const pageTitle = 'Staff';
   const pageDescription = 'Manage staff profiles and track individual details.';
-  const pageSize = 5;
+  const pageSize = 2;
 
   // Utils
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -178,6 +178,7 @@ export default function StaffPage() {
           isOpen={isAddStaffModalOpen}
           onClose={() => setIsAddStaffModalOpen(false)}
           teamOptions={getTeamOptionsMockData().data}
+          roleOptions={getRoleOptionsMockData().data}
         />
       )}
 

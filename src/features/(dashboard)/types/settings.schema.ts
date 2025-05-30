@@ -94,3 +94,9 @@ export const awardRateSchema = z.object({
     }
   ),
 });
+
+export const breakTimeSchema = z.object({
+  type: z.string(),
+  timeInMinutes: z.number(),
+  isPaid: z.boolean(),
+});

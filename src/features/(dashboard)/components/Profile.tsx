@@ -62,7 +62,7 @@ export const Profile = ({
                 variant="secondary"
                 size="md"
                 onClick={handleConfirm}
-                className="bg-red-500 text-white w-full hover:bg-red-600 active:bg-red-800"
+                className="bg-[#D42620] text-white w-full hover:bg-[#D42620] active:bg-[#D42620]"
               >
                 Log out
               </Button>

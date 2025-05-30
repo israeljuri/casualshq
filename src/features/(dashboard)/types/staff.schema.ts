@@ -18,7 +18,12 @@ export const staffFormSchema = z
     title: z.enum(['mr', 'mrs', 'ms', 'miss', 'dr', 'prof', 'others']),
     otherNames: z.string().optional(),
     phoneNumber: z.string(),
-    status: z.enum(['clocked_in', 'clocked_out', 'pending_onboarding']),
+    status: z.enum([
+      'clocked_in',
+      'clocked_out',
+      'pending_onboarding',
+      'on_break',
+    ]),
     homeAddress: z.object({
       line: z.string(),
       streetName: z.string(),
@@ -26,7 +31,14 @@ export const staffFormSchema = z
       postcode: z.string(),
     }),
     emergencyContactInformation: z.object({
-      relationship: z.string(),
+      relationship: z.enum([
+        'mother',
+        'father',
+        'brother',
+        'sister',
+        'spouse',
+        'others',
+      ]),
       name: z.string(),
       phoneNumber: z.string(),
       address: z.string(),
@@ -39,7 +51,7 @@ export const staffFormSchema = z
       superFundName: z.string(),
       fundABN: z.string(),
       memberNumber: z.string(),
-    })
+    }),
   })
   .superRefine((data, ctx) => {
     if (
@@ -77,4 +89,3 @@ export const SearchStaffSchema = z.object({
   name: z.string().min(1).max(500),
   password: z.string().min(8),
 });
-

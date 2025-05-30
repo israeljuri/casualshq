@@ -88,13 +88,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <li key={item.name} className="px-3 py-0.5">
                   <Link
                     href={item.href}
-                    className={`flex items-center text-base px-3 py-2.5 gap-2 font-medium transition-colors duration-150 ease-in-out text-[#667185] rounded-r-md border-l-4
-  ${
-    activePath === item.href ||
-    (item.href !== '/' && activePath.startsWith(item.href))
-      ? 'border-primary bg-[#F0F2F5] text-primary '
-      : 'hover:bg-[#F0F2F5] border-transparent'
-  }`}
+                    className={cn(
+                      'flex items-center text-base px-3 py-2.5 gap-2 font-medium transition-colors duration-150 ease-in-out text-[#667185] rounded-r-md border-l-4',
+                      activePath === item.href ||
+                        (item.href !== '/' && activePath.startsWith(item.href))
+                        ? 'border-primary bg-[#F0F2F5] text-primary '
+                        : 'hover:bg-[#F0F2F5] border-transparent'
+                    )}
                     onClick={onClose} // Close sidebar on mobile after navigation
                   >
                     <Image

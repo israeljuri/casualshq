@@ -28,7 +28,7 @@ export function PaymentsEmptyState() {
       </TableHeader>
 
       <TableCaption aria-label="empty">
-        <div className="flex flex-col items-center justify-center py-16 px-4 text-center min-h-[30rem]">
+        <div className="flex flex-col items-center justify-center py-16 px-4 text-center h-[calc(100vh-400px)]">
           <Image
             src="/table/empty-table.svg"
             alt="Empty state"

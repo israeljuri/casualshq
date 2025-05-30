@@ -8,8 +8,8 @@ import Image from 'next/image';
 
 interface StaffActionDropdownProps {
   staff: Staff;
-  onEdit: (staffId: string) => void;
-  onDelete: (staffId: string) => void;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
 export const StaffActionDropdown: React.FC<StaffActionDropdownProps> = ({
@@ -42,10 +42,7 @@ export const StaffActionDropdown: React.FC<StaffActionDropdownProps> = ({
     };
   }, [isOpen]);
 
-  const handleAction = (action: () => void) => {
-    action();
-    setIsOpen(false);
-  };
+ 
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -62,12 +59,7 @@ export const StaffActionDropdown: React.FC<StaffActionDropdownProps> = ({
       {isOpen && (
         <div className="absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-lg z-20 p-3">
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAction(() => {
-                if (staff.id) onEdit(staff.id);
-              });
-            }}
+            onClick={onEdit}
             className="flex items-center gap-2 w-full px-3 py-2 text-sm text-slate-700 hover:text-slate-900"
           >
             <Image
@@ -80,12 +72,7 @@ export const StaffActionDropdown: React.FC<StaffActionDropdownProps> = ({
           </button>
           <div className="my-1 border-t border-slate-100"></div>
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAction(() => {
-                if (staff.id) onDelete(staff.id);
-              });
-            }}
+            onClick={onDelete}
             className="flex items-center w-full px-3 py-2 text-sm text-red-600 hover:text-red-700"
           >
             <Image

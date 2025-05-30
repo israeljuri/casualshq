@@ -31,12 +31,14 @@ interface AddStaffModalProps {
   isOpen: boolean;
   onClose: () => void;
   teamOptions: { value: string; label: string; id: string }[];
+  roleOptions: { value: string; label: string; id: string }[];
 }
 
 export const AddStaffModal: React.FC<AddStaffModalProps> = ({
   isOpen,
   onClose,
   teamOptions,
+  roleOptions,
 }) => {
   const {
     register,
@@ -74,7 +76,7 @@ export const AddStaffModal: React.FC<AddStaffModalProps> = ({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-lg bg-white p-4 h-[calc(100vh-50px)]">
         <DialogHeader className="px-4 pt-4">
-          <DialogTitle className="text-2xl font-medium text-slate-800">
+          <DialogTitle className="text-xl font-medium text-slate-800">
             Add staff
           </DialogTitle>
         </DialogHeader>
@@ -179,6 +181,42 @@ export const AddStaffModal: React.FC<AddStaffModalProps> = ({
               )}
             </div>
 
+            <div>
+              <Label htmlFor="role" className="text-sm font-medium">
+                Role (Optional)
+              </Label>
+              <Controller
+                name="role"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full py-6 text-base">
+                      <SelectValue placeholder="Select team..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="est">
+                        <em>No team / Unassigned</em>
+                      </SelectItem>
+                      {roleOptions.map((role) => (
+                        <SelectItem key={role.id} value={role.value}>
+                          {role.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.role && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.role.message}
+                </p>
+              )}
+            </div>
+
             <div className="space-y-2">
               <Label className="text-sm font-medium">Wage</Label>
               <Controller
@@ -212,7 +250,6 @@ export const AddStaffModal: React.FC<AddStaffModalProps> = ({
                                   step="0.01"
                                   {...register('manualRatePerHour')}
                                   className="py-2"
-                                  placeholder="e.g. 50"
                                 />
                                 {errors.manualRatePerHour && (
                                   <p className="text-xs text-red-500 mt-1">
@@ -243,7 +280,7 @@ export const AddStaffModal: React.FC<AddStaffModalProps> = ({
           </div>
         </form>
 
-        <DialogFooter className="grid grid-cols-2 px-6 py-4">
+        <DialogFooter className="grid grid-cols-1 gap-2 md:grid-cols-2 px-6 py-4">
           <Button
             type="button"
             variant="secondary"
